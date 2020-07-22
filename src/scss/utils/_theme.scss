@@ -1,0 +1,76 @@
+// 开关设置
+//-----------------------------------------------------
+$lte7: true !default; // 是否兼容ie6-7
+// Color
+$color-primary: #e70b00;
+$color-title: #333333;
+$color-subtitle: #666666;
+$color-entitle: #999999;
+// $color-content:#414141;
+$color-border: #eeeeee;
+$color-text: #333333;
+$color-red: #e8340c;
+$color-disabled: #999999;
+// Bg
+$bg-primary: #f0f2f5;
+//自定义图片路径的版本号
+$rev: '111';
+// font相关
+//-----------------------------------------------------
+$fontSize: 14px !default;
+$fontLineHeight: 1.5 !default;
+$fontFamily: "PingFang SC",
+roto,
+arial,
+sans-serif !default;
+// 苹方, 冬青黑体，微软雅黑UI（win8.1+），微软雅黑，思源黑体（安卓）
+$fontCn: "PingFang SC",
+"Hiragino Sans GB",
+"Microsoft YaHei UI",
+"Microsoft YaHei",
+"Source Han Sans CN" sans-serif !default;
+// 前两个为safari chrome, ios4.0+, ios4.0-, Android 4.0+, Android 4.0-, windows&windows Phone,
+$fontEn: -apple-system,
+BlinkMacSystemFont,
+"Helvetica Neue",
+Helvetica,
+Roboto,
+"Droid Sans",
+"Seogoe UI",
+Arial !default;
+// 背景色，文本色，边框色，链接色
+// lighten($color, $amount)
+// darken($color, $amount)
+// opacity($color, $amount)
+// mix($color1, $color2[, $amount])
+$colorPrimary: #e70b00 !default; // 主题色
+$colorText: #333333 !default; // 文本默认色
+$colorDisabled: #929292 !default; // 不可用状态 color
+$colorBorder: #e4e4e4 !default; // 线条色
+$colorBorderLight: #eeeeee !default;
+// Bg
+$bgPrimary: #f2f2f2 !default; // 背景色
+$colorTitle: #333333 !default; // 标题字色
+$colorSubtitle: #666666 !default; // 说明文字
+$colorPlaceholder: #999999 !default; // input|textarea placeholder color
+$colorLinks: #999999 !default; // a color
+$colorEntitle: #999999 !default; // 英文标题
+$colorSku: #666666 !default; // sku字体颜色
+$colorRed: #e70b00 !default;
+$colorBlue: blue !default;
+$colorGreen: green !default;
+$colorOrange: #ffb600 !default;
+// 元素上下间距
+//-----------------------------------------------------
+$gap: 20px !default;
+$lrSpace: 30px !default;
+$tagSpace: 30px !default;
+// header,footer等的高度
+//-----------------------------------------------------
+$barHeight: 88px !default;
+$tabBarHeight: 98px !default;
+$navHeight: 88px !default;
+// radius
+//-----------------------------------------------------
+$radiusBase: 5px !default;
+$radiusSmall: 3px !default;
