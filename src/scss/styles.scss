@@ -1,3 +1,10 @@
 /* 公用样式 */
 @import "utils/theme.scss";
 @import "utils/reset.scss";
+
+@import "common.scss";
+
+// 组件
+@import "components/nav-bar.scss";
+// 页面
+@import "views/index.scss";

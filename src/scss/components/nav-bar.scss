@@ -1,0 +1,76 @@
+.wrap-header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.main-header{
+  background: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+  .logo{
+    height: 50px;
+    width: 50px;
+    margin-right: 50px;
+    cursor: pointer;
+    img{
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+    }
+  }
+
+  .container{
+    width: 1170px;
+    margin: 0 auto;
+    height: 64px;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .bar{
+    display: flex;
+    .item{
+      font-size: 16px;
+      font-weight: 300;
+      position: relative;
+      height: 64px;
+      line-height: 64px;
+      padding: 0 20px;
+      color: #000000;
+      cursor: pointer;
+      &.active{
+        color: $color-primary;
+      }
+      &.active:before {
+        width: 100%;
+        left: 0;
+      }
+    }
+
+    .item:hover{
+      color: $color-primary;
+      font-weight: 500;
+    }
+
+    .item::before {
+      content: "";
+      position: absolute;
+      bottom: 0px;
+      left: 100%;
+      width: 0;
+      height: 3px;
+      background: $color-primary;
+      transition: 0.1s all linear;
+    }
+    .item:hover::before {
+      width: 100%;
+      left: 0;
+    }
+    .item:hover ~ .item::before {
+      left: 0;
+    }
+  }
+}
