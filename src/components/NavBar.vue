@@ -8,12 +8,24 @@
         <ul class="bar">
           <li v-for="(item, index) in list" :key="index" @click="changePage(item.url)" :class="{active: current === item.value }" class="item">{{item.name}}</li>
         </ul>
-        <div class="theme-box">
-          <div class="theme-button">切换主题</div>
-          
+        <div @click="dialogVisible = true" class="sign-out-box">
+          <div class="icon"></div>
+          <div class="text">退出</div>
         </div>
       </div>
     </header>
+    <el-dialog
+      
+      :visible.sync="dialogVisible"
+      width="30%"
+      append-to-body
+      center>
+      <div style="text-align: center;font-size: 18px">您确定退出登录？</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="signOut">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -60,16 +72,29 @@ export default {
           value: 'about'
         },
         {
-          url: '/about',
+          url: '/order',
           name: '订单中心',
+          value: 'order'
+        },
+        {
+          url: '/about',
+          name: '个人中心',
           value: 'about'
         }
-      ]
+      ],
+      dialogVisible: false
     }
   },
   methods: {
-    changePage (url) {
+    changePage(url) {
       this.$router.push(url)
+    },
+    // 退出
+    signOut() {
+      console.log(this.$route.path)
+      
+      this.dialogVisible = false
+      this.$route.path !== '/' && this.$router.replace('/')
     }
   }
 }

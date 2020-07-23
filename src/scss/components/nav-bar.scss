@@ -4,6 +4,7 @@
   left: 0;
   width: 100%;
   z-index: 1000;
+  padding-top: 40px;
 }
 .main-header{
   background: #ffffff;
@@ -25,7 +26,7 @@
     margin: 0 auto;
     height: 64px;
     display: flex;
-    justify-items: center;
+    justify-content: space-between;
     align-items: center;
     position: relative;
   }
@@ -71,6 +72,17 @@
     }
     .item:hover ~ .item::before {
       left: 0;
+    }
+  }
+
+  .sign-out-box{
+    cursor: pointer;
+    .icon{
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      background: url(~@/assets/sign-out.png) no-repeat;
+      background-size: cover
     }
   }
 }
