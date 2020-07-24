@@ -3,7 +3,7 @@
     <header class="main-header">
       <div class="container">
         <div class="logo">
-          <!-- <img src="../assets/img/logo.jpg" /> -->
+          <img src="../assets/logo.png" />
         </div>
         <ul class="bar">
           <li v-for="(item, index) in list" :key="index" @click="changePage(item.url)" :class="{active: current === item.value }" class="item">{{item.name}}</li>
@@ -15,7 +15,6 @@
       </div>
     </header>
     <el-dialog
-      
       :visible.sync="dialogVisible"
       width="30%"
       append-to-body
@@ -92,9 +91,9 @@ export default {
     // 退出
     signOut() {
       console.log(this.$route.path)
-      
       this.dialogVisible = false
-      this.$route.path !== '/' && this.$router.replace('/')
+      // this.$route.path !== '/' && this.$router.replace('/')
+      this.$router.push('login')
     }
   }
 }
