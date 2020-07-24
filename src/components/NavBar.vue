@@ -16,7 +16,7 @@
     </header>
     <el-dialog
       :visible.sync="dialogVisible"
-      width="30%"
+      width="300px"
       append-to-body
       center>
       <div style="text-align: center;font-size: 18px">您确定退出登录？</div>
