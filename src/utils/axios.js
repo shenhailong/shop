@@ -49,18 +49,18 @@ axios.interceptors.response.use(
       } else if (error && error.response) {
         let str = '网络不给力哦，请检查网络状态';
         switch (error.response.status) {
-          case 404:
-            str = '访问地址不存在';
-            break;
-          case 500:
-            str = '访问地址出现异常';
-            break;
-          case 502:
-          case 504:
-            str = '服务器不在服务区';
-            break;
-          default:
-            break;
+        case 404:
+          str = '访问地址不存在';
+          break;
+        case 500:
+          str = '访问地址出现异常';
+          break;
+        case 502:
+        case 504:
+          str = '服务器不在服务区';
+          break;
+        default:
+          break;
         }
         console.log(str);
       } else {

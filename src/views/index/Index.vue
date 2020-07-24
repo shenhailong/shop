@@ -20,8 +20,8 @@
       </div>
 
       <!-- 产品列表 -->
-      <el-row :gutter="20">
-        <Product v-for="item in list" :key="item.id" :item="item" />
+      <el-row v-for="(line, index) in Math.ceil(list.length / 4)" :key="line" :gutter="20">
+        <Product v-for="(item, itemIndex) in count(index)" :key="productItem(line, itemIndex).id" :item="productItem(line, itemIndex)" />
       </el-row>
       <div class="product-list">
       </div>
@@ -96,6 +96,23 @@ export default {
 
       });
       console.log(swiper)
+    },
+    // 每行需要循环商品的个数
+    count(index) {
+      let num = 0
+      let lines = Math.ceil(this.list.length / 4)
+      if(lines !== (Number(index) + 1)){
+        num = 4
+      }else{
+        num = this.list.length % 4
+      } 
+      return num
+    },
+    // 每一个item
+    productItem(line, index) {
+      let num = (line - 1) * 4 // 已经排列的个数
+      num = num + index // 接着的次序
+      return this.list[num]
     }
   }
 }
@@ -112,6 +129,7 @@ export default {
   width: 1170px;
   height: 300px;
   margin: 0 auto;
+  margin-bottom: 10px;
   .slider{
     width: 100%;
     height: 100%;

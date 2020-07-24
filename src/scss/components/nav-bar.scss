@@ -4,7 +4,10 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding-top: 40px;
+  padding-top: 20px;
+  border-top: 5px solid;
+  background: #ffffff;
+  box-shadow: 10px;
 }
 .main-header{
   background: #ffffff;
@@ -77,6 +80,7 @@
 
   .sign-out-box{
     cursor: pointer;
+    text-align: center;
     .icon{
       height: 40px;
       width: 40px;
