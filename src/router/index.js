@@ -22,6 +22,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "order" */ '../views/order/Index.vue')
   },
+  // 产品中心
+  {
+    path: '/productCenter',
+    name: 'ProductCenter',
+    component: () =>
+      import(/* webpackChunkName: "productCenter" */ '../views/productCenter/Index.vue')
+  },
   {
     path: '/login',
     name: 'Login',

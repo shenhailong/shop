@@ -46,9 +46,9 @@ export default {
           value: 'index'
         },
         {
-          url: '/game',
+          url: '/productCenter',
           name: '产品中心',
-          value: 'game'
+          value: 'productCenter'
         },
         {
           url: '/knowledge',
