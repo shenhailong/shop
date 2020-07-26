@@ -30,7 +30,10 @@
                 </div>
               </el-form-item>
               <el-form-item>
-                <el-button :loading="submitting" native-type="submit" type="primary" size="large" :style="{width: '100%'}">登录</el-button>
+                <div class="footer">
+                  <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">登录</el-button>
+                  <el-button @click="goRegister" :style="{width:'100px'}" size="large">注册</el-button>
+                </div>
               </el-form-item>
             </el-form>
         </div>
@@ -111,6 +114,9 @@ export default {
     },
     handleClick(tab, event) {
       console.log(tab, event)
+    },
+    goRegister() {
+      this.$router.push('register')
     }
   },
   computed: {
@@ -203,24 +209,13 @@ export default {
     color: #ffffff;
     font-size: 22px;
   }
-}
-.login-tab{
-  // display: flex;
-  // > .el-tabs__header{
-  //   display: flex;
-  //   width: 100%;
-  // }
-  // > .el-tabs__nav-wrap{
-  //   width: 100%;
-  // }
-  .el-tabs__nav{
-    width: 100%;
-    display: flex;
-  }
-  .el-tabs__item{
-    flex: 1;
-    text-align: center;
-  }
-}
 
+  .footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-top: 1px solid #999999;
+    padding-top: 20px;
+  }
+}
 </style>

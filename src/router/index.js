@@ -16,9 +16,6 @@ const routes = [
     meta: {
       authentication: true
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "order" */ '../views/order/Index.vue')
   },
@@ -29,6 +26,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "productCenter" */ '../views/productCenter/Index.vue')
   },
+  // 购物车
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: () =>
+      import(/* webpackChunkName: "Cart" */ '../views/cart/Index.vue')
+  },
   {
     path: '/login',
     name: 'Login',
@@ -37,7 +41,14 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "order" */ '../views/login/Index.vue')
-  }
+  },
+  // 购物车
+  {
+    path: '/register',
+    name: 'Register',
+    component: () =>
+      import(/* webpackChunkName: "Register" */ '../views/login/Register.vue')
+  },
 ];
 
 const router = new VueRouter({

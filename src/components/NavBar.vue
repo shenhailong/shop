@@ -66,9 +66,9 @@ export default {
           value: 'about'
         },
         {
-          url: '/about',
+          url: '/cart',
           name: '购物车',
-          value: 'about'
+          value: 'cart'
         },
         {
           url: '/order',

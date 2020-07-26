@@ -1,28 +1,32 @@
 <template>
-  <el-col :span="6" class="product">
-  <!-- <div class="product"> -->
-    <div class="img-wrap"><img :src="item.src" class="product-img" alt=""></div>
-    <div class="title">产品名称 {{item.name}}</div>
-    <div class="subtitle">产品编号 {{item.number}}</div>
-    <div class="subtitle">{{item.description}}</div>
-    <div class="footer">
-      <el-button type="primary" @click="addCar">加入购物车</el-button>
-      <el-button type="primary" @click="download">下载白皮书</el-button>
-    </div>
-  </el-col>
+  <div>
+    <el-col :span="6" class="product">
+    <!-- <div class="product"> -->
+      <div class="img-wrap"><img :src="item.src" class="product-img" alt=""></div>
+      <div class="title">产品名称 {{item.name}}</div>
+      <div class="subtitle">产品编号 {{item.number}}</div>
+      <div class="subtitle">{{item.description}}</div>
+      <div class="footer">
+        <el-button type="primary" @click="visible = true">加入购物车</el-button>
+      </div>
+    </el-col>
+    <AddCart :visible.sync="visible" @hide="visible = false" />
+  </div>
 </template>
 
 <script>
+import AddCart from '@components/AddCart'
+
 export default {
   components: {
-
+    AddCart
   },
   props: {
     item: {}
   },
   data() {
     return {
-
+      visible: false
     }
   },
   mounted() {
@@ -31,9 +35,6 @@ export default {
   methods: {
     addCar() {
       
-    },
-    download(){
-
     }
   }
 }
