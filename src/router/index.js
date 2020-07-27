@@ -26,6 +26,20 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "productCenter" */ '../views/productCenter/Index.vue')
   },
+  // 公共资料
+  {
+    path: '/public',
+    name: 'Public',
+    component: () =>
+      import(/* webpackChunkName: "Public" */ '../views/public/Index.vue')
+  },
+  // 会员资料
+  {
+    path: '/member',
+    name: 'Member',
+    component: () =>
+      import(/* webpackChunkName: "Member" */ '../views/member/Index.vue')
+  },
   // 购物车
   {
     path: '/cart',
@@ -42,12 +56,26 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "order" */ '../views/login/Index.vue')
   },
-  // 购物车
+  // 注册
   {
     path: '/register',
     name: 'Register',
     component: () =>
       import(/* webpackChunkName: "Register" */ '../views/login/Register.vue')
+  },
+  // 用户中心
+  {
+    path: '/user',
+    name: 'User',
+    component: () =>
+      import(/* webpackChunkName: "User" */ '../views/user/Index.vue')
+  },
+  // 产品详情
+  {
+    path: '/detail/:id',
+    name: 'Detail',
+    component: () =>
+      import(/* webpackChunkName: "Detail" */ '../views/productCenter/Detail.vue')
   },
 ];
 

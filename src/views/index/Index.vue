@@ -105,7 +105,7 @@ export default {
         num = 4
       }else{
         num = this.list.length % 4
-      } 
+      }
       return num
     },
     // 每一个item

@@ -140,6 +140,7 @@ export default {
   justify-content: center;
   padding-top: 150px;
   box-sizing: border-box;
+  overflow: scroll;
   .login-card{
     width: 340px;
    .header {

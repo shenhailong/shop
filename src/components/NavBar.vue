@@ -51,14 +51,14 @@ export default {
           value: 'productCenter'
         },
         {
-          url: '/knowledge',
+          url: '/public',
           name: '公共资料',
-          value: 'knowledge'
+          value: 'public'
         },
         {
-          url: '/about',
+          url: '/member',
           name: '会员资料',
-          value: 'about'
+          value: 'member'
         },
         {
           url: '/about',
@@ -76,9 +76,9 @@ export default {
           value: 'order'
         },
         {
-          url: '/about',
-          name: '个人中心',
-          value: 'about'
+          url: '/user',
+          name: '用户中心',
+          value: 'user'
         }
       ],
       dialogVisible: false

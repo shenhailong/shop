@@ -9,34 +9,52 @@
         <div class="login-view-box form-con">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="用户名" prop="name">
-              <el-input v-model="ruleForm.name" placeholder="请填写用户名"></el-input>
+              <el-col :span="11">
+                <el-input v-model="ruleForm.name" placeholder="请填写用户名" maxlength="20"></el-input>
+              </el-col>
+              <el-col :span="13">
+              <span class="tip">4 ~ 20位数字或者字母(区分大小写)</span>
+              </el-col>
             </el-form-item>
-            <el-form-item label="密码" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+            <el-form-item label="密码" prop="password">
+              <el-col :span="11">
+                <el-input v-model="ruleForm.password" placeholder="请填写密码" maxlength="20"></el-input>
+              </el-col>
+              <el-col :span="13">
+              <span class="tip">6 ~ 20位数字或者字母(区分大小写)</span>
+              </el-col>
             </el-form-item>
-            <el-form-item label="确认密码" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+            <el-form-item label="确认密码" prop="confirmPassword">
+              <el-input v-model="ruleForm.confirmPassword" placeholder="请填写确认密码"></el-input>
             </el-form-item>
             <el-form-item label="公司全称" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+              <el-input v-model="ruleForm.name" placeholder="请填写公司全称"></el-input>
             </el-form-item>
-            <el-form-item label="社会统一信用代码" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+            <el-form-item label="社会统一信用代码" prop="code">
+              <el-input v-model="ruleForm.code" placeholder="请填写社会统一信用代码"></el-input>
             </el-form-item>
-            <el-form-item label="通讯地址" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+            <el-form-item label="通讯地址">
+              <el-input v-model="ruleForm.address" placeholder="请填写通讯地址"></el-input>
             </el-form-item>
-            <el-form-item label="联系人" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+            <el-form-item label="联系人" prop="people">
+              <el-input v-model="ruleForm.people" placeholder="请填写联系人"></el-input>
             </el-form-item>
-            <el-form-item label="活动名称" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+            <el-form-item label="联系电话" prop="mobile">
+              <el-input v-model="ruleForm.mobile" placeholder="请填写联系电话"></el-input>
             </el-form-item>
-            v 
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-              <el-button @click="resetForm('ruleForm')">重置</el-button>
+            <el-form-item label="电子邮箱" prop="email">
+              <el-input v-model="ruleForm.email" placeholder="message"></el-input>
             </el-form-item>
+            <el-form-item label="邀请码">
+              <el-input v-model="ruleForm.code" placeholder="请填写邀请码"></el-input>
+            </el-form-item>
+            <!-- <el-form-item> -->
+              <div class="footer">
+                <el-button @click="$router.back()">返回</el-button>
+                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-button type="primary" @click="submitHandler('ruleForm')">注册</el-button>
+              </div>
+            <!-- </el-form-item> -->
           </el-form>
         </div>
       </el-card>
@@ -51,22 +69,10 @@ export default {
   data() {
     return {
       submitting: false,
-      form: {
-        userName: '',
-        password: '',
-        captcha: ''
-      },
-      // 是否需要验证码
-      needCaptcha: false,
-      // 验证码路径
-      imgUrl: '/images/kaptcha.jpg',
-      // 随机数
-      random: '',
-      // 校验规则
       ruleForm: {
         name: '',
-        region: '',
-        date1: '',
+        password: '',
+        confirmPassword: '',
         date2: '',
         delivery: false,
         type: [],
@@ -78,26 +84,22 @@ export default {
           { required: true, message: '请输入活动名称', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
-        region: [
+        password: [
           { required: true, message: '请选择活动区域', trigger: 'change' }
         ],
-        date1: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        code: [
+          { required: true, message: '请填写社会统一信用代码', trigger: 'change' }
         ],
-        date2: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+        people: [
+          { required: true, message: '请填写联系人', trigger: 'change' }
         ],
-        type: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+        mobile: [
+          { required: true, message: '请填写联系电话', trigger: 'change' }
         ],
-        resource: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
-        ],
-        desc: [
-          { required: true, message: '请填写活动形式', trigger: 'blur' }
+        email: [
+          { required: true, message: '请填写电子邮箱', trigger: 'blur' }
         ]
-      },
-      activeName: 'first'
+      }
     }
   },
   methods: {
@@ -105,19 +107,15 @@ export default {
       if (this.submitting === true) {
         return false
       }
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           let data = {
             username: this.form.userName,
             password: this.form.password
-            // captcha: this.form.captcha
           }
           axios.post('/api/adm/account/login', data).then((res) => {
             if (res.data.code === 1) {
-              // const loginInfo = res.data.data
-              // const TOKEN_KEY = process.env.TOKEN_KEY
-              // window.localStorage.setItem(TOKEN_KEY, loginInfo.accessToken.accessToken)
-              window.location = `index.html?_=${new Date().getTime()}/#/dashboard`
+              this.$router.replace('login')
             } else if (res.data.code === '2') {
               Notification({
                 type: 'error',
@@ -133,21 +131,8 @@ export default {
         }
       })
     },
-    // 修改随机数
-    changeCaptcha() {
-      this.random = Math.random()
-    },
-    handleClick(tab, event) {
-      console.log(tab, event)
-    },
-    goRegister() {
-      this.$router.push('register')
-    }
-  },
-  computed: {
-    // 拼接验证码图片地址
-    captchaUrl() {
-      return `${this.imgUrl}?${this.random}`
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   }
 }
@@ -156,17 +141,18 @@ export default {
 <style lang="scss" scoped>
 .wrap-login {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: url(~@/assets/login-bg.jpg);
   background-size: cover;
   background-position: center;
   position: relative;
   display: flex;
   justify-content: center;
-  padding-top: 150px;
+  overflow: scroll;
+  padding-top: 50px;
   box-sizing: border-box;
   .login-card{
-    width: 540px;
+    width: 600px;
    .header {
       font-size: 16px;
       font-weight: 300;
@@ -235,11 +221,14 @@ export default {
     font-size: 22px;
   }
 
+  .tip{
+    margin-left: 10px;
+  }
+
   .footer{
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border-top: 1px solid #999999;
     padding-top: 20px;
   }
 }

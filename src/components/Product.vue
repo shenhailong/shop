@@ -1,11 +1,12 @@
 <template>
   <div>
     <el-col :span="6" class="product">
-    <!-- <div class="product"> -->
-      <div class="img-wrap"><img :src="item.src" class="product-img" alt=""></div>
-      <div class="title">产品名称 {{item.name}}</div>
-      <div class="subtitle">产品编号 {{item.number}}</div>
-      <div class="subtitle">{{item.description}}</div>
+      <div @click="goDetail">
+        <div class="img-wrap"><img :src="item.src" class="product-img" alt=""></div>
+        <div class="title">产品名称 {{item.name}}</div>
+        <div class="subtitle">产品编号 {{item.number}}</div>
+        <div class="subtitle">{{item.description}}</div>
+      </div>
       <div class="footer">
         <el-button type="primary" @click="visible = true">加入购物车</el-button>
       </div>
@@ -33,8 +34,8 @@ export default {
 
   },
   methods: {
-    addCar() {
-      
+    goDetail() {
+      this.$router.push(`detail/${this.item.id}`)
     }
   }
 }
