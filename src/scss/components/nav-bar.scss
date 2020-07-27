@@ -52,11 +52,29 @@
         width: 100%;
         left: 0;
       }
+
+      .child{
+        position: absolute;
+        left: 0;
+        text-align: center;
+        display: none;
+        width: 100%;
+        background: #ffffff;
+
+        .child-item{
+          border-bottom: 1px solid #eeeeee;
+          line-height: 40px;
+        }
+      }
     }
 
     .item:hover{
       color: $color-primary;
       font-weight: 500;
+    }
+
+    .item:hover .child{
+      display: block;
     }
 
     .item::before {

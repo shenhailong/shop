@@ -6,7 +6,12 @@
           <img src="../assets/logo.png" />
         </div>
         <ul class="bar">
-          <li v-for="(item, index) in list" :key="index" @click="changePage(item.url)" :class="{active: current === item.value }" class="item">{{item.name}}</li>
+          <li v-for="(items, index) in list" :key="index" @click="changePage(items.url)" :class="{active: current === items.value }" class="item">
+            {{items.name}}
+            <div class="child">
+            <div v-for="(item, index) in items.children" :key="index" @click="changePage(item.url)" :class="{active: current === item.value }" class="child-item">{{item.name}}</div>
+            </div>
+          </li>
         </ul>
         <div @click="dialogVisible = true" class="sign-out-box">
           <div class="icon"></div>
@@ -58,7 +63,20 @@ export default {
         {
           url: '/member',
           name: '会员资料',
-          value: 'member'
+          value: 'member',
+          children: [{
+            url: '/member?type=product',
+            name: '产品资料',
+            value: 'member',
+          }, {
+            url: '/member?type=practice',
+            name: '最佳实践',
+            value: 'member',
+          }, {
+            url: '/member?type=other',
+            name: '其他',
+            value: 'member',
+          }]
         },
         {
           url: '/about',
@@ -84,8 +102,14 @@ export default {
       dialogVisible: false
     }
   },
+  mounted() {
+    console.log(this.$route)
+    
+  },
   methods: {
     changePage(url) {
+      console.log(url)
+      
       this.$router.push(url)
     },
     // 退出
