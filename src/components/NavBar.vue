@@ -6,10 +6,12 @@
           <img src="../assets/logo.png" />
         </div>
         <ul class="bar">
-          <li v-for="(items, index) in list" :key="index" @click="changePage(items.url)" :class="{active: current === items.value }" class="item">
+          <li v-for="(items, index) in list" :key="index" @click="changePage(items)" :class="{active: current === items.value }" class="item">
             {{items.name}}
             <div class="child">
-            <div v-for="(item, index) in items.children" :key="index" @click="changePage(item.url)" :class="{active: current === item.value }" class="child-item">{{item.name}}</div>
+              <div v-for="(item, index) in items.children" :key="index" @click.stop="changePage(item)" :class="{active: current === item.value && ($route.query.type === item.query.type)}" class="child-item">
+                {{item.name}}
+              </div>
             </div>
           </li>
         </ul>
@@ -34,7 +36,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     current: {
@@ -65,17 +66,26 @@ export default {
           name: '会员资料',
           value: 'member',
           children: [{
-            url: '/member?type=product',
+            url: '/member',
             name: '产品资料',
             value: 'member',
+            query: {
+              type: 'product'
+            }
           }, {
-            url: '/member?type=practice',
+            url: '/member',
             name: '最佳实践',
             value: 'member',
+            query: {
+              type: 'practice'
+            }
           }, {
-            url: '/member?type=other',
+            url: '/member',
             name: '其他',
             value: 'member',
+            query: {
+              type: 'other'
+            }
           }]
         },
         {
@@ -91,7 +101,22 @@ export default {
         {
           url: '/order',
           name: '订单中心',
-          value: 'order'
+          value: 'order',
+          children: [{
+            url: '/order',
+            name: '平台订单',
+            value: 'order',
+            query: {
+              type: 'platform'
+            }
+          }, {
+            url: '/order',
+            name: '原厂订单',
+            value: 'order',
+            query: {
+              type: 'original'
+            }
+          }]
         },
         {
           url: '/user',
@@ -102,19 +127,20 @@ export default {
       dialogVisible: false
     }
   },
-  mounted() {
-    console.log(this.$route)
-    
-  },
   methods: {
-    changePage(url) {
-      console.log(url)
-      
-      this.$router.push(url)
+    changePage(item) {
+      if((this.$route.path === item.url && this.$route.query.type === item.query.type) || item.children){
+        return
+      }
+      this.$router.push({
+        path: item.url,
+        query: {
+          ...item.query
+        }
+      })
     },
     // 退出
     signOut() {
-      console.log(this.$route.path)
       this.dialogVisible = false
       // this.$route.path !== '/' && this.$router.replace('/')
       this.$router.push('login')

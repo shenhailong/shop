@@ -3,6 +3,11 @@
     <NavBar current="index" />
 
     <div class="content">
+      <!-- <div class="search-wrap">
+        <div class=""></div>
+        <el-input class="serach-input" v-model="keyword" placeholder="请输入产品名称"></el-input>
+        <el-button type="primary" @click="search">检索</el-button>
+      </div> -->
       <!-- Swiper -->
       <div class="swiper-container">
         <div class="swiper-wrapper ">
@@ -19,6 +24,10 @@
         <div class="swiper-button-prev swiper-button-white"></div>
       </div>
 
+      <div class="card">
+        <div class="text">明星产品</div>
+        <div class="more">查看更多 >></div>
+      </div>
       <!-- 产品列表 -->
       <el-row v-for="(line, index) in Math.ceil(list.length / 4)" :key="line" :gutter="20">
         <Product v-for="(item, itemIndex) in count(index)" :key="productItem(line, itemIndex).id" :item="productItem(line, itemIndex)" />
@@ -40,7 +49,6 @@ export default {
     NavBar,
     Product
   },
-
   data() {
     return {
       swiperList: [
@@ -119,12 +127,7 @@ export default {
 </script>
 
 <style lang="scss">
-
-.content{
-  padding-top: 105px;
-  max-width: 1170px;
-  margin: 0 auto;
-}
+@import '~@/scss/utils/theme.scss';
 .swiper-container{
   width: 1170px;
   height: 300px;
@@ -137,6 +140,23 @@ export default {
   img{
     height: 100%;
     width: 100%;
+  }
+}
+
+.card{
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 500;
+  .more{
+    cursor: pointer;
+    border: 1px solid #333333;
+    padding: 10px;
+    &:hover{
+      color: $color-primary;
+    }
   }
 }
 </style>

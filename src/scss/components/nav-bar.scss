@@ -60,10 +60,17 @@
         display: none;
         width: 100%;
         background: #ffffff;
-
+        color: #000000;
         .child-item{
           border-bottom: 1px solid #eeeeee;
           line-height: 40px;
+          &.active{
+            color: $color-primary;
+          }
+        }
+        .child-item:hover{
+          color: $color-primary;
+          font-weight: 500;
         }
       }
     }

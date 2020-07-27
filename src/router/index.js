@@ -14,7 +14,7 @@ const routes = [
     path: '/order',
     name: 'Order',
     meta: {
-      authentication: true
+      authentication: false
     },
     component: () =>
       import(/* webpackChunkName: "order" */ '../views/order/Index.vue')
@@ -69,6 +69,13 @@ const routes = [
     name: 'User',
     component: () =>
       import(/* webpackChunkName: "User" */ '../views/user/Index.vue')
+  },
+  // 会员缴费
+  {
+    path: '/payIndex',
+    name: 'PayIndex',
+    component: () =>
+      import(/* webpackChunkName: "PayIndex" */ '../views/user/PayIndex.vue')
   },
   // 产品详情
   {
