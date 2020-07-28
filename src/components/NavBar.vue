@@ -89,11 +89,6 @@ export default {
           }]
         },
         {
-          url: '/about',
-          name: '产品有效性查询',
-          value: 'about'
-        },
-        {
           url: '/cart',
           name: '购物车',
           value: 'cart'

@@ -1,20 +1,19 @@
 <template>
-  <div>
-    <AddCart :visible.sync="visible" @hide="visible = false" />
-    <el-button type="text" @click="visible = true">打开嵌套表单的 Dialog</el-button>
+  <div class="wrap-index">
+    <NavBar current="cart" />
   </div>
 </template>
 
 <script>
-import AddCart from '@components/AddCart'
+import NavBar from '@components/NavBar'
 
 export default {
   components: {
-    AddCart
+    NavBar
   },
   data() {
     return {
-      visible: false
+
     }
   },
   mounted() {
