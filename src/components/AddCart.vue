@@ -26,7 +26,7 @@
             align="center"
             width="150">
           </el-table-column>
-          <el-table-column prop="name" label="时间模式" align="center">
+          <el-table-column prop="name" label="时间单位" align="center">
             <template slot-scope="scope">
               <el-form-item align="center" :prop="'children.' + scope.$index + '.mode'" :rules='rules.mode'>
                 <el-radio-group v-model="scope.row.mode">

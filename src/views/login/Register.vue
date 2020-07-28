@@ -33,7 +33,7 @@
             <el-form-item label="社会统一信用代码" prop="code">
               <el-input v-model="ruleForm.code" placeholder="请填写社会统一信用代码"></el-input>
             </el-form-item>
-            <el-form-item label="通讯地址">
+            <el-form-item label="通讯地址" prop="address">
               <el-input v-model="ruleForm.address" placeholder="请填写通讯地址"></el-input>
             </el-form-item>
             <el-form-item label="联系人" prop="people">
@@ -45,7 +45,7 @@
             <el-form-item label="电子邮箱" prop="email">
               <el-input v-model="ruleForm.email" placeholder="message"></el-input>
             </el-form-item>
-            <el-form-item label="邀请码">
+            <el-form-item label="邀请码" prop="code">
               <el-input v-model="ruleForm.code" placeholder="请填写邀请码"></el-input>
             </el-form-item>
             <!-- <el-form-item> -->
@@ -77,7 +77,7 @@ export default {
         delivery: false,
         type: [],
         resource: '',
-        desc: ''
+        code: ''
       },
       rules: {
         name: [
