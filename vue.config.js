@@ -6,7 +6,7 @@ module.exports = {
     ? '/public/pc'
     : '/',
   devServer: {
-    proxy: 'http://localhost:7001'
+    proxy: 'http://localhost:7002'
   },
   chainWebpack: config => {
     // 添加别名

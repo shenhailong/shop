@@ -80,6 +80,7 @@ export default {
   },
   mounted() {
     this.initSwiper()
+    this.upCallback()
   },
   methods: {
     initSwiper () {
@@ -121,7 +122,21 @@ export default {
       let num = (line - 1) * 4 // 已经排列的个数
       num = num + index // 接着的次序
       return this.list[num]
-    }
+    },
+    // 获取文章
+    async upCallback (page, mescroll) {
+      console.log(this.$axios)
+      
+      const res = await this.$axios.get('/oilMini/oil', this.form)
+      if (res.data.code === 1) {
+        let total = res.data.data.count
+        this.form.offset += this.form.limit
+        this.articleList = this.articleList.concat(res.data.data.rows)
+        this.$nextTick(() => {
+          mescroll.endBySize(res.data.data.rows.length, total)
+        })
+      }
+    },
   }
 }
 </script>
