@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["PayIndex"],{"0100":function(t,n,a){"use strict";a.r(n);var e=function(){var t=this,n=t.$createElement,a=t._self._c||n;return a("div",{staticClass:"wrap-index"},[a("NavBar",{attrs:{current:"user"}}),a("div",{staticClass:"content"})],1)},s=[],r=a("d000"),c={components:{NavBar:r["a"]},data:function(){return{}},mounted:function(){},methods:{}},u=c,o=a("2877"),i=Object(o["a"])(u,e,s,!1,null,null,null);n["default"]=i.exports}}]);
+//# sourceMappingURL=PayIndex.b72ae8db.js.map

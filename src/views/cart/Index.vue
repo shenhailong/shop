@@ -91,7 +91,7 @@
 <script>
 import NavBar from '@components/NavBar'
 import Empty from '@components/Empty'
-import { CART_LIST, TOKEN } from '@/constants/key'
+import { TOKEN } from '@/constants/key'
 import { getCart } from '@/utils/cart'
 export default {
   components: {
