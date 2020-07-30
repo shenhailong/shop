@@ -125,10 +125,8 @@ export default {
     },
     // 获取文章
     async upCallback (page, mescroll) {
-      console.log(this.$axios)
-      
       const res = await this.$axios.get('/oilMini/oil', this.form)
-      if (res.data.code === 1) {
+      if (res.code === 1) {
         let total = res.data.data.count
         this.form.offset += this.form.limit
         this.articleList = this.articleList.concat(res.data.data.rows)

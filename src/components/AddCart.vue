@@ -1,13 +1,13 @@
 <!-- Table -->
 <template>
   <div>
-    <el-dialog 
+    <el-dialog
       width="60%"
       append-to-body
       class="add-cart"
       title="选择产品"
       :visible="visible">
-      <el-form size="mini" :rules="rules" label-width="100px" :model="form">  
+      <el-form size="mini" :rules="rules" label-width="100px" :model="form">
         <el-table
           :data="form.children"
           @select-all="selectAll"
@@ -56,12 +56,14 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="hideDialog">取 消</el-button>
-        <el-button type="primary" @click="hideDialog">确 定</el-button>
+        <el-button type="primary" @click="add">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
+import { CART_LIST, TOKEN } from '@/constants/key'
+
 export default {
   props: {
     visible: {
@@ -112,22 +114,45 @@ export default {
           count: 20
         }]
       },
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
+      selectList: []
     };
   },
   methods: {
     hideDialog() {
       this.$emit('hide')
     },
-    add() {
-
+    async add() {
+      if(this.selectList.length === 0){ return }
+      let token = window.localStorage.getItem(TOKEN)
+      // 有token说明登陆,发送数据
+      if(token){
+        const res = await this.$axios.post('/oilMini/oil')
+        if (res.code === '1') {
+          this.$message({
+            message: '添加成功,请前往购物车页面查看',
+            type: 'success'
+          })
+        }
+      }else{
+        let cartList = window.localStorage.getItem(CART_LIST)
+        if(cartList){
+          console.log(1)
+        }else{
+          window.localStorage.setItem(CART_LIST, JSON.stringify(this.selectList))
+        }
+        console.log(cartList)
+        console.log(this.selectList)
+      }
     },
     selectAll(selection) {
       console.log(selection)
+      this.selectList = selection
     },
     select(selection, row){
       console.log(selection)
       console.log(row)
+      this.selectList = selection
     }
   }
 };
