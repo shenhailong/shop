@@ -92,7 +92,7 @@
 import NavBar from '@components/NavBar'
 import Empty from '@components/Empty'
 import { TOKEN } from '@/constants/key'
-import { getCart } from '@/utils/cart'
+import { getLocalCart } from '@/utils/cart'
 export default {
   components: {
     NavBar,
@@ -119,13 +119,13 @@ export default {
     initCart() {
       let token = window.localStorage.getItem(TOKEN)
       if(token){
-        this.getCart()
+        this.getServerCart()
       }else{
-        this.list = getCart()
+        this.list = getLocalCart()
       }
     },
     // 获取后台cart数据
-    async getCart() {
+    async getServerCart() {
       const res = await this.$axios.get('/oilMini/oil')
       if (res.code === '1') {
         console.log(1)

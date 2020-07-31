@@ -62,7 +62,8 @@
   </div>
 </template>
 <script>
-import { CART_LIST, TOKEN } from '@/constants/key'
+import { TOKEN } from '@/constants/key'
+import { setLocalCart } from '@/utils/cart'
 
 export default {
   props: {
@@ -97,19 +98,19 @@ export default {
         children: [{
           id: 1,
           name: '产品1',
-          num: 5,
+          num: 2,
           mode: 'year',
           count: 10
         }, {
-          id: 1,
-          name: '产品2',
-          num: 5,
+          id: 4,
+          name: '产品4',
+          num: 9,
           mode: 'year',
           count: 0
         }, {
-          id: 1,
-          name: '产品3',
-          num: 0,
+          id: 5,
+          name: '产品5',
+          num: 8,
           mode: 'year',
           count: 20
         }]
@@ -135,14 +136,7 @@ export default {
           })
         }
       }else{
-        let cartList = window.localStorage.getItem(CART_LIST)
-        if(cartList){
-          console.log(1)
-        }else{
-          window.localStorage.setItem(CART_LIST, JSON.stringify(this.selectList))
-        }
-        console.log(cartList)
-        console.log(this.selectList)
+        setLocalCart(this.selectList)
       }
     },
     selectAll(selection) {
