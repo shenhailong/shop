@@ -92,7 +92,8 @@
 import NavBar from '@components/NavBar'
 import Empty from '@components/Empty'
 import { TOKEN } from '@/constants/key'
-import { getLocalCart } from '@/utils/cart'
+import { getLocalCart, setLocalCart } from '@/utils/cart'
+
 export default {
   components: {
     NavBar,
@@ -159,11 +160,16 @@ export default {
         cancelButtonText: '取消',
         type: 'error'
       }).then(async () => {
-        const res = await this.$axios.get('/oilMini/oil', { id: row.id })
-        if (res.code === '1') {
+        let token = window.localStorage.getItem(TOKEN)
+        if(token){
+          const res = await this.$axios.get('/oilMini/oil', { id: row.id })
+          if (res.code === '1') {
+            this.list.splice(index, 1)
+          }
+        }else{
           this.list.splice(index, 1)
+          setLocalCart(this.list)
         }
-        console.log(res)
       }).catch(() => {})
     },
     // 结算
