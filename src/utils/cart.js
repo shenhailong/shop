@@ -16,23 +16,35 @@ const getLocalCart = function() {
 const setLocalCart = function(list) {
   let cartList = getLocalCart()
   let newList = []
-  let idList = []
+  let newIdList = []
+  let currentIdList = [] // 新传入的数据的id列表
+  // 找出新传入的数据的id列表
+  list.forEach(item => {
+    currentIdList.push(item.id)
+  })
+
   if(cartList.length){
-    cartList.forEach(items => {
-      list.forEach(item => {
-        // 本地购物车已经存储的产品(覆盖掉本地存储的)
-        if(items.id === item.id && !idList.includes(items.id)){
-          newList.push(item)
-          idList.push(item.id)
-        // 本地购物车没有存储过的产品(存入新的产品)
-        }else if(items.id !== item.id && !idList.includes(items.id)){
-          newList.push(item)
-          idList.push(item.id)
+    // 分2种情况
+    // 1、传入的含有本地存储的(新覆旧盖)
+    // 2、传入的没有含有存储的,直接存储本地的
+    cartList.forEach(carItem => {
+      list.forEach(currentItem => {
+        // 传入的含有本地存储的(存入新的产品)
+        if(currentIdList.includes(carItem.id)){
+          if(!newIdList.includes(currentItem.id)){
+            newList.push(currentItem)
+            newIdList.push(currentItem.id)
+          }
+        }else{
+          // 传入的没有含有存储的
+          if(!newIdList.includes(carItem.id)){
+            newList.push(carItem)
+            newIdList.push(carItem.id)
+          }
         }
       })
     })
-    console.log(newList)
-    
+    window.localStorage.setItem(CART_LIST, JSON.stringify(newList))
   }else{
     window.localStorage.setItem(CART_LIST, JSON.stringify(list))
   }

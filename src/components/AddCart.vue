@@ -102,13 +102,13 @@ export default {
           mode: 'year',
           count: 10
         }, {
-          id: 4,
+          id: 2,
           name: '产品4',
           num: 9,
           mode: 'year',
           count: 0
         }, {
-          id: 5,
+          id: 9,
           name: '产品5',
           num: 8,
           mode: 'year',
@@ -137,6 +137,11 @@ export default {
         }
       }else{
         setLocalCart(this.selectList)
+        this.$emit('hide')
+        this.$message({
+          message: '添加成功,请前往购物车页面查看',
+          type: 'success'
+        })
       }
     },
     selectAll(selection) {

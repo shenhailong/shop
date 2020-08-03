@@ -1,3 +1,11 @@
+<!--
+ * @Description: 用户中心
+ * @Version: 1.0.0
+ * @Autor: Dragon
+ * @Date: 2020-07-27 13:22:49
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-08-03 14:41:46
+-->
 <template>
   <div class="wrap-index">
     <NavBar current="user" />
@@ -43,5 +51,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.content{
+  background: #ffffff;
+  min-height: 500px;
+}
 </style>

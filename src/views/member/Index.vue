@@ -54,7 +54,7 @@ export default {
   },
   data() {
     return {
-      isMember: true, // 是否是会员
+      isMember: false, // 是否是会员
       ruleForm: {
         code: '',
         name: ''
