@@ -4,7 +4,7 @@
  * @return:
  * @author: Dragon
  */
-import { CART_LIST } from '@/constants/key'
+import { CART_LIST, TOKEN } from '@/constants/key'
 
 // 获取本地存储购物车
 const getLocalCart = function() {
@@ -50,7 +50,23 @@ const setLocalCart = function(list) {
   }
 }
 
+// 获取购物车的数量
+const getCartNum = function() {
+  let token = window.localStorage.getItem(TOKEN)
+  let num = 0
+  if(token){
+    // this.getServerCart()
+  }else{
+    let list = getLocalCart()
+    list.forEach(item => {
+      num += Number(item.num)
+    })
+  }
+  return num
+}
+
 export {
   getLocalCart,
-  setLocalCart
+  setLocalCart,
+  getCartNum
 }

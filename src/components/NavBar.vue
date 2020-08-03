@@ -8,6 +8,7 @@
         <ul class="bar">
           <li v-for="(items, index) in list" :key="index" @click="changePage(items)" :class="{active: current === items.value }" class="item">
             {{items.name}}
+            <div v-if="items.value === 'cart' && cartNum !== 0" class="badge">{{cartNum}}</div>
             <div class="child">
               <div v-for="(item, index) in items.children" :key="index" @click.stop="changePage(item)" :class="{active: current === item.value && ($route.query.type === item.query.type)}" class="child-item">
                 {{item.name}}
@@ -36,6 +37,9 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+import * as CART from '@store/types/cart'
+
 export default {
   props: {
     current: {
@@ -122,6 +126,9 @@ export default {
       dialogVisible: false
     }
   },
+  created() {
+    console.log(this.$store)
+  },
   methods: {
     changePage(item) {
       if((this.$route.path === item.url && this.$route.query.type === item.query.type) || item.children){
@@ -140,6 +147,16 @@ export default {
       // this.$route.path !== '/' && this.$router.replace('/')
       this.$router.push('login')
     }
+  },
+  computed: {
+    ...mapGetters({
+      cartNum: CART.GET_CART_NUM
+    }),
+    ...mapState({
+      // cartNum: state => {
+      //   return state.cart.num
+      // }
+    })
   }
 }
 </script>
