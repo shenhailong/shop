@@ -63,6 +63,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "Register" */ '../views/login/Register.vue')
   },
+  // 注册
+  {
+    path: '/forgetPassword',
+    name: 'ForgetPassword',
+    component: () =>
+      import(/* webpackChunkName: "ForgetPassword" */ '../views/login/ForgetPassword.vue')
+  },
   // 用户中心
   {
     path: '/user',

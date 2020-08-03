@@ -34,6 +34,7 @@
                   <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">登录</el-button>
                   <el-button @click="goRegister" :style="{width:'100px'}" size="large">注册</el-button>
                 </div>
+                <div @click="$router.push('forgetPassword')" class="forget">忘记密码?</div>
               </el-form-item>
             </el-form>
         </div>
@@ -217,6 +218,13 @@ export default {
     justify-content: space-around;
     border-top: 1px solid #999999;
     padding-top: 20px;
+  }
+
+  .forget{
+    color: #F56C6C;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
   }
 }
 </style>
