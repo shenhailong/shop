@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 1.0.0
+ * @Author: Dragon
+ * @Date: 2020-07-24 10:01:11
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-08-04 18:10:37
+-->
 <template>
   <div id="app">
     <!-- <div id="nav">
@@ -19,8 +27,6 @@
 }
 
 #nav {
-  padding: 30px;
-
   a {
     font-weight: bold;
     color: #2c3e50;
