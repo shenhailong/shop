@@ -16,10 +16,11 @@
             </div>
           </li>
         </ul>
-        <div @click="dialogVisible = true" class="sign-out-box">
+        <div v-if="token" @click="dialogVisible = true" class="sign-out-box">
           <div class="icon"></div>
           <div class="text">退出</div>
         </div>
+        <div v-else @click="$router.push('login')" class="login">请登录</div>
       </div>
     </header>
     <el-dialog
@@ -38,6 +39,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import { getToken } from '@/utils/common'
 import * as CART from '@store/types/cart'
 
 export default {
@@ -123,11 +125,13 @@ export default {
           value: 'user'
         }
       ],
-      dialogVisible: false
+      dialogVisible: false,
+      token: null
     }
   },
   created() {
     console.log(this.$store)
+    this.token = getToken()
   },
   methods: {
     changePage(item) {

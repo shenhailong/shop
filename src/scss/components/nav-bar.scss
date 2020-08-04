@@ -34,6 +34,14 @@
     position: relative;
   }
 
+  .login{
+    font-size: 14px;
+    cursor: pointer;
+    &:hover{
+      color: $color-primary
+    }
+  }
+
   .bar{
     display: flex;
     .item{

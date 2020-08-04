@@ -62,8 +62,8 @@
   </div>
 </template>
 <script>
-import { TOKEN } from '@/constants/key'
-import { setLocalCart } from '@/utils/cart'
+import { addLocalCart } from '@/utils/cart'
+import { getToken } from '@/utils/common'
 
 export default {
   props: {
@@ -97,18 +97,21 @@ export default {
         id: '',
         children: [{
           id: 1,
+          checked: true,
           name: '产品1',
           num: 2,
           mode: 'year',
           count: 10
         }, {
           id: 2,
+          checked: true,
           name: '产品4',
           num: 9,
           mode: 'year',
           count: 0
         }, {
           id: 9,
+          checked: false,
           name: '产品5',
           num: 8,
           mode: 'year',
@@ -125,7 +128,7 @@ export default {
     },
     async add() {
       if(this.selectList.length === 0){ return }
-      let token = window.localStorage.getItem(TOKEN)
+      let token = getToken()
       // 有token说明登陆,发送数据
       if(token){
         const res = await this.$axios.post('/oilMini/oil')
@@ -136,7 +139,7 @@ export default {
           })
         }
       }else{
-        setLocalCart(this.selectList)
+        addLocalCart(this.selectList)
         this.$emit('hide')
         this.$message({
           message: '添加成功,请前往购物车页面查看',

@@ -12,8 +12,8 @@ const getLocalCart = function() {
   return cartList ? JSON.parse(cartList) : []
 }
 
-// 设置本地存储购物车
-const setLocalCart = function(list) {
+// 加入购物车
+const addLocalCart = function(list) {
   let cartList = getLocalCart()
   let newList = []
   let newIdList = []
@@ -65,8 +65,13 @@ const getCartNum = function() {
   return num
 }
 
+// 设置购物车(删除,数量操作,时间长度设置,时间模式设置)
+const setLocalCart = function (list) {
+  window.localStorage.setItem(CART_LIST, JSON.stringify(list))
+}
 export {
   getLocalCart,
+  addLocalCart,
   setLocalCart,
   getCartNum
 }

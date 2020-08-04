@@ -1,11 +1,19 @@
+<!--
+ * @Description: 空数据情况
+ * @Version: 1.0.0
+ * @Author: Dragon
+ * @Date: 2020-07-30 09:35:35
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-08-04 09:57:16
+-->
 <template>
   <div class="empty">
     <div class="empty-icon"></div>
     <div class="tip" v-if="type == 'product'">
-      没有您要搜索的商品，试试其它条件吧～～～
+      没有您要搜索的产品，试试其它条件吧～～～
     </div>
     <div class="tip" v-if="type == 'cart'">
-      您的购物车还没有添加商品，去<span class="product-link">产品中心</span>逛逛吧～～～
+      您的购物车还没有添加产品，去<span @click="$router.push('productCenter')" class="product-link">产品中心</span>逛逛吧～～～
     </div>
   </div>
 </template>
