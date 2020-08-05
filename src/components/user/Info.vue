@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-03 15:00:23
+ * @LastEditTime: 2020-08-05 18:19:12
 -->
 <template>
   <div class="user-wrap">
@@ -77,7 +77,9 @@ export default {
       }]
     },
     // 跳转积分页面
-    goScore() {}
+    goScore() {
+      this.$emit('changeTab', '4')
+    }
   }
 }
 </script>
