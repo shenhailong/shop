@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:22:49
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-05 18:23:25
+ * @LastEditTime: 2020-08-06 09:52:39
 -->
 <template>
   <div class="wrap-index">
@@ -13,7 +13,7 @@
       <el-tabs type="card" :value="current" tab-position="right">
         <el-tab-pane label="用户信息"><Info @changeTab="changeTab" /></el-tab-pane>
         <el-tab-pane label="修改密码"><ChangePassword /></el-tab-pane>
-        <el-tab-pane label="维护信息"><MaintainInfo /></el-tab-pane>
+        <el-tab-pane label="补充材料"><SupplyMaterial /></el-tab-pane>
         <el-tab-pane label="修改核心资料"><ChangeMaterial /></el-tab-pane>
         <el-tab-pane label="积分详情"><Score /></el-tab-pane>
         <el-tab-pane label="注销用户">定时任务补偿</el-tab-pane>
@@ -26,8 +26,8 @@
 import NavBar from '@components/NavBar'
 import Info from '@components/user/Info'
 import ChangePassword from '@components/user/ChangePassword'
-import MaintainInfo from '@components/user/MaintainInfo'
-import ChangeMaterial from '@components/user/MaintainInfo'
+import SupplyMaterial from '@components/user/SupplyMaterial'
+import ChangeMaterial from '@components/user/SupplyMaterial'
 import Score from '@components/user/Score'
 
 export default {
@@ -35,7 +35,7 @@ export default {
     NavBar,
     Info,
     ChangePassword,
-    MaintainInfo,
+    SupplyMaterial,
     ChangeMaterial,
     Score
   },
