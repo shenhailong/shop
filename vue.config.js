@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Version: 1.0.0
+ * @Author: Dragon
+ * @Date: 2020-07-24 10:01:11
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-08-07 16:17:56
+ */
 const path = require('path')
 const resolve = (dir) => path.join(__dirname, dir)
 module.exports = {
@@ -6,7 +14,7 @@ module.exports = {
     ? '/public/pc'
     : '/',
   devServer: {
-    proxy: 'http://localhost:7002'
+    proxy: 'http://39.100.227.252:888/'
   },
   chainWebpack: config => {
     // 添加别名

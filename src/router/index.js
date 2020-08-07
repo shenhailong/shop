@@ -84,6 +84,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "PayIndex" */ '../views/user/PayIndex.vue')
   },
+  // 确认订单
+  {
+    path: '/confirmOrder',
+    name: 'ConfirmOrder',
+    component: () =>
+      import(/* webpackChunkName: "ConfirmOrder" */ '../views/pay/ConfirmOrder.vue')
+  },
   // 产品详情
   {
     path: '/detail/:id',

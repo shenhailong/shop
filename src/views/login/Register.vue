@@ -126,12 +126,23 @@ export default {
         return false
       }
       this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
+        if (!valid) {
           let data = {
-            username: this.form.userName,
-            password: this.form.password
+            username: 21,
+            passwd: 22,
+            yyzz: 2,
+            idcard: 4,
+            idcardurl: 1,
+            contact: 6,
+            conphone: 7,
+            txdz: 8,
+            email: 9,
+            company: 1,
+            shtyxydm: 1,
+            invitedcode: 2
           }
-          axios.post('/api/adm/account/login', data).then((res) => {
+          // /cnas/v1?username=21&passwd=22&yyzz=3&idcard=4&idcardurl=5&contact=6&conphone=7&txdz=8&email=9&company=10&shtyxydm=11&invitedcode=12
+          axios.post('/cnas/v1', data).then((res) => {
             if (res.data.code === 1) {
               this.$router.replace('login')
             } else if (res.data.code === '2') {
