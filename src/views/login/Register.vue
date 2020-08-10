@@ -46,7 +46,7 @@
               <el-input v-model="ruleForm.email" maxlength="25" placeholder="请填写电子邮箱"></el-input>
             </el-form-item>
             <el-form-item label="营业执照" prop="imgPath">
-              <el-upload :headers="{token: 1}" action="/erp/api/attachment/upload" :data="uploadData" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
+              <el-upload :headers="{token: 1, 'api-action': ''}" action="/cnas/v1" :data="uploadData" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
                 <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
                 <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">只能上传jpg/png文件，且不超过1M</span>
                 </el-upload>
@@ -144,7 +144,8 @@ export default {
           { required: true, message: '请填写联系电话', trigger: 'change' }
         ],
         email: [
-          { required: true, message: '请填写电子邮箱', trigger: 'blur' }
+          { required: true, message: '请填写电子邮箱', trigger: 'blur' },
+          { pattern: /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/, message: '请输入正确的邮箱', trigger: 'blur' },
         ]
       }
     }
@@ -157,26 +158,25 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           let data = {
-            username: '1212aa1',
-            passwd: 221111,
-            company: 1,
-            shtyxydm: 1,
-            txdz: 8,
-            contact: 6,
-            conphone: 7,
-            email: 9,
-            yyzz: 2,
+            username: this.ruleForm.username,
+            passwd: this.ruleForm.passwd,
+            company: this.ruleForm.company,
+            shtyxydm: this.ruleForm.shtyxydm,
+            txdz: this.ruleForm.txdz,
+            contact: this.ruleForm.contact,
+            conphone: this.ruleForm.conphone,
+            email: this.ruleForm.email,
+            yyzz: 1,
             idcard: 4,
             idcardurl: 'lll',
-            invitedcode: 2
+            invitedcode: this.ruleForm.invitedcode
           }
           this.$axios.post('user.register', data).then((res) => {
             if (res.data.code === 1) {
-              Notification({
-                type: 'error',
-                title: '错误',
-                message: res.data.message
-              })
+              this.$notify({
+                title: '注册成功',
+                type: 'success'
+              });
               this.$router.replace('login')
             } else if (res.data.code === '2') {
               Notification({
@@ -202,16 +202,19 @@ export default {
       this.fileList = fileList
     },
     handleBeforeUpload(file) {
-      this.uploading = true
-      // 限制图片大小
-      const isLt1M = file.size / 1024 / 1024 < 1
-      if (!isLt1M) {
-        this.$message.error('上传头像图片大小不能超过 1MB!')
-        this.uploading = false
-      }
-      return isLt1M
+      console.log(file)
+      
+      // this.uploading = true
+      // // 限制图片大小
+      // const isLt1M = file.size / 1024 / 1024 < 1
+      // if (!isLt1M) {
+      //   this.$message.error('上传头像图片大小不能超过 1MB!')
+      //   this.uploading = false
+      // }
+      // return isLt1M
     },
     handleSuccess(response, file, fileList) {
+      console.log(response)
       if (response.code === 1) {
         this.ruleForm.imgPath = response.data.path
         this.fileList = fileList

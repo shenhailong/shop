@@ -21,8 +21,6 @@ axios.interceptors.request.use(
       }
       config.params._ = new Date().getTime();
     }
-    console.log(config)
-    // config.headers['api-action'] = 'user.register';
     return config;
   },
   function(error) {
@@ -89,7 +87,7 @@ export default {
           cancel = c;
         })
       }).then(res => {
-        resolve(res.data);
+        resolve(res);
       });
     });
   },
@@ -106,7 +104,7 @@ export default {
           cancel = c;
         })
       }).then(res => {
-        resolve(res.data);
+        resolve(res);
       });
     });
   }
