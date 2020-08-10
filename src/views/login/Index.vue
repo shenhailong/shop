@@ -9,18 +9,18 @@
         <div class="login-view-box form-con">
           <el-form @submit.native.prevent="submitHandler" ref="loginForm" :rules="rules" :model="form">
               <el-form-item prop="userName">
-                <el-input v-model="form.userName">
+                <el-input v-model="form.userName" maxlength="20">
                   <template slot="prepend"><div style="width:40px">用户名</div></template>
                 </el-input>
               </el-form-item>
               <el-form-item prop="password">
-                <el-input type="password" v-model="form.password">
+                <el-input type="password" v-model="form.password" maxlength="20">
                   <template slot="prepend" ><div style="width:40px">密&nbsp;&nbsp;码</div></template>
                 </el-input>
               </el-form-item>
               <el-form-item prop="captcha">
                 <div style="clear:both;">
-                  <el-input type="text" v-model="form.captcha" style="float:left;width:185px;margin-right:10px;">
+                  <el-input type="text" v-model="form.captcha" maxlength="6" style="float:left;width:185px;margin-right:10px;">
                     <template slot="prepend"><div style="width:40px">验证码</div></template>
                   </el-input>
                   <div style="display:inline-block;">
@@ -31,8 +31,8 @@
               </el-form-item>
               <el-form-item>
                 <div class="footer">
-                  <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">登录</el-button>
                   <el-button @click="goRegister" :style="{width:'100px'}" size="large">注册</el-button>
+                  <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">登录</el-button>
                 </div>
                 <div @click="$router.push('forgetPassword')" class="forget">忘记密码?</div>
               </el-form-item>

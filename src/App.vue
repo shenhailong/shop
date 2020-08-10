@@ -4,14 +4,17 @@
  * @Author: Dragon
  * @Date: 2020-07-24 10:01:11
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-10 16:21:22
+ * @LastEditTime: 2020-08-10 17:31:26
 -->
 <template>
   <div id="app">
     <router-view />
     <div @click="dialogTableVisible = true" class="chat-router">
       <img src='../src/assets/chat.png' class="chat-img"/>
-      在线咨询
+      <p>在</p>
+      <p>线</p>
+      <p>咨</p>
+      <p>询</p>
     </div>
     <el-dialog title="在线咨询" :visible.sync="dialogTableVisible">
       <Chat />
@@ -35,7 +38,8 @@ export default {
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  // font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -56,8 +60,15 @@ export default {
 
 .chat-router{
   text-align: center;
-  width: 64px;
+  // width: 64px;
   cursor: pointer;
+  position: fixed;
+  right: 100px;
+  bottom: 300px;
+  z-index: 999;
+  box-shadow: 0 6px 12px 0 rgba(0,0,0,.15);
+  padding: 5px;
+  font-size: 12px;
   .chat-img{
     height: 32px;
     width: 32px;

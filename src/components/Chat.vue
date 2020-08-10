@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-10 14:51:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-10 16:24:08
+ * @LastEditTime: 2020-08-10 17:29:15
 -->
 <template>
   <div class="chat-wrap">
@@ -132,19 +132,19 @@ export default {
   }
 
   .item{
-    font-size: 14px;
+    font-size: 12px;
     margin-bottom: 10px;
-    .text{
-      border: 1px solid #999;
-      padding: 7px;
-      border-radius: 10px;
-      color: #ffffff;
-      background: $color-primary;
-      max-width: 300px;
-    }
     .computer{
       display: flex;
-      align-items: center;
+      .text{
+        padding: 12px;
+        border-radius: 10px;
+        color: #333333;
+        max-width: 300px;
+        background-color: #f3f4f7;
+        border-radius: 0 8px 8px;
+        word-break: break-all;
+      }
       .computer-img{
         height: 32px;
         width: 32px;
@@ -157,8 +157,15 @@ export default {
 
     .user{
       display: flex;
-      align-items: center;
       justify-content: end;
+      .text{
+        padding: 12px;
+        color: #ffffff;
+        background: $color-primary;
+        max-width: 300px;
+        border-radius: 8px 0 8px 8px;
+        word-break: break-all;
+      }
       .user-img{
         height: 32px;
         width: 32px;

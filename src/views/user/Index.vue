@@ -4,13 +4,13 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:22:49
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-06 09:52:39
+ * @LastEditTime: 2020-08-10 17:50:20
 -->
 <template>
   <div class="wrap-index">
     <NavBar current="user" />
     <div class="content">
-      <el-tabs type="card" :value="current" tab-position="right">
+      <el-tabs type="card" @tab-click="tabClick" :value="current" tab-position="right">
         <el-tab-pane label="用户信息"><Info @changeTab="changeTab" /></el-tab-pane>
         <el-tab-pane label="修改密码"><ChangePassword /></el-tab-pane>
         <el-tab-pane label="补充材料"><SupplyMaterial /></el-tab-pane>
@@ -50,6 +50,9 @@ export default {
   methods: {
     changeTab(value) {
       this.current = value
+    },
+    tabClick(value) {
+      this.current = value.index
     }
   }
 }

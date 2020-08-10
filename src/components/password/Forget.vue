@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-08-03 15:56:12
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-03 16:20:57
+ * @LastEditTime: 2020-08-10 17:42:21
 -->
 <template>
   <div class="login-card">
@@ -21,8 +21,8 @@
       </el-form-item>
       <el-form-item>
         <div class="footer">
-          <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">确认</el-button>
           <el-button @click="$router.back()" :style="{width:'100px'}" size="large">返回</el-button>
+          <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">确认</el-button>
         </div>
       </el-form-item>
     </el-form>
@@ -47,7 +47,8 @@ export default {
           { required: true, message: '账号不能为空哦', trigger: 'blur' }
         ],
         email: [
-          { required: true, message: '邮箱不能为空', trigger: 'blur' }
+          { required: true, message: '邮箱不能为空', trigger: 'blur' },
+          { pattern: /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/, message: '请输入正确的邮箱', trigger: 'blur' },
         ]
       }
     }
