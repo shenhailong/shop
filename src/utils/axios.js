@@ -22,7 +22,7 @@ axios.interceptors.request.use(
       config.params._ = new Date().getTime();
     }
     console.log(config)
-    config.headers['api-action'] = 'user.register';
+    // config.headers['api-action'] = 'user.register';
     return config;
   },
   function(error) {
@@ -80,8 +80,11 @@ export default {
     return new Promise((resolve) => {
       axios({
         method: 'get',
-        url,
+        url: '/cnas/v1',
         params,
+        headers: {
+          'api-action': url
+        },
         cancelToken: new CancelToken(c => {
           cancel = c;
         })
@@ -94,8 +97,11 @@ export default {
     return new Promise((resolve) => {
       axios({
         method: 'post',
-        url,
+        url: '/cnas/v1',
         data,
+        headers: {
+          'api-action': url
+        },
         cancelToken: new CancelToken(c => {
           cancel = c;
         })

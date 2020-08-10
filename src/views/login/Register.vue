@@ -8,65 +8,63 @@
         </h3>
         <div class="login-view-box form-con">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="用户名" prop="name">
+            <el-form-item label="用户名" prop="username">
               <el-col :span="11">
-                <el-input v-model="ruleForm.name" placeholder="请填写用户名" maxlength="20"></el-input>
+                <el-input v-model="ruleForm.username" placeholder="请填写用户名" maxlength="20"></el-input>
               </el-col>
               <el-col :span="13">
               <span class="tip">4 ~ 20位数字或者字母(区分大小写)</span>
               </el-col>
             </el-form-item>
-            <el-form-item label="密码" prop="password">
+            <el-form-item label="密码" prop="passwd">
               <el-col :span="11">
-                <el-input v-model="ruleForm.password" placeholder="请填写密码" maxlength="20"></el-input>
+                <el-input v-model="ruleForm.passwd" type="password" placeholder="请填写密码" maxlength="20"></el-input>
               </el-col>
               <el-col :span="13">
               <span class="tip">6 ~ 20位数字或者字母(区分大小写)</span>
               </el-col>
             </el-form-item>
             <el-form-item label="确认密码" prop="confirmPassword">
-              <el-input v-model="ruleForm.confirmPassword" placeholder="请填写确认密码"></el-input>
+              <el-input v-model="ruleForm.confirmPassword" maxlength="20" type="password" placeholder="请填写确认密码"></el-input>
             </el-form-item>
-            <el-form-item label="公司全称" prop="name">
-              <el-input v-model="ruleForm.name" placeholder="请填写公司全称"></el-input>
+            <el-form-item label="公司全称" prop="company">
+              <el-input v-model="ruleForm.company" maxlength="20" placeholder="请填写公司全称"></el-input>
             </el-form-item>
-            <el-form-item label="社会统一信用代码" prop="code">
-              <el-input v-model="ruleForm.code" placeholder="请填写社会统一信用代码"></el-input>
+            <el-form-item label="社会统一信用代码" prop="shtyxydm">
+              <el-input v-model="ruleForm.shtyxydm" maxlength="30" placeholder="请填写社会统一信用代码"></el-input>
             </el-form-item>
             <el-form-item label="通讯地址" prop="address">
-              <el-input v-model="ruleForm.address" placeholder="请填写通讯地址"></el-input>
+              <el-input v-model="ruleForm.address" maxlength="30" placeholder="请填写通讯地址"></el-input>
             </el-form-item>
-            <el-form-item label="联系人" prop="people">
-              <el-input v-model="ruleForm.people" placeholder="请填写联系人"></el-input>
+            <el-form-item label="联系人" prop="contact">
+              <el-input v-model="ruleForm.contact" maxlength="25" placeholder="请填写联系人"></el-input>
             </el-form-item>
-            <el-form-item label="联系电话" prop="mobile">
-              <el-input v-model="ruleForm.mobile" placeholder="请填写联系电话"></el-input>
+            <el-form-item label="联系电话" prop="conphone">
+              <el-input v-model="ruleForm.conphone" maxlength="20" placeholder="请填写联系电话"></el-input>
             </el-form-item>
             <el-form-item label="电子邮箱" prop="email">
-              <el-input v-model="ruleForm.email" placeholder="message"></el-input>
+              <el-input v-model="ruleForm.email" maxlength="25" placeholder="请填写电子邮箱"></el-input>
             </el-form-item>
-            <el-form-item label="图片" prop="imgPath">
+            <el-form-item label="营业执照" prop="imgPath">
               <el-upload :headers="{token: 1}" action="/erp/api/attachment/upload" :data="uploadData" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
                 <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
                 <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">只能上传jpg/png文件，且不超过1M</span>
                 </el-upload>
             </el-form-item>
-            <el-form-item label="图片" prop="imgPath">
+            <el-form-item label="申请人身份证" prop="imgPath">
               <el-upload :headers="{token: 1}" action="/erp/api/attachment/upload" :data="uploadData" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
                 <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
                 <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">只能上传jpg/png文件，且不超过1M</span>
                 </el-upload>
             </el-form-item>
-            <el-form-item label="邀请码" prop="code">
-              <el-input v-model="ruleForm.code" placeholder="请填写邀请码"></el-input>
+            <el-form-item label="邀请码" prop="invitedcode">
+              <el-input v-model="ruleForm.invitedcode" maxlength="30" placeholder="请填写邀请码"></el-input>
             </el-form-item>
-            <!-- <el-form-item> -->
-              <div class="footer">
-                <el-button @click="$router.back()">返回</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
-                <el-button type="primary" @click="submitHandler('ruleForm')">注册</el-button>
-              </div>
-            <!-- </el-form-item> -->
+            <div class="footer">
+              <el-button @click="$router.back()">返回</el-button>
+              <el-button @click="resetForm('ruleForm')">重置</el-button>
+              <el-button type="primary" @click="submitHandler('ruleForm')">注册</el-button>
+            </div>
           </el-form>
         </div>
       </el-card>
@@ -76,42 +74,73 @@
 
 <script>
 import { Notification } from 'element-ui'
-import axios from 'axios'
 export default {
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.ruleForm.confirmPassword !== '') {
+          this.$refs.ruleForm.validateField('confirmPassword');
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.ruleForm.passwd) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    }
     return {
       submitting: false,
       token: '',
       fileList: [],
       ruleForm: {
-        name: '',
-        password: '',
+        username: '', // 用户名
+        passwd: '', // 密码
         confirmPassword: '',
-        date2: '',
+        company: '', // 公司全称
+        shtyxydm: '', // 社会
+        txdz: '', // 通讯地址
+        contact: '',
+        conphone: '',
+        email: '',
+        invitedcode: '', // 邀请码
         delivery: false,
         type: [],
-        resource: '',
-        code: ''
       },
       uploading: false,
       uploadData: {
         type: 'ERP_PRODUCT'
       },
       rules: {
-        name: [
+        username: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { pattern: /^[0-9a-zA-Z]{4,20}$/, message: '4 ~ 20位数字或者字母(区分大小写)', trigger: 'blur' },
         ],
-        password: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
+        passwd: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { pattern: /^[0-9a-zA-Z]{6,20}$/, message: '6 ~ 20位数字或者字母(区分大小写)', trigger: 'blur' },
+          { validator: validatePass, trigger: 'blur' }
         ],
-        code: [
+        confirmPassword: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { validator: validatePass2, trigger: 'change' }
+        ],
+        company: [
+          { required: true, message: '请填写公司全称', trigger: 'change' }
+        ],
+        shtyxydm: [
           { required: true, message: '请填写社会统一信用代码', trigger: 'change' }
         ],
-        people: [
+        contact: [
           { required: true, message: '请填写联系人', trigger: 'change' }
         ],
-        mobile: [
+        conphone: [
           { required: true, message: '请填写联系电话', trigger: 'change' }
         ],
         email: [
@@ -126,24 +155,28 @@ export default {
         return false
       }
       this.$refs.ruleForm.validate((valid) => {
-        if (!valid) {
+        if (valid) {
           let data = {
-            username: 21,
-            passwd: 22,
-            yyzz: 2,
-            idcard: 4,
-            idcardurl: 1,
-            contact: 6,
-            conphone: 7,
-            txdz: 8,
-            email: 9,
+            username: '1212aa1',
+            passwd: 221111,
             company: 1,
             shtyxydm: 1,
+            txdz: 8,
+            contact: 6,
+            conphone: 7,
+            email: 9,
+            yyzz: 2,
+            idcard: 4,
+            idcardurl: 'lll',
             invitedcode: 2
           }
-          // /cnas/v1?username=21&passwd=22&yyzz=3&idcard=4&idcardurl=5&contact=6&conphone=7&txdz=8&email=9&company=10&shtyxydm=11&invitedcode=12
-          axios.post('/cnas/v1', data).then((res) => {
+          this.$axios.post('user.register', data).then((res) => {
             if (res.data.code === 1) {
+              Notification({
+                type: 'error',
+                title: '错误',
+                message: res.data.message
+              })
               this.$router.replace('login')
             } else if (res.data.code === '2') {
               Notification({
