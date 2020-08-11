@@ -4,7 +4,7 @@
     <div class="content">
       <div v-if="!isMember" class="tip">
         您还不是会员,请及时缴费,成为会员方可使用
-        <el-button type="primary" @click="$router.push('payIndex')">成为会员</el-button>
+        <el-button type="primary" @click="$router.push('selectMember')">成为会员</el-button>
       </div>
       <div v-else>
         <el-table

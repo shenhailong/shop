@@ -3,11 +3,23 @@
     <NavBar current="index" />
 
     <div class="content">
-      <!-- <div class="search-wrap">
-        <div class=""></div>
-        <el-input class="serach-input" v-model="keyword" placeholder="请输入产品名称"></el-input>
-        <el-button type="primary" @click="search">检索</el-button>
-      </div> -->
+      <div class="search-wrap">
+        <div class="search-left">
+          <div class="label">资料检索</div>
+          <el-select v-model="value" clearable placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-input class="serach-input" v-model="keyword" placeholder="请输入资料名称"></el-input>
+        </div>
+        <div class="search-right">
+          <el-button type="primary" @click="search">检索</el-button>
+        </div>
+      </div>
       <!-- Swiper -->
       <div class="swiper-container">
         <div class="swiper-wrapper ">
@@ -26,14 +38,17 @@
 
       <div class="card">
         <div class="text">明星产品</div>
-        <div class="more">查看更多 >></div>
+        <div @click="goProductCenter()" class="more">查看更多 >></div>
       </div>
       <!-- 产品列表 -->
       <el-row v-for="(line, index) in Math.ceil(list.length / 4)" :key="line" :gutter="20">
         <Product v-for="(item, itemIndex) in count(index)" :key="productItem(line, itemIndex).id" :item="productItem(line, itemIndex)" />
       </el-row>
-      <div class="product-list">
+
+      <div class="about">
       </div>
+
+      <div class="footer"></div>
     </div>
   </div>
 </template>
@@ -76,6 +91,17 @@ export default {
         { id: '8', name: '产品8', number: 'A1010101', description: '这是产品1的描述', src: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3980421992,4198883825&fm=11&gp=0.jpg' },
         { id: '9', name: '产品9', number: 'A1010101', description: '这是产品1的描述', src: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3980421992,4198883825&fm=11&gp=0.jpg' },
       ],
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }],
+      value: ''
     }
   },
   mounted() {
@@ -135,12 +161,41 @@ export default {
         })
       }
     },
+    goProductCenter() {
+      this.$router.push('productCenter')
+    }
   }
 }
 </script>
 
 <style lang="scss">
 @import '~@/scss/utils/theme.scss';
+
+.search-wrap{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  margin-bottom: 10px;
+
+  .search-left{
+    display: flex;
+    align-items: center;
+  }
+
+  .label{
+    font-size: 16px;
+    font-weight: 500;
+    width: 100px;
+    margin-left: 20px;
+  }
+
+  .serach-input{
+    width: 300px;
+    margin: 0 10px;
+  }
+}
+
 .swiper-container{
   width: 1170px;
   height: 300px;
@@ -165,7 +220,7 @@ export default {
   font-weight: 500;
   .more{
     cursor: pointer;
-    border: 1px solid #333333;
+    border: 1px solid #999;
     padding: 10px;
     &:hover{
       color: $color-primary;

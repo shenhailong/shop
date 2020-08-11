@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-07 13:36:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-07 15:09:34
+ * @LastEditTime: 2020-08-11 13:27:17
 -->
 <template>
   <div class="pay-confirm">
@@ -24,39 +24,41 @@
           border
           style="width: 100%">
           <el-table-column
-            prop="date"
+            prop="name"
             label="商品名称"
-            width="180">
+            >
           </el-table-column>
           <el-table-column
             prop="name"
-            label="姓名"
-            width="180">
+            label="购物"
+            >
           </el-table-column>
           <el-table-column
-            prop="address"
-            label="地址">
+            prop="money"
+            label="金额">
           </el-table-column>
         </el-table>
       </div>
 
-      <div>
-        <div class="title">请选择支付方式</div>
-        <el-radio-group v-model="payType">
-          <el-radio :label="3">微信支付
-            <div class="wx-logo"></div>
-          </el-radio>
-          <el-radio :label="4">支付宝
-            <div class="ali-logo"></div>
-          </el-radio>
-          <el-radio :label="5">银行卡
-            <div class="card-logo"></div>
-          </el-radio>
-        </el-radio-group>
+      <div class="title">请选择支付方式</div>
+      <div class="tab">
+        <div @click="payType = 'wx'" :class="{ active : payType == 'wx'}" class="item">
+          <div class="wx-logo"></div>
+          微信支付
+        </div>
+        <div @click="payType = 'ali'" :class="{ active : payType == 'ali'}" class="item">
+          <div class="ali-logo"></div>
+          支付宝
+        </div>
+        <div @click="payType = 'card'" :class="{ active : payType == 'card'}" class="item">
+          <div class="card-logo"></div>
+          银行卡
+        </div>
       </div>
+
       <div class="footer">
         <div class="footer-content">
-        <el-button type="primary">去支付</el-button>
+          <el-button type="primary">立即支付</el-button>
         </div>
       </div>
     </div>
@@ -71,11 +73,11 @@ export default {
   data() {
     return {
       tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '升级会员',
+        a: '王小虎',
+        money: '2000元'
       }],
-      payType: null
+      payType: 'wx'
     }
   },
   mounted() {
@@ -89,19 +91,43 @@ export default {
 <style lang="scss" scoped>
   @import '~@/scss/utils/theme.scss';
 
-  .pay-confirm{
+  .content{
+    padding-top: 20px;
   }
 
   .title{
-    font-size: 20px;
+    font-size: 18px;
     color: $color-green;
     border-left: 5px solid $color-green;
-    padding: 10px;
-    margin: 20px 0;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #ffffff;
   }
 
   .table-wrap{
-    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .tab{
+    margin-bottom: 20px;
+    display: flex;
+    background: #ffffff;
+    padding: 30px 20px;
+    .item{
+      width: 100px;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 0 20px 5px 20px;
+      border: 1px solid $color-gray;
+      border-radius: 10px;
+      margin-right: 50px;
+      box-shadow: 0 6px 12px 0 rgba(0,0,0,.15);
+      &.active{
+        border: 2px solid $color-primary;
+        color: $color-primary;
+      }
+    }
   }
 
   .wx-logo{
@@ -110,13 +136,17 @@ export default {
     background: url(~@/assets/wx.png) no-repeat;
     background-size: contain;
     cursor: pointer;
+    margin: 0 auto;
   }
+
   .ali-logo{
     height: 56px;
     width: 56px;
     background: url(~@/assets/ali.png) no-repeat;
     background-size: contain;
     cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 8px;
   }
 
   .card-logo{
@@ -125,6 +155,7 @@ export default {
     background: url(~@/assets/card.png) no-repeat;
     background-size: contain;
     cursor: pointer;
+    margin: 0 auto;
   }
 
   .footer{
@@ -133,14 +164,15 @@ export default {
     position: fixed;
     bottom: 0;
     left: 0;
-    padding: 20px 0;
     .footer-content{
       display: flex;
+      padding: 20px;
+
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       width: 1170px;
       margin: 0 auto;
-      border: 1px solid #EBEEF5;
+      border: 1px solid $color-gray;
     }
   }
 </style>

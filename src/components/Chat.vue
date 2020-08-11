@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-10 14:51:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-10 17:29:15
+ * @LastEditTime: 2020-08-11 10:35:28
 -->
 <template>
   <div class="chat-wrap">
@@ -107,12 +107,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~@/scss/utils/theme.scss';
+@import '~@/scss/utils/theme.scss';
 
 .chat-wrap{
   height: 440px;
   width: 100%;
-  border: 1px solid #999;
+  border: 1px solid #e4e7f1;
   border-radius: 6px;
   .chat-content{
     height: 400px;

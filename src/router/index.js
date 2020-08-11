@@ -77,12 +77,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "User" */ '../views/user/Index.vue')
   },
-  // 会员缴费
+  // 会员缴费--选择会员
   {
-    path: '/payIndex',
-    name: 'PayIndex',
+    path: '/selectMember',
+    name: 'SelectMember',
     component: () =>
-      import(/* webpackChunkName: "PayIndex" */ '../views/user/PayIndex.vue')
+      import(/* webpackChunkName: "SelectMember" */ '../views/member/SelectMember.vue')
   },
   // 确认订单
   {
