@@ -45,7 +45,12 @@
           </el-table-column>
           <el-table-column align="center" label="购买数量" width="160">
             <template slot-scope="scope">
-              <el-input-number v-model="scope.row.num" :min="1" :max="10" size="mini"></el-input-number>
+              <el-input-number v-model="scope.row.num" size="mini"></el-input-number>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="自定义数量组件" width="160">
+            <template slot-scope="scope">
+              <NumInput v-model="scope.row.num"  size="mini" />
             </template>
           </el-table-column>
           <el-table-column align="center" label="价格" width="120">
@@ -91,13 +96,15 @@
 <script>
 import NavBar from '@components/NavBar'
 import Empty from '@components/Empty'
+import NumInput from '@components/NumInput'
 import { getLocalCart, setLocalCart } from '@/utils/cart'
 import { getToken } from '@/utils/common'
 
 export default {
   components: {
     NavBar,
-    Empty
+    Empty,
+    NumInput
   },
   data() {
     return {
