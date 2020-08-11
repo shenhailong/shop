@@ -101,7 +101,8 @@ export default {
         value: '选项3',
         label: '蚵仔煎'
       }],
-      value: ''
+      value: '',
+      keyword: ''
     }
   },
   mounted() {
@@ -163,7 +164,8 @@ export default {
     },
     goProductCenter() {
       this.$router.push('productCenter')
-    }
+    },
+    search() {}
   }
 }
 </script>

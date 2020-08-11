@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-11 13:33:04
+ * @LastEditTime: 2020-08-11 15:51:38
 -->
 <template>
   <div class="member-select">
@@ -12,12 +12,12 @@
     <div class="content">
       <h2 class="title">您的中级会员将于2010-08-02到期</h2>
       <div class="member-item">
-        <div class="item">初级会员年费: <span class="text">1200 <sapn class="unit">元</sapn></span></div>
-        <div class="item">中级会员年费: <span class="text">1200 <sapn class="unit">元</sapn></span></div>
+        <div class="item">初级会员年费: <span class="text">1200 <span class="unit">元</span></span></div>
+        <div class="item">中级会员年费: <span class="text">1200 <span class="unit">元</span></span></div>
       </div>
       <div class="member-item">
-        <div class="item">高级会员年费: <span class="text">1200 <sapn class="unit">元</sapn></span></div>
-        <div class="item">终身会员年费: <span class="text">1200 <sapn class="unit">元</sapn></span></div>
+        <div class="item">高级会员年费: <span class="text">1200 <span class="unit">元</span></span></div>
+        <div class="item">终身会员年费: <span class="text">1200 <span class="unit">元</span></span></div>
       </div>
       <div class="tab">
         <div @click="type = 'update'" :class="{ active : type == 'update'}" class="item">升级会员</div>
@@ -40,7 +40,7 @@
         </el-radio-group>
       </div>
       <div class="money-wrap">
-        缴费金额: <span class="text">1200 <sapn class="unit">元</sapn></span>
+        缴费金额: <span class="text">1200 <span class="unit">元</span></span>
       </div>
       <div class="footer">
         <el-button @click="next" type="primary">下一步</el-button>

@@ -40,15 +40,10 @@
           </el-table-column>
           <el-table-column align="center" label="购买时长" width="160">
             <template slot-scope="scope" align="center" >
-              <el-input-number size="mini" v-model="scope.row.count" :min="1" :max="10"></el-input-number>
+              <NumInput v-model="scope.row.count"  size="mini" />
             </template>
           </el-table-column>
           <el-table-column align="center" label="购买数量" width="160">
-            <template slot-scope="scope">
-              <el-input-number v-model="scope.row.num" size="mini"></el-input-number>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="自定义数量组件" width="160">
             <template slot-scope="scope">
               <NumInput v-model="scope.row.num"  size="mini" />
             </template>

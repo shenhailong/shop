@@ -40,14 +40,14 @@
           <el-table-column align="center" label="购买时长">
             <template slot-scope="scope" align="center" >
               <el-form-item :prop="'children.' + scope.$index + '.count'" style="margin-left:0" class="aaa">
-                <el-input-number v-model="scope.row.count" :min="1" :max="10"></el-input-number>
+                <NumInput v-model="scope.row.count" size="mini" />
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column align="center" label="购买数量">
             <template slot-scope="scope">
               <el-form-item :prop="'children.' + scope.$index + '.num'" :rules='rules.num'>
-                <el-input-number v-model="scope.row.num" :min="1" :max="10"></el-input-number>
+                <NumInput v-model="scope.row.num" size="mini" />
               </el-form-item>
             </template>
           </el-table-column>
@@ -64,8 +64,12 @@
 <script>
 import { addLocalCart } from '@/utils/cart'
 import { getToken } from '@/utils/common'
+import NumInput from '@components/NumInput'
 
 export default {
+  components: {
+    NumInput
+  },
   props: {
     visible: {
       type: Boolean,
@@ -135,7 +139,8 @@ export default {
         if (res.code === '1') {
           this.$message({
             message: '添加成功,请前往购物车页面查看',
-            type: 'success'
+            type: 'success',
+            duration: 1500
           })
         }
       }else{
@@ -143,7 +148,8 @@ export default {
         this.$emit('hide')
         this.$message({
           message: '添加成功,请前往购物车页面查看',
-          type: 'success'
+          type: 'success',
+          duration: 1500
         })
       }
     },

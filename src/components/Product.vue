@@ -1,14 +1,16 @@
 <template>
   <div>
     <el-col :span="6" class="product">
-      <div @click="goDetail">
-        <div class="img-wrap"><img :src="item.src" class="product-img" alt=""></div>
-        <div class="title">产品名称 {{item.name}}</div>
-        <div class="subtitle">产品编号 {{item.number}}</div>
-        <div class="subtitle">{{item.description}}</div>
-      </div>
-      <div class="footer">
-        <el-button type="primary" @click="visible = true">加入购物车</el-button>
+      <div class="wrap">
+        <div @click="goDetail">
+          <div class="img-wrap"><img :src="item.src" class="product-img" alt=""></div>
+          <div class="title">产品名称 {{item.name}}</div>
+          <div class="subtitle">产品编号 {{item.number}}</div>
+          <div class="subtitle">{{item.description}}</div>
+        </div>
+        <div class="footer">
+          <el-button type="primary" @click="visible = true">加入购物车</el-button>
+        </div>
       </div>
     </el-col>
     <AddCart :visible.sync="visible" @hide="visible = false" />
@@ -42,21 +44,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~@/scss/utils/theme.scss';
+
 .product{
   // width: 100px;
   border-radius: 10px;
   padding-bottom: 20px;
   margin-bottom: 20px;
+  padding: 20px;
+  cursor: pointer;
+  .wrap{
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 6px 12px 0 rgba(0,0,0,.15);
+  }
   .img-wrap{
     overflow: hidden;
     background: #ffffff;
+    border-radius: 5px 5px 0 0;
 
     // padding: 10px;
   }
   .product-img{
     // height: 300px;
     width: 100%;
-    cursor: pointer;
+    border-radius: 5px 5px 0 0;
   }
 
   .product-img:hover{

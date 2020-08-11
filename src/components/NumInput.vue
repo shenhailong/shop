@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-03 18:21:15
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-11 15:29:36
+ * @LastEditTime: 2020-08-11 17:46:08
 -->
 <template>
   <div>
@@ -88,6 +88,7 @@ export default {
     left: 1px;
     top: 1px;;
     width: 28px;
+    bottom: 1px;
     border-right: 1px solid #DCDFE6;
     border-radius: 4px 0 0 4px;
     text-align: center;
@@ -100,9 +101,10 @@ export default {
 
   .plus{
     position: absolute;
-    right: 0px;
+    right: -5px;
     bottom: 1px;
     width: 28px;
+    top: 1px;
     line-height: 25px;
     border-left: 1px solid #DCDFE6;
     border-radius: 0 4px 4px 0;
@@ -118,6 +120,9 @@ export default {
     text-align: center;
     border: 1px solid #DCDFE6;
     border-radius: 4px;
+    width: 130px;
+    height: 25px;
+    font-size: 12px;
   }
 
 }
