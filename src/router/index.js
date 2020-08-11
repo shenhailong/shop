@@ -91,6 +91,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "ConfirmOrder" */ '../views/pay/ConfirmOrder.vue')
   },
+  // 微信支付
+  {
+    path: '/wxPay',
+    name: 'WxPay',
+    component: () =>
+      import(/* webpackChunkName: "WxPay" */ '../views/pay/WxPay.vue')
+  },
   // 产品详情
   {
     path: '/detail/:id',

@@ -172,7 +172,7 @@ export default {
             invitedcode: this.ruleForm.invitedcode
           }
           this.$axios.post('user.register', data).then((res) => {
-            if (res.data.code === 1) {
+            if (res.data.code === 0) {
               this.$notify({
                 title: '注册成功',
                 type: 'success'
@@ -184,8 +184,6 @@ export default {
                 title: '错误',
                 message: res.data.message
               })
-              this.needCaptcha = true
-              this.rules.captcha[0].required = true
             }
           }).finally(() => {
             this.submitting = false

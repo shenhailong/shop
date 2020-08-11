@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-07 13:36:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-11 13:27:17
+ * @LastEditTime: 2020-08-11 18:33:42
 -->
 <template>
   <div class="pay-confirm">
@@ -58,7 +58,7 @@
 
       <div class="footer">
         <div class="footer-content">
-          <el-button type="primary">立即支付</el-button>
+          <el-button @click="pay" type="primary">立即支付</el-button>
         </div>
       </div>
     </div>
@@ -84,7 +84,22 @@ export default {
 
   },
   methods: {
-
+    pay() {
+      let data = {}
+      this.$axios.post('user.register', data).then((res) => {
+        if (res.data.code === 0) {
+          if(this.payType === 'wx'){
+            this.$router.push('wxPay')
+          } else if(this.payType === 'ali') {
+            window.open('https://www.baidu.com/')
+          } else {
+            window.open('https://www.baidu.com/')
+          }
+        }
+      }).finally(() => {
+        this.submitting = false
+      })
+    }
   }
 }
 </script>
