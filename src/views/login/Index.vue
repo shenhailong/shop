@@ -24,7 +24,7 @@
                     <template slot="prepend"><div style="width:40px">验证码</div></template>
                   </el-input>
                   <div style="display:inline-block;">
-                    <img @click="changeCaptcha" :src="captchaUrl"
+                    <img @click="getImg" :src="captchaUrl"
                       width="100" height="40" alt="captcha" style="float:left;">
                   </div>
                 </div>
@@ -45,7 +45,6 @@
 
 <script>
 import { Notification } from 'element-ui'
-import axios from 'axios'
 export default {
   data() {
     return {
@@ -59,6 +58,7 @@ export default {
       needCaptcha: false,
       // 验证码路径
       imgUrl: '/images/kaptcha.jpg',
+      captchaUrl: '',
       // 随机数
       random: '',
       // 校验规则
@@ -88,7 +88,7 @@ export default {
             password: this.form.password
             // captcha: this.form.captcha
           }
-          axios.post('/api/adm/account/login', data).then((res) => {
+          this.$axios.post('/api/adm/account/login', data).then((res) => {
             if (res.data.code === 1) {
               // const loginInfo = res.data.data
               // const TOKEN_KEY = process.env.TOKEN_KEY
@@ -109,6 +109,16 @@ export default {
         }
       })
     },
+    getImg() {
+      this.$axios.post('vcode.picture.generate', { username: 111111}).then((res) => {
+        if (res.data.code === 1) {
+          console.log(res)
+          
+        }
+      }).finally(() => {
+        this.submitting = false
+      })
+    },
     // 修改随机数
     changeCaptcha() {
       this.random = Math.random()
@@ -122,9 +132,9 @@ export default {
   },
   computed: {
     // 拼接验证码图片地址
-    captchaUrl() {
-      return `${this.imgUrl}?${this.random}`
-    }
+    // captchaUrl() {
+    //   return `${this.imgUrl}?${this.random}`
+    // }
   }
 }
 </script>

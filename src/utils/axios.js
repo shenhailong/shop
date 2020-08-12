@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { Notification } from 'element-ui'
+
 let cancel = null;
 let promiseMap = {};
 const CancelToken = axios.CancelToken;
@@ -30,8 +32,12 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   function(response) {
-    if (response.data.code === '0') {
-      console.log(response.data.message);
+    if (response.data.code !== 0) {
+      Notification({
+        type: 'error',
+        title: '错误',
+        message: response.data.msg
+      })
     } else if (response.data.code === '403') {
       console.log(response.data.message);
     }
@@ -87,7 +93,7 @@ export default {
           cancel = c;
         })
       }).then(res => {
-        resolve(res);
+        resolve(res.data);
       });
     });
   },
@@ -104,7 +110,7 @@ export default {
           cancel = c;
         })
       }).then(res => {
-        resolve(res);
+        resolve(res.data);
       });
     });
   }

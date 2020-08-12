@@ -46,15 +46,19 @@
               <el-input v-model="ruleForm.email" maxlength="25" placeholder="请填写电子邮箱"></el-input>
             </el-form-item>
             <el-form-item label="营业执照" prop="imgPath">
-              <el-upload :headers="{token: 1, 'api-action': ''}" action="/cnas/v1" :data="uploadData" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
+              <el-upload :headers="{'api-action': 'user.upload'}" action="/cnas/v1" name="yyzzFile" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
                 <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
                 <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">只能上传jpg/png文件，且不超过1M</span>
                 </el-upload>
             </el-form-item>
+            <el-form-item label="身份证" prop="idcard">
+              <el-input v-model="ruleForm.idcard" maxlength="18" placeholder="请填写身份证"></el-input>
+            </el-form-item>
             <el-form-item label="申请人身份证" prop="imgPath">
-              <el-upload :headers="{token: 1}" action="/erp/api/attachment/upload" :data="uploadData" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
+              <el-upload :headers="{'api-action': 'user.upload'}" action="/cnas/v1"
+              list-type="picture" name="idCardFile" accept="image/png,image/jpg,image/jpeg" :file-list="idCardFileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="idCardHandleSuccess" :on-remove="idCardHandleRemove" :disabled="uploading">
                 <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
-                <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">只能上传jpg/png文件，且不超过1M</span>
+                <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">营业执照副本扫描件（加盖公章）</span>
                 </el-upload>
             </el-form-item>
             <el-form-item label="邀请码" prop="invitedcode">
@@ -74,8 +78,27 @@
 
 <script>
 import { Notification } from 'element-ui'
+import md5 from 'md5'
+
 export default {
   data() {
+    var validateUsername = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入用户名'));
+      } else {
+        let data = {
+          username: value
+        }
+        this.$axios.get('user.username.check', data).then((res) => {
+          if (res.code === 0) {
+            callback();
+          } else {
+            callback(new Error('用户名已占用'));
+          }
+        })
+      }
+    };
+
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
@@ -99,6 +122,7 @@ export default {
       submitting: false,
       token: '',
       fileList: [],
+      idCardFileList: [],
       ruleForm: {
         username: '', // 用户名
         passwd: '', // 密码
@@ -109,18 +133,17 @@ export default {
         contact: '',
         conphone: '',
         email: '',
-        invitedcode: '', // 邀请码
-        delivery: false,
-        type: [],
+        yyzz: '',
+        idcard: '',
+        idcardurl: '',
+        invitedcode: '' // 邀请码
       },
       uploading: false,
-      uploadData: {
-        type: 'ERP_PRODUCT'
-      },
       rules: {
         username: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { required: true, message: '请输入用户名', trigger: 'blur' },
           { pattern: /^[0-9a-zA-Z]{4,20}$/, message: '4 ~ 20位数字或者字母(区分大小写)', trigger: 'blur' },
+          { validator: validateUsername, trigger: 'blur' }
         ],
         passwd: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -133,6 +156,9 @@ export default {
         ],
         company: [
           { required: true, message: '请填写公司全称', trigger: 'change' }
+        ],
+        idcard: [
+          { required: true, message: '请填写身份证', trigger: 'change' }
         ],
         shtyxydm: [
           { required: true, message: '请填写社会统一信用代码', trigger: 'change' }
@@ -156,34 +182,46 @@ export default {
         return false
       }
       this.$refs.ruleForm.validate((valid) => {
+        console.log(this.ruleForm.yyzz)
+        
         if (valid) {
+          if(this.ruleForm.yyzz === ''){
+            Notification({
+              type: 'error',
+              title: '错误',
+              message: '请上传营业执照'
+            })
+            return
+          }
+          if(this.ruleForm.idcardurl === ''){
+            Notification({
+              type: 'error',
+              title: '错误',
+              message: '请上传申请人身份证'
+            })
+            return
+          }
           let data = {
             username: this.ruleForm.username,
-            passwd: this.ruleForm.passwd,
+            passwd: md5(this.ruleForm.passwd),
             company: this.ruleForm.company,
             shtyxydm: this.ruleForm.shtyxydm,
             txdz: this.ruleForm.txdz,
+            idcard: this.ruleForm.idcard,
             contact: this.ruleForm.contact,
             conphone: this.ruleForm.conphone,
             email: this.ruleForm.email,
-            yyzz: 1,
-            idcard: 4,
-            idcardurl: 'lll',
+            yyzz: this.ruleForm.yyzz,
+            idcardurl: this.ruleForm.idcardurl,
             invitedcode: this.ruleForm.invitedcode
           }
           this.$axios.post('user.register', data).then((res) => {
-            if (res.data.code === 0) {
+            if (res.code === 0) {
               this.$notify({
                 title: '注册成功',
                 type: 'success'
               });
               this.$router.replace('login')
-            } else if (res.data.code === '2') {
-              Notification({
-                type: 'error',
-                title: '错误',
-                message: res.data.message
-              })
             }
           }).finally(() => {
             this.submitting = false
@@ -201,7 +239,6 @@ export default {
     },
     handleBeforeUpload(file) {
       console.log(file)
-      
       // this.uploading = true
       // // 限制图片大小
       // const isLt1M = file.size / 1024 / 1024 < 1
@@ -213,19 +250,35 @@ export default {
     },
     handleSuccess(response, file, fileList) {
       console.log(response)
-      if (response.code === 1) {
-        this.ruleForm.imgPath = response.data.path
+      if (response.code === 0) {
+        console.log(response.data)
+        
+        this.ruleForm.yyzz = response.data
+        console.log(this.ruleForm.yyzz)
+        
         this.fileList = fileList
         this.uploading = false
       } else {
         this.uploading = false
       }
     },
-    handleExceed(files, fileList) {
-      console.log(files)
-      console.log(fileList)
+    handleExceed() {
       this.$message.warning('请先删除后再上传')
     },
+    // 上传图片操作
+    idCardHandleRemove(file, fileList) {
+      this.ruleForm.idcardurl = ''
+      this.idCardFileList = fileList
+    },
+    idCardHandleSuccess(response, file, fileList) {
+      if (response.code === 0) {
+        this.ruleForm.idcardurl = response.data
+        this.idCardFileList = fileList
+        this.uploading = false
+      } else {
+        this.uploading = false
+      }
+    }
   }
 }
 </script>
