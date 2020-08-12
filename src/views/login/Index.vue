@@ -45,6 +45,8 @@
 
 <script>
 import { Notification } from 'element-ui'
+import md5 from 'md5'
+
 export default {
   data() {
     return {
@@ -64,7 +66,7 @@ export default {
       // 校验规则
       rules: {
         userName: [
-          { required: true, message: '账号不能为空哦', trigger: 'blur' }
+          { required: true, message: '用户名不能为空哦', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'blur' }
@@ -85,15 +87,14 @@ export default {
         if (valid) {
           let data = {
             username: this.form.userName,
-            password: this.form.password
-            // captcha: this.form.captcha
+            passwd: md5(this.form.password)
           }
-          this.$axios.post('/api/adm/account/login', data).then((res) => {
+          this.$axios.post('user.register', data).then((res) => {
             if (res.data.code === 1) {
               // const loginInfo = res.data.data
               // const TOKEN_KEY = process.env.TOKEN_KEY
               // window.localStorage.setItem(TOKEN_KEY, loginInfo.accessToken.accessToken)
-              window.location = `index.html?_=${new Date().getTime()}/#/dashboard`
+              this.$router.replace('login')
             } else if (res.data.code === '2') {
               Notification({
                 type: 'error',

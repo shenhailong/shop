@@ -182,8 +182,6 @@ export default {
         return false
       }
       this.$refs.ruleForm.validate((valid) => {
-        console.log(this.ruleForm.yyzz)
-        
         if (valid) {
           if(this.ruleForm.yyzz === ''){
             Notification({
