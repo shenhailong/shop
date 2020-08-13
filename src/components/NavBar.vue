@@ -41,6 +41,7 @@
 import { mapState, mapGetters } from 'vuex'
 import { getToken } from '@/utils/common'
 import * as CART from '@store/types/cart'
+import { TOKEN, USER_INFO } from '@/constants/key'
 
 export default {
   props: {
@@ -149,6 +150,8 @@ export default {
     signOut() {
       this.dialogVisible = false
       // this.$route.path !== '/' && this.$router.replace('/')
+      window.localStorage.removeItem(TOKEN)
+      window.localStorage.removeItem(USER_INFO)
       this.$router.push('login')
     }
   },

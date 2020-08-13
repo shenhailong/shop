@@ -67,7 +67,7 @@
             <div class="footer">
               <el-button @click="$router.back()">返回</el-button>
               <el-button @click="resetForm('ruleForm')">重置</el-button>
-              <el-button type="primary" @click="submitHandler('ruleForm')">注册</el-button>
+              <el-button :loading="submitting" :disabled="submitting" type="primary" @click="submitHandler('ruleForm')">注册</el-button>
             </div>
           </el-form>
         </div>
@@ -199,6 +199,7 @@ export default {
             })
             return
           }
+          this.submitting = true
           let data = {
             username: this.ruleForm.username,
             passwd: md5(this.ruleForm.passwd),
@@ -216,13 +217,17 @@ export default {
           this.$axios.post('user.register', data).then((res) => {
             if (res.code === 0) {
               this.$notify({
+                type: 'success',
                 title: '注册成功',
-                type: 'success'
-              });
-              this.$router.replace('login')
+                duration: 1000
+              })
+              setTimeout(() => {
+                this.$router.replace('login')
+                this.submitting = false
+              }, 1000)
+            }else{
+              this.submitting = false
             }
-          }).finally(() => {
-            this.submitting = false
           })
         }
       })
@@ -247,13 +252,8 @@ export default {
       // return isLt1M
     },
     handleSuccess(response, file, fileList) {
-      console.log(response)
       if (response.code === 0) {
-        console.log(response.data)
-        
         this.ruleForm.yyzz = response.data
-        console.log(this.ruleForm.yyzz)
-        
         this.fileList = fileList
         this.uploading = false
       } else {

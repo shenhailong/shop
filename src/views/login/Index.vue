@@ -8,8 +8,8 @@
         </h3>
         <div class="login-view-box form-con">
           <el-form @submit.native.prevent="submitHandler" ref="loginForm" :rules="rules" :model="form">
-              <el-form-item prop="userName">
-                <el-input v-model="form.userName" maxlength="20">
+              <el-form-item prop="username">
+                <el-input @blur="inputBlur"  v-model.trim="form.username" maxlength="20">
                   <template slot="prepend"><div style="width:40px">用户名</div></template>
                 </el-input>
               </el-form-item>
@@ -18,13 +18,13 @@
                   <template slot="prepend" ><div style="width:40px">密&nbsp;&nbsp;码</div></template>
                 </el-input>
               </el-form-item>
-              <el-form-item prop="captcha">
+              <el-form-item v-if="needCaptcha" prop="vcode">
                 <div style="clear:both;">
-                  <el-input type="text" v-model="form.captcha" maxlength="6" style="float:left;width:185px;margin-right:10px;">
+                  <el-input type="text" v-model="form.vcode" maxlength="4" style="float:left;width:185px;margin-right:10px;">
                     <template slot="prepend"><div style="width:40px">验证码</div></template>
                   </el-input>
                   <div style="display:inline-block;">
-                    <img @click="getImg" :src="captchaUrl"
+                    <img @click="getImg" :src="codeUrl"
                       width="100" height="40" alt="captcha" style="float:left;">
                   </div>
                 </div>
@@ -32,7 +32,7 @@
               <el-form-item>
                 <div class="footer">
                   <el-button @click="goRegister" :style="{width:'100px'}" size="large">注册</el-button>
-                  <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">登录</el-button>
+                  <el-button :loading="submitting" :disabled="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">登录</el-button>
                 </div>
                 <div @click="$router.push('forgetPassword')" class="forget">忘记密码?</div>
               </el-form-item>
@@ -44,35 +44,35 @@
 </template>
 
 <script>
-import { Notification } from 'element-ui'
 import md5 from 'md5'
+import { TOKEN, USER_INFO } from '@/constants/key'
 
 export default {
   data() {
     return {
       submitting: false,
       form: {
-        userName: '',
+        username: '',
         password: '',
-        captcha: ''
+        vcode: ''
       },
       // 是否需要验证码
       needCaptcha: false,
       // 验证码路径
-      imgUrl: '/images/kaptcha.jpg',
-      captchaUrl: '',
+      imgUrl: 'http://39.100.227.252:888/cnas/v1/vcode.picture.generate',
       // 随机数
       random: '',
+      codeUrl: '',
       // 校验规则
       rules: {
-        userName: [
+        username: [
           { required: true, message: '用户名不能为空哦', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'blur' }
         ],
-        captcha: [
-          { required: false, message: '验证码不能为空', trigger: 'blur' }
+        vcode: [
+          { required: true, message: '验证码不能为空', trigger: 'blur' }
         ]
       },
       activeName: 'first'
@@ -85,57 +85,45 @@ export default {
       }
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
+          this.submitting = true
           let data = {
-            username: this.form.userName,
-            passwd: md5(this.form.password)
+            username: this.form.username,
+            passwd: md5(this.form.password),
+            vcode: this.form.vcode
           }
-          this.$axios.post('user.register', data).then((res) => {
-            if (res.data.code === 1) {
-              // const loginInfo = res.data.data
-              // const TOKEN_KEY = process.env.TOKEN_KEY
-              // window.localStorage.setItem(TOKEN_KEY, loginInfo.accessToken.accessToken)
-              this.$router.replace('login')
-            } else if (res.data.code === '2') {
-              Notification({
-                type: 'error',
-                title: '错误',
-                message: res.data.message
+          this.$axios.post('user.login', data).then((res) => {
+            if (res.code === 0) {
+              window.localStorage.setItem(TOKEN, res.data.token)
+              window.localStorage.setItem(USER_INFO, JSON.stringify(res.data))
+              this.$notify({
+                type: 'success',
+                title: '登录成功',
+                duration: 1000
               })
-              this.needCaptcha = true
-              this.rules.captcha[0].required = true
+              setTimeout(() => {
+                this.$router.replace('index')
+                this.submitting = false
+              }, 1000)
+            } else {
+              this.submitting = false
             }
-          }).finally(() => {
-            this.submitting = false
           })
         }
       })
     },
+    //  用户名输入框输入就重新获取验证码
+    inputBlur() {
+      if(this.form.username) {
+        this.needCaptcha = true
+        this.getImg()
+      }
+    },
     getImg() {
-      this.$axios.post('vcode.picture.generate', { username: 111111}).then((res) => {
-        if (res.data.code === 1) {
-          console.log(res)
-          
-        }
-      }).finally(() => {
-        this.submitting = false
-      })
-    },
-    // 修改随机数
-    changeCaptcha() {
-      this.random = Math.random()
-    },
-    handleClick(tab, event) {
-      console.log(tab, event)
+      this.codeUrl = `${this.imgUrl}?username=${this.form.username}&random=${Math.random()}`
     },
     goRegister() {
       this.$router.push('register')
     }
-  },
-  computed: {
-    // 拼接验证码图片地址
-    // captchaUrl() {
-    //   return `${this.imgUrl}?${this.random}`
-    // }
   }
 }
 </script>
@@ -235,7 +223,10 @@ export default {
     color: #F56C6C;
     cursor: pointer;
     text-align: center;
-    margin-top: 10px;
+    line-height: 16px;
+    width: 100px;
+    margin: 0 auto;
+    margin-top: 20px;
   }
 }
 </style>

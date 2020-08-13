@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-10 14:51:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-11 10:35:28
+ * @LastEditTime: 2020-08-13 11:16:26
 -->
 <template>
   <div class="chat-wrap">
@@ -51,7 +51,7 @@ export default {
   },
   created () {
     console.log('created')
-    this.initWebSocket()
+    // this.initWebSocket()
   },
   destroyed () {
     this.websock.close() // 离开路由之后断开websocket连接
@@ -157,7 +157,7 @@ export default {
 
     .user{
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       .text{
         padding: 12px;
         color: #ffffff;

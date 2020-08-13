@@ -4,12 +4,12 @@
  * @Author: Dragon
  * @Date: 2020-07-24 10:01:11
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-11 09:41:56
+ * @LastEditTime: 2020-08-13 18:30:45
 -->
 <template>
   <div id="app">
     <router-view />
-    <div @click="dialogTableVisible = true" class="chat-router">
+    <div @click="dialogTableVisible = true" id="chat" class="chat-router">
       <img src='../src/assets/chat.png' class="chat-img"/>
       <p>在</p>
       <p>线</p>
