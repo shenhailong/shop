@@ -108,8 +108,16 @@ export default {
   mounted() {
     this.initSwiper()
     this.upCallback()
+    this.getList()
   },
   methods: {
+    getList() {
+      this.$axios.get('custcoreprod.list', this.form).then((res) => {
+        if (res.code === 0) {
+          console.log(res)
+        }
+      })
+    },
     initSwiper () {
       var swiper = new Swiper('.swiper-container', {
         spaceBetween: 30,

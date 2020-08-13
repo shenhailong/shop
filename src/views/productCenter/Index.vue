@@ -15,6 +15,7 @@
         <el-pagination
           background
           layout="prev, pager, next"
+          @current-change="currentChange"
           :total="100">
         </el-pagination>
       </div>
@@ -45,13 +46,23 @@ export default {
         { id: '8', name: '产品8', number: 'A1010101', description: '这是产品1的描述', src: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3980421992,4198883825&fm=11&gp=0.jpg' },
         { id: '9', name: '产品9', number: 'A1010101', description: '这是产品1的描述', src: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3980421992,4198883825&fm=11&gp=0.jpg' },
       ],
-      keyword: ''
+      keyword: '',
+      form: {
+
+      }
     }
   },
   mounted() {
-
+    this.getList()
   },
   methods: {
+    getList() {
+      this.$axios.get('custprod.list', this.form).then((res) => {
+        if (res.code === 0) {
+          console.log(res)
+        }
+      })
+    },
     // 每行需要循环商品的个数
     count(index) {
       let num = 0
@@ -69,7 +80,11 @@ export default {
       num = num + index // 接着的次序
       return this.list[num]
     },
-    search() {}
+    search() {},
+    // 页数切换
+    currentChange(value) {
+      console.log(value)
+    }
   }
 }
 </script>
