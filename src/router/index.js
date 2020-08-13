@@ -120,10 +120,6 @@ router.beforeEach((to, from, next) => {
   let isAuthenticated = false
   // console.log(to.authentication)
   // console.log(to)
-  console.log(document)
-  
-  console.log(document.getElementById('chat'))
-  
   if (to.name !== 'Login' && !isAuthenticated && to.meta.authentication) next({ name: 'Login' })
   else next()
 })

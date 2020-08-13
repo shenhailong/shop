@@ -124,9 +124,15 @@
     }
   }
 
+  .user-login{
+    display: flex;
+    align-items: center;
+  }
+
   .sign-out-box{
     cursor: pointer;
     text-align: center;
+    margin-left: 10px;
     .icon{
       height: 40px;
       width: 40px;

@@ -16,9 +16,12 @@
             </div>
           </li>
         </ul>
-        <div v-if="token" @click="dialogVisible = true" class="sign-out-box">
-          <div class="icon"></div>
-          <div class="text">退出</div>
+        <div v-if="token" class="user-login">
+          <div>您好：{{userInfo.username}}</div>
+          <div  @click="dialogVisible = true" class="sign-out-box">
+            <div class="icon"></div>
+            <div class="text">退出</div>
+          </div>
         </div>
         <div v-else @click="$router.push('login')" class="login-text">请登录</div>
       </div>
@@ -127,12 +130,16 @@ export default {
         }
       ],
       dialogVisible: false,
-      token: null
+      token: null,
+      userInfo: null
     }
   },
   created() {
     console.log(this.$store)
     this.token = getToken()
+    if(window.localStorage.getItem(USER_INFO)){
+      this.userInfo = JSON.parse(window.localStorage.getItem(USER_INFO))
+    }
   },
   methods: {
     changePage(item) {
@@ -149,7 +156,6 @@ export default {
     // 退出
     signOut() {
       this.dialogVisible = false
-      // this.$route.path !== '/' && this.$router.replace('/')
       window.localStorage.removeItem(TOKEN)
       window.localStorage.removeItem(USER_INFO)
       this.$router.push('login')

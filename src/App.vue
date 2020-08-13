@@ -9,7 +9,7 @@
 <template>
   <div id="app">
     <router-view />
-    <div @click="dialogTableVisible = true" id="chat" class="chat-router">
+    <div v-show="!hide" @click="dialogTableVisible = true" id="chat" class="chat-router">
       <img src='../src/assets/chat.png' class="chat-img"/>
       <p>在</p>
       <p>线</p>
@@ -23,6 +23,7 @@
 </template>
 <script>
 import Chat from '@components/Chat'
+import { HIDE_CHAT_LIST } from '@/constants/common'
 
 export default {
   components: {
@@ -30,7 +31,13 @@ export default {
   },
   data() {
     return {
-      dialogTableVisible: false
+      dialogTableVisible: false,
+      hide: true
+    }
+  },
+  watch: {
+    $route(value) {
+      this.hide = HIDE_CHAT_LIST.includes(value.name)
     }
   }
 }

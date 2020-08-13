@@ -8,7 +8,7 @@
 -->
 <template>
   <div class="user-wrap">
-    <div v-for="item in infoList" :key="item.label" class="item">
+    <div v-for="item in infoList" :key="item.label" v-show="!item.hide" class="item">
       <div class="label">{{item.label}}</div>
       <template v-if="item.type === 'img'">
         <img :src="item.src" class="img" />
@@ -22,57 +22,65 @@
 </template>
 
 <script>
+import { USER_INFO } from '@/constants/key'
+import { STATUS_REGISTER, USER_LEVEL } from '@/constants/status'
+
 export default {
   components: {
 
   },
   data() {
     return {
-      infoList: []
+      infoList: [],
+      userInfo: null
     }
   },
   mounted() {
-    this.initData()
+    if(window.localStorage.getItem(USER_INFO)){
+      this.userInfo = JSON.parse(window.localStorage.getItem(USER_INFO))
+      this.initData(this.userInfo)
+    }
   },
   methods: {
-    initData() {
+    initData(user) {
       this.infoList = [{
         label: '用户名:',
-        value: 'Dragon'
+        value: user.username
       }, {
         label: '用户状态:',
-        value: '审核中'
+        value: STATUS_REGISTER[user.status]
       }, {
         label: '公司全称:',
-        value: 'Dragon'
+        value: user.corp.company
       }, {
         label: '社会统一信用代码:',
-        value: 'Dragon'
+        value: user.corp.shtyxydm
       }, {
         label: '会员级别:',
-        value: 'Dragon'
+        value: USER_LEVEL[user.corp.mid]
       }, {
         label: '会员有效期:',
-        value: 'Dragon'
+        value: user.corp.hyjsrq,
+        hide: !user.corp.hyjsrq
       }, {
         label: '我的邀请码:',
-        value: 'Dragon'
+        value: user.corp.invitecode
       }, {
         label: '会员邀请积分:',
-        value: '100分',
+        value: user.corp.jfye,
         type: 'score'
       }, {
         label: '通讯地址:',
-        value: 'Dragon'
+        value: user.txdz
       }, {
         label: '联系人:',
-        value: 'Dragon'
+        value: user.contact
       }, {
         label: '联系电话:',
-        value: 'Dragon'
+        value: user.conphone
       }, {
         label: '营业执照:',
-        src: 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1596437765&di=90ff6bf6e26673f0c12e2bdc6e891a26&src=http://a4.att.hudong.com/22/59/19300001325156131228593878903.jpg',
+        src: user.yyzz,
         type: 'img'
       }]
     },
