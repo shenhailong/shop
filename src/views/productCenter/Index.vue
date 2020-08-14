@@ -48,7 +48,7 @@ export default {
       list: [],
       keyword: '',
       curPage: 1, // 当前页
-      pageSize: 10,
+      pageSize: 12,
       total: 0,
       loading: false
     }
@@ -79,8 +79,13 @@ export default {
       if(lines !== (Number(index) + 1)){
         num = 4
       }else{
-        num = this.list.length % 4
-      } 
+        // 最后一行
+        if(this.list.length % 4 === 0){
+          num = 4
+        }else{
+          num = this.list.length % 4
+        }
+      }
       return num
     },
     // 每一个item
