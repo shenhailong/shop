@@ -74,7 +74,8 @@ export default {
     visible: {
       type: Boolean,
       default: false
-    }
+    },
+    item: {}
   },
   data() {
     return {
@@ -123,8 +124,12 @@ export default {
         }]
       },
       formLabelWidth: '120px',
-      selectList: []
+      selectList: [],
+      itemList: {}
     };
+  },
+  created() {
+    this.itemList = JSON.parse(JSON.stringify(this.item))
   },
   methods: {
     hideDialog() {

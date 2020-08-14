@@ -107,7 +107,6 @@ export default {
   },
   mounted() {
     this.initSwiper()
-    this.upCallback()
     this.getList()
   },
   methods: {
@@ -115,6 +114,7 @@ export default {
       this.$axios.get('custcoreprod.list', this.form).then((res) => {
         if (res.code === 0) {
           console.log(res)
+          this.list = res.data
         }
       })
     },
@@ -157,18 +157,6 @@ export default {
       let num = (line - 1) * 4 // 已经排列的个数
       num = num + index // 接着的次序
       return this.list[num]
-    },
-    // 获取文章
-    async upCallback (page, mescroll) {
-      const res = await this.$axios.get('/oilMini/oil', this.form)
-      if (res.code === 1) {
-        let total = res.data.data.count
-        this.form.offset += this.form.limit
-        this.articleList = this.articleList.concat(res.data.data.rows)
-        this.$nextTick(() => {
-          mescroll.endBySize(res.data.data.rows.length, total)
-        })
-      }
     },
     goProductCenter() {
       this.$router.push('productCenter')

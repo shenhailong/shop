@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-30 09:35:35
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-04 09:57:16
+ * @LastEditTime: 2020-08-14 12:49:06
 -->
 <template>
   <div class="empty">
@@ -46,6 +46,7 @@ export default {
   width: 500px;
   margin: 0 auto;
   text-align: center;
+  height: 500px;
   .empty-icon{
     height: 80px;
     width: 80px;

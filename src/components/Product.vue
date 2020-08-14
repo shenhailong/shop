@@ -3,23 +3,22 @@
     <el-col :span="6" class="product">
       <div class="wrap">
         <div @click="goDetail">
-          <div class="img-wrap"><img :src="item.src" class="product-img" alt=""></div>
-          <div class="title">产品名称 {{item.name}}</div>
-          <div class="subtitle">产品编号 {{item.number}}</div>
-          <div class="subtitle">{{item.description}}</div>
+          <div class="img-wrap"><img :src="item.picture" class="product-img" alt=""></div>
+          <div class="title">{{item.prodname}}</div>
+          <div class="subtitle">产品编号 {{item.prodcode}}</div>
+          <div class="subtitle">{{item.descr}}</div>
         </div>
         <div class="footer">
           <el-button type="primary" @click="visible = true">加入购物车</el-button>
         </div>
       </div>
     </el-col>
-    <AddCart :visible.sync="visible" @hide="visible = false" />
+    <AddCart v-if="visible" :visible.sync="visible" :item=item @hide="visible = false" />
   </div>
 </template>
 
 <script>
 import AddCart from '@components/AddCart'
-
 export default {
   components: {
     AddCart
