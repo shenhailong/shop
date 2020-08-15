@@ -7,7 +7,7 @@
  * @LastEditTime: 2020-08-13 17:23:23
  */
 const CART_LIST = 'CART_LIST'
-const TOKEN = 'token'
+const TOKEN = 'api-token'
 const USER_INFO = 'USER_INFO'
 
 export {

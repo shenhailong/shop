@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Notification } from 'element-ui'
+import { TOKEN } from '@/constants/key'
 
 let cancel = null;
 let promiseMap = {};
@@ -10,7 +11,9 @@ console.log(process.env);
 // console.log(VUE_APP_BASE_URL)
 // const TOKEN_KEY = process.env.TOKEN_KEY
 // const APP_ID = process.env.APP_ID
-// axios.defaults.baseURL = VUE_APP_BASE_URL
+if(process.env.NODE_ENV !== 'development'){
+  axios.defaults.baseURL = 'http://39.100.227.252:888/'
+}
 // axios.defaults.timeout = 10000
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
@@ -81,13 +84,15 @@ axios.interceptors.response.use(
 // 默认导出这个对象
 export default {
   get(url, params) {
+    let token = window.localStorage.getItem(TOKEN)
     return new Promise((resolve) => {
       axios({
         method: 'get',
         url: '/cnas/v1',
         params,
         headers: {
-          'api-action': url
+          'api-action': url,
+          [TOKEN]: token ? token : ''
         },
         cancelToken: new CancelToken(c => {
           cancel = c;
@@ -98,13 +103,15 @@ export default {
     });
   },
   post(url, data) {
+    let token = window.localStorage.getItem(TOKEN)
     return new Promise((resolve) => {
       axios({
         method: 'post',
         url: '/cnas/v1',
         data,
         headers: {
-          'api-action': url
+          'api-action': url,
+          [TOKEN]: token ? token : ''
         },
         cancelToken: new CancelToken(c => {
           cancel = c;

@@ -18,34 +18,34 @@
             width="55">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pprodname"
             label="产品名称"
             align="center"
             width="150">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="prodname"
             label="产品明细"
             align="center"
             width="150">
           </el-table-column>
           <el-table-column prop="name" label="时间单位" align="center">
             <template slot-scope="scope">
-              <el-radio-group @change="radioChange(scope.row, scope.$index)" v-model="scope.row.mode">
-                <el-radio label="year">年</el-radio>
-                <el-radio label="month">月</el-radio>
-                <el-radio label="date">日</el-radio>
+              <el-radio-group @change="radioChange(scope.row, scope.$index)" v-model="scope.row.unit">
+                <el-radio label="Y">年</el-radio>
+                <el-radio label="M">月</el-radio>
+                <el-radio label="D">日</el-radio>
               </el-radio-group>
             </template>
           </el-table-column>
           <el-table-column align="center" label="购买时长" width="160">
             <template slot-scope="scope" align="center" >
-              <NumInput v-model="scope.row.count"  size="mini" />
+              <NumInput v-model="scope.row.tamount"  size="mini" />
             </template>
           </el-table-column>
           <el-table-column align="center" label="购买数量" width="160">
             <template slot-scope="scope">
-              <NumInput v-model="scope.row.num"  size="mini" />
+              <NumInput v-model="scope.row.amount"  size="mini" />
             </template>
           </el-table-column>
           <el-table-column align="center" label="价格" width="120">
@@ -103,10 +103,7 @@ export default {
   },
   data() {
     return {
-      list: [{
-        id: 1,
-        num: 0
-      }],
+      list: [],
       token: null,
       allChecked: false, // 自定义的全选
       discount: false, // 是否使用折扣
@@ -130,9 +127,10 @@ export default {
     },
     // 获取后台cart数据
     async getServerCart() {
-      const res = await this.$axios.get('/oilMini/oil')
-      if (res.code === '1') {
+      const res = await this.$axios.post('shopcar.list')
+      if (res.code === 0) {
         console.log(1)
+        this.list = res.data
       }
     },
     // table的全选

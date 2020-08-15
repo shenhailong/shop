@@ -28,26 +28,26 @@
           </el-table-column>
           <el-table-column prop="name" label="时间单位" align="center">
             <template slot-scope="scope">
-              <el-form-item align="center" :prop="'children.' + scope.$index + '.mode'" :rules='rules.mode'>
-                <el-radio-group v-model="scope.row.mode">
-                  <el-radio label="year">年</el-radio>
-                  <el-radio label="month">月</el-radio>
-                  <el-radio label="date">日</el-radio>
+              <el-form-item align="center" :prop="'children.' + scope.$index + '.mode'" :rules='rules.unit'>
+                <el-radio-group v-model="scope.row.unit">
+                  <el-radio label="Y">年</el-radio>
+                  <el-radio label="M">月</el-radio>
+                  <el-radio label="D">日</el-radio>
                 </el-radio-group>
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column align="center" label="购买时长">
             <template slot-scope="scope" align="center" >
-              <el-form-item :prop="'children.' + scope.$index + '.count'" style="margin-left:0" class="aaa">
-                <NumInput v-model="scope.row.count" size="mini" />
+              <el-form-item :prop="'children.' + scope.$index + '.tamount'" style="margin-left:0" class="aaa">
+                <NumInput v-model="scope.row.tamount" size="mini" />
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column align="center" label="购买数量">
             <template slot-scope="scope">
-              <el-form-item :prop="'children.' + scope.$index + '.num'" :rules='rules.num'>
-                <NumInput v-model="scope.row.num" size="mini" />
+              <el-form-item :prop="'children.' + scope.$index + '.amount'" :rules='rules.amount'>
+                <NumInput v-model="scope.row.amount" size="mini" />
               </el-form-item>
             </template>
           </el-table-column>
@@ -84,17 +84,17 @@ export default {
           required: true,
           message: '请选择产品明细',
           trigger: 'blur'}],
-        mode: [{
+        unit: [{
           required: true,
           message: '请输入账号手机号',
           trigger: 'blur'}],
-        num: [{
+        amount: [{
           required: true,
-          message: '请输入账号名称',
+          message: '请输入购买的数量',
           trigger: 'blur'}],
-        count: [{
+        tamount: [{
           required: true,
-          message: '请输入密码',
+          message: '请输入时长',
           trigger: 'blur'}
         ]
       }, // 添加校验
