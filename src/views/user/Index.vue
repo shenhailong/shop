@@ -16,7 +16,7 @@
         <el-tab-pane label="补充材料"><SupplyMaterial /></el-tab-pane>
         <el-tab-pane label="修改核心资料"><ChangeMaterial /></el-tab-pane>
         <el-tab-pane label="积分详情"><Score /></el-tab-pane>
-        <el-tab-pane label="注销用户">定时任务补偿</el-tab-pane>
+        <el-tab-pane label="会员购买记录">定时任务补偿</el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -27,7 +27,7 @@ import NavBar from '@components/NavBar'
 import Info from '@components/user/Info'
 import ChangePassword from '@components/user/ChangePassword'
 import SupplyMaterial from '@components/user/SupplyMaterial'
-import ChangeMaterial from '@components/user/SupplyMaterial'
+import ChangeMaterial from '@components/user/ChangeMaterial'
 import Score from '@components/user/Score'
 
 export default {

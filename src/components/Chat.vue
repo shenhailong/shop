@@ -64,7 +64,9 @@ export default {
         code: 1,
         item: '传输的数据'
       }
-      this.websocketsend(JSON.stringify(data))
+      // this.websocketsend(JSON.stringify(data))
+      console.log(data)
+      
       this.messageList.push({
         source: 'user',
         text: this.text

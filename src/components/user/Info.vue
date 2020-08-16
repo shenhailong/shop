@@ -18,6 +18,7 @@
         <el-button v-if="item.type === 'score'" type="primary" @click="goScore">查看积分</el-button>
       </template>
     </div>
+    <el-button class="cancel-btn" type="danger" @click="cancelUser">注销用户</el-button>
   </div>
 </template>
 
@@ -87,6 +88,20 @@ export default {
     // 跳转积分页面
     goScore() {
       this.$emit('changeTab', '4')
+    },
+    // 注销用户
+    cancelUser() {
+      this.$confirm('确定注销该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'error'
+      }).then(() => {
+        this.$axios.get('user.cancel').then((res) => {
+          if (res.code === 0) {
+            this.$router.replace('index')
+          }
+        })
+      })
     }
   }
 }
@@ -119,5 +134,10 @@ export default {
     height: 200px;
     width: 400px;
   }
+
+  
+}
+.cancel-btn{
+  margin: 30px 0 50px 165px;
 }
 </style>

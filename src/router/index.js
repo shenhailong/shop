@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Index from '../views/index/Index.vue';
+import { getToken } from '@/utils/common'
 
 Vue.use(VueRouter);
 
@@ -68,7 +69,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "Register" */ '../views/login/Register.vue')
   },
-  // 注册
+  // 忘记密码
   {
     path: '/forgetPassword',
     name: 'ForgetPassword',
@@ -79,6 +80,9 @@ const routes = [
   {
     path: '/user',
     name: 'User',
+    meta: {
+      authentication: true
+    },
     component: () =>
       import(/* webpackChunkName: "User" */ '../views/user/Index.vue')
   },
@@ -117,10 +121,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  let isAuthenticated = false
-  // console.log(to.authentication)
-  // console.log(to)
-  if (to.name !== 'Login' && !isAuthenticated && to.meta.authentication) next({ name: 'Login' })
+  let token = getToken()
+  if (to.name !== 'Login' && !token && to.meta.authentication) next({ name: 'Login' })
   else next()
 })
 

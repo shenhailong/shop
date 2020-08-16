@@ -35,6 +35,8 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   function(response) {
+    console.log(response)
+    
     if (response.data.code !== 0) {
       Notification({
         type: 'error',
