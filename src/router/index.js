@@ -50,6 +50,9 @@ const routes = [
   {
     path: '/cart',
     name: 'Cart',
+    meta: {
+      authentication: true
+    },
     component: () =>
       import(/* webpackChunkName: "Cart" */ '../views/cart/Index.vue')
   },
@@ -122,8 +125,15 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let token = getToken()
-  if (to.name !== 'Login' && !token && to.meta.authentication) next({ name: 'Login' })
-  else next()
+  console.log(token)
+  console.log(to.name)
+  if (from.name !== 'Login' && !token && to.meta.authentication) {
+    console.log(111)
+    next({ name: 'Login' })
+  } else {
+    console.log(222)
+    next()
+  }
 })
 
 export default router;

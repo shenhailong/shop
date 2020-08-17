@@ -9,7 +9,7 @@
           <div class="subtitle">{{item.descr}}</div>
         </div>
         <div class="footer">
-          <el-button type="primary" @click="visible = true">加入购物车</el-button>
+          <el-button type="primary" @click="addCart">加入购物车</el-button>
         </div>
       </div>
     </el-col>
@@ -19,6 +19,8 @@
 
 <script>
 import AddCart from '@components/AddCart'
+import { getToken } from '@/utils/common'
+
 export default {
   components: {
     AddCart
@@ -37,6 +39,14 @@ export default {
   methods: {
     goDetail() {
       this.$router.push(`detail/${this.item.id}`)
+    },
+    addCart() {
+      let token = getToken()
+      if(token){
+        this.visible = true
+      }else{
+        this.$router.push('/login')
+      }
     }
   }
 }

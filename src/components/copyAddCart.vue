@@ -7,7 +7,7 @@
       class="add-cart"
       title="选择产品"
       :visible="visible">
-      <el-form ref="ruleForm" size="mini" label-width="100px" :model="form">
+      <el-form ref="ruleForm" size="mini" :rules="rules" label-width="100px" :model="form">
         <el-table
           :data="form.childs"
           @select-all="selectAll"
@@ -21,14 +21,14 @@
             width="55">
           </el-table-column>
           <el-table-column
+            prop="name"
             label="产品明细"
-            prop="prodname"
             align="center"
-            width="200">
+            width="150">
           </el-table-column>
-          <el-table-column label="时间单位" align="center" width="220">
+          <el-table-column prop="name" label="时间单位" align="center" width="250">
             <template slot-scope="scope">
-              <el-form-item align="center">
+              <el-form-item align="center" :prop="'childs.' + scope.$index + '.unit'" :rules='rules.unit'>
                 <el-radio-group v-model="scope.row.unit">
                   <el-radio label="Y">年</el-radio>
                   <el-radio label="M">月</el-radio>
@@ -37,7 +37,7 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column label="单位价格" align="center" width="90">
+          <el-table-column prop="name" label="单位价格" align="center">
             <template slot-scope="scope">
               <div v-if="scope.row.unit === 'Y'">{{scope.row.yprice}}元</div>
               <div v-if="scope.row.unit === 'M'">{{scope.row.mprice}}元</div>
@@ -46,14 +46,14 @@
           </el-table-column>
           <el-table-column align="center" label="购买时长">
             <template slot-scope="scope" align="center" >
-              <el-form-item style="margin-left:0">
+              <el-form-item :prop="'childs.' + scope.$index + '.tamount'" style="margin-left:0" class="aaa">
                 <NumInput v-model="scope.row.tamount" size="mini" />
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column align="center" label="购买数量">
             <template slot-scope="scope">
-              <el-form-item>
+              <el-form-item :prop="'childs.' + scope.$index + '.amount'" :rules='rules.amount'>
                 <NumInput v-model="scope.row.amount" size="mini" />
               </el-form-item>
             </template>
@@ -63,7 +63,7 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="hideDialog">取 消</el-button>
-        <el-button :loading="loading" type="primary" @click="add">确 定</el-button>
+        <el-button type="primary" @click="add">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -84,13 +84,28 @@ export default {
   },
   data() {
     return {
+      rules: {
+        id: [{required: true, message: '请选择产品明细', trigger: 'blur'}],
+        unit: [{
+          required: true,
+          message: '请输入账号手机号',
+          trigger: 'blur'}],
+        amount: [{
+          required: true,
+          message: '请输入购买的数量',
+          trigger: 'blur'}],
+        tamount: [{
+          required: true,
+          message: '请输入时长',
+          trigger: 'blur'}
+        ]
+      }, // 添加校验
       form: {
         childs: []
       },
       formLabelWidth: '120px',
       selectList: [],
-      product: {},
-      loading: false
+      product: {}
     };
   },
   created() {
@@ -113,19 +128,20 @@ export default {
     },
     async add() {
       if(this.selectList.length === 0){ return }
-      console.log(this.selectList)
-      this.loading = true
-      const res = await this.$axios.post('/oilMini/oil', this.selectList)
-      if (res.code === '1') {
-        this.$message({
-          message: '添加成功,请前往购物车页面查看',
-          type: 'success',
-          duration: 1500
-        })
-        this.loading = false
-      }else{
-        this.loading = true
-      }
+      this.$refs.ruleForm.validate(async (valid) => {
+        console.log(valid)
+        console.log(this.form)
+        if (valid) {
+          const res = await this.$axios.post('/oilMini/oil')
+          if (res.code === '1') {
+            this.$message({
+              message: '添加成功,请前往购物车页面查看',
+              type: 'success',
+              duration: 1500
+            })
+          }
+        }
+      })
     },
     selectAll(selection) {
       console.log(selection)

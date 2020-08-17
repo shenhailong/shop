@@ -92,8 +92,6 @@
 import NavBar from '@components/NavBar'
 import Empty from '@components/Empty'
 import NumInput from '@components/NumInput'
-import { getLocalCart, setLocalCart } from '@/utils/cart'
-import { getToken } from '@/utils/common'
 
 export default {
   components: {
@@ -104,7 +102,6 @@ export default {
   data() {
     return {
       list: [],
-      token: null,
       allChecked: false, // 自定义的全选
       discount: false, // 是否使用折扣
       total: '2000', // 总数
@@ -112,19 +109,9 @@ export default {
     }
   },
   mounted() {
-    let token = getToken()
-    this.token = token
-    this.initCart()
+    this.getServerCart()
   },
   methods: {
-    // 初始化购物车
-    initCart() {
-      if(this.token){
-        this.getServerCart()
-      }else{
-        this.list = getLocalCart()
-      }
-    },
     // 获取后台cart数据
     async getServerCart() {
       const res = await this.$axios.post('shopcar.list')
@@ -161,27 +148,17 @@ export default {
         cancelButtonText: '取消',
         type: 'error'
       }).then(async () => {
-        if(this.token){
-          const res = await this.$axios.get('/oilMini/oil', { id: row.id })
-          if (res.code === '1') {
-            this.list.splice(index, 1)
-          }
-        }else{
+        const res = await this.$axios.get('/oilMini/oil', { id: row.id })
+        if (res.code === '1') {
           this.list.splice(index, 1)
-          setLocalCart(this.list)
         }
       }).catch(() => {})
     },
     // 时间单位切换
     async radioChange(row, index) {
-      console.log(index)
-      if(this.token){
-        const res = await this.$axios.get('/oilMini/oil', { id: row.id })
-        if (res.code === '1') {
-          // this.list.splice(index, 1)
-        }
-      }else{
-        setLocalCart(this.list)
+      const res = await this.$axios.get('/oilMini/oil', { id: row.id })
+      if (res.code === '1') {
+        this.list.splice(index, 1)
       }
     },
     // 结算

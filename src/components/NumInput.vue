@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-03 18:21:15
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-11 17:46:08
+ * @LastEditTime: 2020-08-17 17:58:22
 -->
 <template>
   <div>
@@ -19,6 +19,7 @@
     </div>
     <el-dialog
       title="请输入购买的数量"
+      append-to-body
       :visible.sync="dialogVisible"
       width="30%"
       v-if="dialogVisible"
@@ -81,7 +82,7 @@ export default {
 .input-num-wrap{
   position: relative;
   width: 130px;
-
+  margin: 0 auto;
   .minus{
     position: absolute;
     line-height: 25px;
