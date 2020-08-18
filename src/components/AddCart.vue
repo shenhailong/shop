@@ -8,60 +8,51 @@
       class="add-cart"
       title="选择产品"
       :visible="visible">
-      <el-form ref="ruleForm" size="mini" label-width="100px" :model="form">
-        <el-table
-          :data="form.childs"
-          @select-all="selectAll"
-          @select="select"
-          style="width: 100%"
-          border
-          size="mini">
-          <el-table-column
-            type="selection"
-            align="center"
-            width="55">
-          </el-table-column>
-          <el-table-column
-            label="产品明细"
-            prop="prodname"
-            align="center"
-            width="200">
-          </el-table-column>
-          <el-table-column label="时间单位" align="center" width="220">
-            <template slot-scope="scope">
-              <el-form-item align="center">
-                <el-radio-group v-model="scope.row.unit">
-                  <el-radio label="Y">年</el-radio>
-                  <el-radio label="M">月</el-radio>
-                  <el-radio label="D">日</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </template>
-          </el-table-column>
-          <el-table-column label="单位价格" align="center" width="90">
-            <template slot-scope="scope">
-              <div v-if="scope.row.unit === 'Y'">{{scope.row.yprice}}元</div>
-              <div v-if="scope.row.unit === 'M'">{{scope.row.mprice}}元</div>
-              <div v-if="scope.row.unit === 'D'">{{scope.row.dprice}}元</div>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="购买时长">
-            <template slot-scope="scope" align="center" >
-              <el-form-item style="margin-left:0">
-                <NumInput v-model="scope.row.tamount" size="mini" />
-              </el-form-item>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="购买数量">
-            <template slot-scope="scope">
-              <el-form-item>
-                <NumInput v-model="scope.row.amount" size="mini" />
-              </el-form-item>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-form>
-
+      <el-table
+        :data="list"
+        @select-all="selectAll"
+        @select="select"
+        style="width: 100%"
+        border
+        size="mini">
+        <el-table-column
+          type="selection"
+          align="center"
+          width="55">
+        </el-table-column>
+        <el-table-column
+          label="产品明细"
+          prop="prodname"
+          align="center"
+          width="200">
+        </el-table-column>
+        <el-table-column label="时间单位" align="center" width="220">
+          <template slot-scope="scope">
+            <el-radio-group v-model="scope.row.unit">
+              <el-radio label="Y">年</el-radio>
+              <el-radio label="M">月</el-radio>
+              <el-radio label="D">日</el-radio>
+            </el-radio-group>
+          </template>
+        </el-table-column>
+        <el-table-column label="单位价格" align="center" width="90">
+          <template slot-scope="scope">
+            <div v-if="scope.row.unit === 'Y'">{{scope.row.yprice}}元</div>
+            <div v-if="scope.row.unit === 'M'">{{scope.row.mprice}}元</div>
+            <div v-if="scope.row.unit === 'D'">{{scope.row.dprice}}元</div>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="购买时长">
+          <template slot-scope="scope" align="center" >
+            <NumInput v-model="scope.row.tamount" size="mini" />
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="购买数量">
+          <template slot-scope="scope">
+            <NumInput v-model="scope.row.amount" size="mini" />
+          </template>
+        </el-table-column>
+      </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="hideDialog">取 消</el-button>
         <el-button :loading="loading" type="primary" @click="add">确 定</el-button>
@@ -85,28 +76,45 @@ export default {
   },
   data() {
     return {
-      form: {
-        childs: []
-      },
-      formLabelWidth: '120px',
+      list: [],
       selectList: [],
-      product: {},
       loading: false
     };
   },
   created() {
     let product = JSON.parse(JSON.stringify(this.item))
+    let arr = []
     console.log(product)
     if(product.haschild === '1'){
       product.childs.forEach(item => {
-        item.unit = 'Y'
-        item.amount = 1
-        item.tamount = 1
+        arr.push({
+          prodid: item.id,
+          pid: product.id,
+          unit: 'Y',
+          amount: 1,
+          tamount: 1,
+          prodname: item.prodname,
+          pprodname: product.prodname,
+          yprice: item.yprice,
+          mprice: item.mprice,
+          dprice: item.dprice
+        })
       })
-      this.form = product
     }else{
-      console.log(0)
+      arr.push({
+        prodid: product.id,
+        pid: product.id,
+        unit: 'Y',
+        amount: 1,
+        tamount: 1,
+        prodname: product.prodname,
+        pprodname: product.prodname,
+        yprice: product.yprice,
+        mprice: product.mprice,
+        dprice: product.dprice
+      })
     }
+    this.list = arr
   },
   methods: {
     hideDialog() {
@@ -134,9 +142,6 @@ export default {
           break
         }
       }
-      console.log(tip)
-      console.log(buyByMonth)
-      console.log(buyByYear)
       this.loading = true
       if(buyByMonth || buyByYear){
         this.showTip(product, tip)
