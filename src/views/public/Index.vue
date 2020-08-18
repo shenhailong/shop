@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-29 09:40:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-18 10:57:41
+ * @LastEditTime: 2020-08-18 14:27:03
 -->
 <template>
   <div class="wrap-index">
@@ -48,15 +48,19 @@
         </el-pagination>
       </div>
     </div>
+    <el-dialog title="视频" :visible.sync="palyer">
+      <VideoPlayer :sources="sources" v-if="palyer" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import NavBar from '@components/NavBar'
-
+import VideoPlayer from '@components/VideoPlayer'
 export default {
   components: {
-    NavBar
+    NavBar,
+    VideoPlayer
   },
   data() {
     return {
@@ -65,14 +69,18 @@ export default {
       curPage: 1, // 当前页
       pageSize: 12,
       total: 0,
-      loading: false
+      loading: false,
+      sources: 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm',
+      palyer: false
     }
   },
   mounted() {
     this.getList()
   },
   methods: {
-    uploadVoucher(){},
+    uploadVoucher(){
+      this.palyer = true
+    },
     currentChange(value) {
       this.curPage = value
       this.getList()
