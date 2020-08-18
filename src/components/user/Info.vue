@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-05 18:19:12
+ * @LastEditTime: 2020-08-18 11:06:39
 -->
 <template>
   <div class="user-wrap">
@@ -23,13 +23,10 @@
 </template>
 
 <script>
-import { USER_INFO } from '@/constants/key'
 import { STATUS_REGISTER, USER_LEVEL } from '@/constants/status'
+import { getUser } from '@/utils/common'
 
 export default {
-  components: {
-
-  },
   data() {
     return {
       infoList: [],
@@ -37,8 +34,8 @@ export default {
     }
   },
   mounted() {
-    if(window.localStorage.getItem(USER_INFO)){
-      this.userInfo = JSON.parse(window.localStorage.getItem(USER_INFO))
+    if(getUser()){
+      this.userInfo = getUser()
       this.initData(this.userInfo)
     }
   },

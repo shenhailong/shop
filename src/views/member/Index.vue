@@ -7,6 +7,10 @@
         <el-button type="primary" @click="$router.push('selectMember')">成为会员</el-button>
       </div>
       <div v-else>
+        <div class="search-wrap">
+          <el-input class="serach-input" v-model="keyword" placeholder="请输入资料名称" clearable></el-input>
+          <el-button type="primary" :disabled="loading" @click="getList">搜索</el-button>
+        </div>
         <el-table
           :data="list"
           border
@@ -40,6 +44,14 @@
             </template>
           </el-table-column>
         </el-table>
+        <div class="pagination">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            @current-change="currentChange"
+            :total="total">
+          </el-pagination>
+        </div>
       </div>
     </div>
   </div>
@@ -47,6 +59,7 @@
 
 <script>
 import NavBar from '@components/NavBar'
+import { getUser } from '@/utils/common'
 
 export default {
   components: {
@@ -55,31 +68,22 @@ export default {
   data() {
     return {
       isMember: false, // 是否是会员
-      ruleForm: {
-        code: '',
-        name: ''
-      },
-      list: [{
-        date: '2016-05-02',
-        name: '产品1',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '产品1',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '产品1',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '产品1',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      list: [],
+      keyword: '',
+      curPage: 1, // 当前页
+      pageSize: 12,
+      total: 0,
+      loading: false
     }
   },
   mounted() {
-
+    if(getUser()){
+      let user = getUser()
+      if(user.corp.mid > -2) {
+        this.isMember = true
+        this.getList()
+      }
+    }
   },
   methods: {
     // 查询
@@ -87,7 +91,26 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    uploadVoucher(){}
+    uploadVoucher(){},
+    currentChange(value) {
+      this.curPage = value
+      this.getList()
+    },
+    getList() {
+      this.loading = true
+      this.$axios.get('custprod.list', {
+        curPage: this.curPage,
+        pageSize: this.pageSize,
+        keyword: this.keyword
+      }).then((res) => {
+        if (res.code === 0) {
+          this.list = res.data.list
+          this.total = res.data.total
+        }
+      }).finally(() => {
+        this.loading = false
+      })
+    },
   }
 }
 </script>
@@ -105,7 +128,20 @@ export default {
   justify-content: flex-end;
 }
 
-.reset{
-  margin-left: 30px;
+.search-wrap{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  .serach-input{
+    width: 300px;
+    margin-right: 20px;
+  }
+}
+
+.pagination{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
 }
 </style>

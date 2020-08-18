@@ -4,6 +4,7 @@
     <el-dialog
       width="1000px"
       append-to-body
+      :show-close="false"
       class="add-cart"
       title="选择产品"
       :visible="visible">
@@ -114,7 +115,49 @@ export default {
     async add() {
       if(this.selectList.length === 0){ return }
       console.log(this.selectList)
+      let tip = ''
+      let buyByMonth = false // 时长按天大于等于30,提示按月买
+      let buyByYear = false // 时长按月大于等于12,提示按年购买
+      let product = ''
+      for(let i = 0; i < this.selectList.length; i++){
+        if(this.selectList[i].unit === 'D' && this.selectList[i].tamount >= 30){
+          tip = '按月购买更便宜,是否继续按天购买'
+          buyByMonth = true
+          product = this.selectList[i].prodname
+          break
+        }
+
+        if(this.selectList[i].unit === 'M' && this.selectList[i].tamount >= 12){
+          tip = '按年购买更便宜,是否继续按月购买'
+          buyByYear = true
+          product = this.selectList[i].prodname
+          break
+        }
+      }
+      console.log(tip)
+      console.log(buyByMonth)
+      console.log(buyByYear)
       this.loading = true
+      if(buyByMonth || buyByYear){
+        this.showTip(product, tip)
+      }else{
+        this.submit()
+      }
+    },
+    // 购买更便宜的提示
+    showTip(product, tip) {
+      this.$confirm(`购买产品${product}${tip}`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.submit()
+      }).catch(() => {
+        this.loading = false
+      });
+    },
+    // 提交数据
+    async submit() {
       const res = await this.$axios.post('/oilMini/oil', this.selectList)
       if (res.code === '1') {
         this.$message({
