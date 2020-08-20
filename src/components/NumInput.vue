@@ -42,7 +42,12 @@ export default {
     prop: 'value',
     event: 'change'
   },
-  props: [ 'value' ],
+  props: {
+    value: {},
+    step: {
+      default: 1
+    }
+  },
   data() {
     return {
       dialogVisible: false,
@@ -51,7 +56,8 @@ export default {
     }
   },
   mounted() {
-
+    console.log(this.step)
+    
   },
   methods: {
     inputClick() {
@@ -59,10 +65,11 @@ export default {
       this.dialogVisible = true
     },
     minus() {
-      this.$emit('change', Number(this.value) - 1)
+      if(Number(this.value) <= this.step) return
+      this.$emit('change', Number(this.value) - this.step)
     },
     plus() {
-      this.$emit('change', Number(this.value) + 1)
+      this.$emit('change', Number(this.value) + this.step)
     },
     ok() {
       if(!(/(^[1-9]\d*$)/.test(this.num))){

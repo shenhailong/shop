@@ -49,7 +49,7 @@
         </el-table-column>
         <el-table-column align="center" label="购买数量">
           <template slot-scope="scope">
-            <NumInput v-model="scope.row.amount" size="mini" />
+            <NumInput v-model="scope.row.amount" :step="scope.row.step" size="mini" />
           </template>
         </el-table-column>
       </el-table>
@@ -91,13 +91,14 @@ export default {
           prodid: item.id,
           pid: product.id,
           unit: 'Y',
-          amount: 1,
+          amount: item.step,
           tamount: 1,
           prodname: item.prodname,
           pprodname: product.prodname,
           yprice: item.yprice,
           mprice: item.mprice,
-          dprice: item.dprice
+          dprice: item.dprice,
+          step: item.step
         })
       })
     }else{
@@ -105,13 +106,14 @@ export default {
         prodid: product.id,
         pid: product.id,
         unit: 'Y',
-        amount: 1,
+        amount: product.step,
         tamount: 1,
         prodname: product.prodname,
         pprodname: product.prodname,
         yprice: product.yprice,
         mprice: product.mprice,
-        dprice: product.dprice
+        dprice: product.dprice,
+        step: product.step
       })
     }
     this.list = arr
@@ -122,7 +124,6 @@ export default {
     },
     async add() {
       if(this.selectList.length === 0){ return }
-      console.log(this.selectList)
       let tip = ''
       let buyByMonth = false // 时长按天大于等于30,提示按月买
       let buyByYear = false // 时长按月大于等于12,提示按年购买
@@ -142,6 +143,7 @@ export default {
           break
         }
       }
+      if(this.loading) return
       this.loading = true
       if(buyByMonth || buyByYear){
         this.showTip(product, tip)
@@ -172,7 +174,7 @@ export default {
         })
         this.loading = false
       }else{
-        this.loading = true
+        this.loading = false
       }
     },
     selectAll(selection) {
