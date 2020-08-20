@@ -148,7 +148,7 @@ export default {
         cancelButtonText: '取消',
         type: 'error'
       }).then(async () => {
-        const res = await this.$axios.get('/oilMini/oil', { id: row.id })
+        const res = await this.$axios.post('shopcar.del', this.list[index])
         if (res.code === '1') {
           this.list.splice(index, 1)
         }
@@ -156,7 +156,7 @@ export default {
     },
     // 时间单位切换
     async radioChange(row, index) {
-      const res = await this.$axios.get('/oilMini/oil', { id: row.id })
+      const res = await this.$axios.post('shopcar.del', this.list[index])
       if (res.code === '1') {
         this.list.splice(index, 1)
       }

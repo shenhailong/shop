@@ -163,8 +163,8 @@ export default {
     },
     // 提交数据
     async submit() {
-      const res = await this.$axios.post('/oilMini/oil', this.selectList)
-      if (res.code === '1') {
+      const res = await this.$axios.post('shopcar.add', this.selectList)
+      if (res.code === 0) {
         this.$message({
           message: '添加成功,请前往购物车页面查看',
           type: 'success',
