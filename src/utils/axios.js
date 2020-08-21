@@ -6,7 +6,6 @@ let cancel = null;
 let promiseMap = {};
 const CancelToken = axios.CancelToken;
 
-console.log(process.env);
 // const VUE_APP_BASE_URL = process.env.VUE_APP_BASE_URL
 // console.log(VUE_APP_BASE_URL)
 // const TOKEN_KEY = process.env.TOKEN_KEY
@@ -35,8 +34,6 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   function(response) {
-    console.log(response)
-    
     if (response.data.code !== 0) {
       Notification({
         type: 'error',

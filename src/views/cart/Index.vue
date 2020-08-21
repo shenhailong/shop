@@ -40,12 +40,12 @@
           </el-table-column>
           <el-table-column align="center" label="购买时长" width="160">
             <template slot-scope="scope" align="center" >
-              <NumInput v-model="scope.row.tamount"  size="mini" />
+              <NumInput v-model="scope.row.tamount" @change="tamountChange(scope.row, scope.$index)"  size="mini" />
             </template>
           </el-table-column>
           <el-table-column align="center" label="购买数量" width="160">
             <template slot-scope="scope">
-              <NumInput v-model="scope.row.amount"  size="mini" />
+              <NumInput v-model="scope.row.amount" @change="amountChange(scope.row, scope.$index)" size="mini" />
             </template>
           </el-table-column>
           <el-table-column align="center" label="价格" width="120">
@@ -116,8 +116,10 @@ export default {
     async getServerCart() {
       const res = await this.$axios.post('shopcar.list')
       if (res.code === 0) {
-        console.log(1)
         this.list = res.data
+        this.$nextTick(() => {
+          this.initToggleSelection()
+        })
       }
     },
     // table的全选
@@ -142,6 +144,18 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+    // 初始化选中状态
+    initToggleSelection(){
+      let arr = []
+      this.list.forEach(item => {
+        if(item.checked === 'Y'){
+          arr.push(item)
+        }
+      })
+      arr.forEach(row => {
+        this.$refs.multipleTable.toggleRowSelection(row);
+      });
+    },
     deleteProduct(row, index) {
       this.$confirm('确定删除该产品明细?', '删除产品明细', {
         confirmButtonText: '确定',
@@ -149,16 +163,30 @@ export default {
         type: 'error'
       }).then(async () => {
         const res = await this.$axios.post('shopcar.del', this.list[index])
-        if (res.code === '1') {
+        if (res.code === 0) {
           this.list.splice(index, 1)
         }
       }).catch(() => {})
     },
+    // 时长切换
+    async tamountChange(row, index) {
+      const res = await this.$axios.post('shopcar.tamount', this.list[index])
+      if (res.code === 0) {
+        console.log(1)
+      }
+    },
+    // 数量切换
+    async amountChange(row, index) {
+      const res = await this.$axios.post('shopcar.tamount', this.list[index])
+      if (res.code === 0) {
+        console.log(1)
+      }
+    },
     // 时间单位切换
     async radioChange(row, index) {
-      const res = await this.$axios.post('shopcar.del', this.list[index])
-      if (res.code === '1') {
-        this.list.splice(index, 1)
+      const res = await this.$axios.post('shopcar.unit', this.list[index])
+      if (res.code === 0) {
+        console.log(1)
       }
     },
     // 结算

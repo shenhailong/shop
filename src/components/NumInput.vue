@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-03 18:21:15
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-17 17:58:22
+ * @LastEditTime: 2020-08-21 14:16:24
 -->
 <template>
   <div>
@@ -23,6 +23,7 @@
       :visible.sync="dialogVisible"
       width="30%"
       v-if="dialogVisible"
+      style="text-align: center"
       >
       <el-input-number :controls="false" v-model="num" label="描述文字"></el-input-number>
       <div class="tip">{{tip}}</div>
@@ -51,17 +52,12 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      num: 0,
+      num: this.value,
       tip: ''
     }
   },
-  mounted() {
-    console.log(this.step)
-    
-  },
   methods: {
     inputClick() {
-      console.log(this.value)
       this.dialogVisible = true
     },
     minus() {
@@ -76,6 +72,11 @@ export default {
         this.tip = '请输入正整数'
         return
       }
+      if(Number(this.num) % this.step !== 0){
+        this.tip = `请输入${this.step}的整数倍`
+        return
+      }
+      this.tip = ''
       this.$emit('change', Number(this.num))
       this.dialogVisible = false
     }
@@ -132,7 +133,6 @@ export default {
     height: 25px;
     font-size: 12px;
   }
-
 }
 
 .tip{

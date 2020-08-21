@@ -98,7 +98,8 @@ export default {
           yprice: item.yprice,
           mprice: item.mprice,
           dprice: item.dprice,
-          step: item.step
+          step: item.step,
+          checked: 'Y'
         })
       })
     }else{
@@ -113,7 +114,8 @@ export default {
         yprice: product.yprice,
         mprice: product.mprice,
         dprice: product.dprice,
-        step: product.step
+        step: product.step,
+        checked: 'Y'
       })
     }
     this.list = arr
