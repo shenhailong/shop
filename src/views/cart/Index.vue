@@ -45,12 +45,12 @@
           </el-table-column>
           <el-table-column align="center" label="购买数量" width="160">
             <template slot-scope="scope">
-              <NumInput v-model="scope.row.amount" @change="amountChange(scope.row, scope.$index)" size="mini" />
+              <NumInput v-model="scope.row.amount" :step="scope.row.product.step" @change="amountChange(scope.row, scope.$index)" size="mini" />
             </template>
           </el-table-column>
           <el-table-column align="center" label="价格" width="120">
             <template slot-scope="scope">
-              {{scope.row.price}}
+              {{scope.row.totalPrice}} 元
             </template>
           </el-table-column>
           <el-table-column
@@ -75,7 +75,7 @@
             </div>
             <div class="right">
               <div class="footer-item">
-                合计:  <span class="money">2000</span> 元
+                合计:  <span class="money">{{total}}</span> 元
               </div>
               <div class="footer-item btn-wrap">
                 <el-button @click="submit()" type="primary" size="large">去结算</el-button>
@@ -104,7 +104,7 @@ export default {
       list: [],
       allChecked: false, // 自定义的全选
       discount: false, // 是否使用折扣
-      total: '2000', // 总数
+      total: 0, // 总价
       select: [] // 选择的产品
     }
   },
@@ -119,23 +119,56 @@ export default {
         this.list = res.data
         this.$nextTick(() => {
           this.initToggleSelection()
+          this.calculateTotal()
         })
       }
     },
     // table的全选
     selectAll(selection) {
-      console.log(selection)
+      if(selection.length === 0){
+        this.list.forEach(item => {
+          item.checked = 'N'
+        })
+      }else {
+        this.list.forEach(item => {
+          item.checked = 'Y'
+        })
+      }
+      let data = []
+      this.list.forEach(item => {
+        data.push(item)
+      })
+      this.checkedChange(data)
     },
     // table的单选
     selectSingle(selection, row){
-      console.log(selection)
-      console.log(row)
+      let arr = []
+      let data = []
+      selection.forEach(item => {
+        arr.push(item.id)
+      })
+      if(arr.includes(row.id)){
+        row.checked = 'Y'
+      }else{
+        row.checked = 'N'
+      }
+      data.push(row)
+      this.checkedChange(data)
+    },
+    // 选中切换
+    async checkedChange(data) {
+      const res = await this.$axios.post('shopcar.check', data)
+      if (res.code === 0) {
+        this.calculateTotal()
+      }
     },
     useDiscount(value) {
       console.log(value)
     },
     // 自定义的全选
     toggleSelection(value){
+      console.log(value)
+      
       if (value) {
         this.list.forEach(row => {
           this.$refs.multipleTable.toggleRowSelection(row);
@@ -152,6 +185,11 @@ export default {
           arr.push(item)
         }
       })
+      if(this.list .length === arr.length){
+        this.allChecked = true
+      }else{
+        this.allChecked = false
+      }
       arr.forEach(row => {
         this.$refs.multipleTable.toggleRowSelection(row);
       });
@@ -165,6 +203,7 @@ export default {
         const res = await this.$axios.post('shopcar.del', this.list[index])
         if (res.code === 0) {
           this.list.splice(index, 1)
+          this.calculateTotal()
         }
       }).catch(() => {})
     },
@@ -172,22 +211,41 @@ export default {
     async tamountChange(row, index) {
       const res = await this.$axios.post('shopcar.tamount', this.list[index])
       if (res.code === 0) {
-        console.log(1)
+        this.resetData(index, res.data)
       }
     },
     // 数量切换
     async amountChange(row, index) {
-      const res = await this.$axios.post('shopcar.tamount', this.list[index])
+      const res = await this.$axios.post('shopcar.amount', this.list[index])
       if (res.code === 0) {
-        console.log(1)
+        this.resetData(index, res.data)
       }
     },
     // 时间单位切换
     async radioChange(row, index) {
+      console.log(index)
+      // this.list.forEach(item => {
+      //   item.checked = 'N'
+      // })
       const res = await this.$axios.post('shopcar.unit', this.list[index])
       if (res.code === 0) {
         console.log(1)
+        this.resetData(index, res.data)
       }
+    },
+    // 操作成功重置数据
+    resetData(index, data) {
+      this.list[index].totalPrice = data.totalPrice
+      this.calculateTotal()
+    },
+    calculateTotal() {
+      let num = 0
+      this.list.forEach(item => {
+        if(item.checked === 'Y'){
+          num += item.totalPrice
+        }
+      })
+      this.total = num
     },
     // 结算
     submit() {
@@ -204,6 +262,10 @@ export default {
   position: relative;
 }
 
+.content{
+  padding-bottom: 130px
+}
+
 .footer{
   width: 100%;
   background: #ffffff;
@@ -211,7 +273,7 @@ export default {
   bottom: 0;
   left: 0;
   padding: 20px 0;
-
+  z-index: 100;
   .money{
     font-size: 24px;
     color: $color-primary;
