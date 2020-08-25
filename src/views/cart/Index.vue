@@ -2,83 +2,89 @@
   <div class="wrap-cart">
     <NavBar current="cart" />
     <div class="content">
-      <Empty v-if="list.length === 0" type="cart" />
-      <div v-else>
-        <el-table
-          :data="list"
-          @select-all="selectAll"
-          @select="selectSingle"
-          style="width: 100%"
-          ref="multipleTable"
-          border
-          size="mini">
-          <el-table-column
-            type="selection"
-            align="center"
-            width="55">
-          </el-table-column>
-          <el-table-column
-            prop="pprodname"
-            label="产品名称"
-            align="center"
-            width="150">
-          </el-table-column>
-          <el-table-column
-            prop="prodname"
-            label="产品明细"
-            align="center"
-            width="150">
-          </el-table-column>
-          <el-table-column prop="name" label="时间单位" align="center">
-            <template slot-scope="scope">
-              <el-radio-group @change="radioChange(scope.row, scope.$index)" v-model="scope.row.unit">
-                <el-radio label="Y">年</el-radio>
-                <el-radio label="M">月</el-radio>
-                <el-radio label="D">日</el-radio>
-              </el-radio-group>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="购买时长" width="160">
-            <template slot-scope="scope" align="center" >
-              <NumInput v-model="scope.row.tamount" @change="tamountChange(scope.row, scope.$index)"  size="mini" />
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="购买数量" width="160">
-            <template slot-scope="scope">
-              <NumInput v-model="scope.row.amount" :step="scope.row.product.step" @change="amountChange(scope.row, scope.$index)" size="mini" />
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="价格" width="120">
-            <template slot-scope="scope">
-              {{scope.row.totalPrice}} 元
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="操作"
-            width="100"
-            align="center">
-            <template slot-scope="scope">
-              <el-button @click="deleteProduct(scope.row, scope.$index)" type="danger" size="small">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+      <div
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      >
+        <Empty v-if="list.length === 0" type="cart" />
+        <div v-else>
+          <el-table
+            :data="list"
+            @select-all="selectAll"
+            @select="selectSingle"
+            style="width: 100%"
+            ref="multipleTable"
+            border
+            size="mini">
+            <el-table-column
+              type="selection"
+              align="center"
+              width="55">
+            </el-table-column>
+            <el-table-column
+              prop="pprodname"
+              label="产品名称"
+              align="center"
+              width="150">
+            </el-table-column>
+            <el-table-column
+              prop="prodname"
+              label="产品明细"
+              align="center"
+              width="150">
+            </el-table-column>
+            <el-table-column prop="name" label="时间单位" align="center">
+              <template slot-scope="scope">
+                <el-radio-group @change="radioChange(scope.row, scope.$index)" v-model="scope.row.unit">
+                  <el-radio label="Y">年</el-radio>
+                  <el-radio label="M">月</el-radio>
+                  <el-radio label="D">日</el-radio>
+                </el-radio-group>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="购买时长" width="160">
+              <template slot-scope="scope" align="center" >
+                <NumInput v-model="scope.row.tamount" @change="tamountChange(scope.row, scope.$index)"  size="mini" />
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="购买数量" width="160">
+              <template slot-scope="scope">
+                <NumInput v-model="scope.row.amount" :step="scope.row.product.step" @change="amountChange(scope.row, scope.$index)" size="mini" />
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="价格" width="120">
+              <template slot-scope="scope">
+                {{scope.row.totalPrice}} 元
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="操作"
+              width="100"
+              align="center">
+              <template slot-scope="scope">
+                <el-button @click="deleteProduct(scope.row, scope.$index)" type="danger" size="small">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
 
-        <div class="footer">
-          <div class="footer-content">
-            <div class="left">
-              <div class="footer-item">
-                <el-checkbox v-model="allChecked" @change="toggleSelection">全选</el-checkbox>
+          <div class="footer">
+            <div class="footer-content">
+              <div class="left">
+                <div class="footer-item">
+                  <el-checkbox v-model="allChecked" @change="toggleSelection">全选</el-checkbox>
+                </div>
+                <div class="footer-item">
+                  <el-checkbox v-model="discount" @change="useDiscount">使用95折优惠</el-checkbox>
+                </div>
               </div>
-              <div class="footer-item">
-                <el-checkbox v-model="discount" @change="useDiscount">使用95折优惠</el-checkbox>
-              </div>
-            </div>
-            <div class="right">
-              <div class="footer-item">
-                合计:  <span class="money">{{total}}</span> 元
-              </div>
-              <div class="footer-item btn-wrap">
-                <el-button @click="submit()" type="primary" size="large">去结算</el-button>
+              <div class="right">
+                <div class="footer-item">
+                  合计:  <span class="money">{{total}}</span> 元
+                </div>
+                <div class="footer-item btn-wrap">
+                  <el-button @click="submit()" type="primary" size="large">去结算</el-button>
+                </div>
               </div>
             </div>
           </div>
@@ -101,6 +107,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       list: [],
       allChecked: false, // 自定义的全选
       discount: false, // 是否使用折扣
@@ -117,6 +124,7 @@ export default {
       const res = await this.$axios.post('shopcar.list')
       if (res.code === 0) {
         this.list = res.data
+        this.loading = false
         this.$nextTick(() => {
           this.initToggleSelection()
           this.calculateTotal()
@@ -139,6 +147,11 @@ export default {
         data.push(item)
       })
       this.checkedChange(data)
+      if(selection.length === 0){
+        this.allChecked = false
+      }else{
+        this.allChecked = true
+      }
     },
     // table的单选
     selectSingle(selection, row){
@@ -154,6 +167,11 @@ export default {
       }
       data.push(row)
       this.checkedChange(data)
+      if(selection.length === this.list.length && selection.length !== 0){
+        this.allChecked = true
+      }else{
+        this.allChecked = false
+      }
     },
     // 选中切换
     async checkedChange(data) {
@@ -167,8 +185,7 @@ export default {
     },
     // 自定义的全选
     toggleSelection(value){
-      console.log(value)
-      
+      this.$refs.multipleTable.clearSelection();
       if (value) {
         this.list.forEach(row => {
           this.$refs.multipleTable.toggleRowSelection(row);
@@ -176,6 +193,20 @@ export default {
       } else {
         this.$refs.multipleTable.clearSelection();
       }
+      if(value){
+        this.list.forEach(item => {
+          item.checked = 'Y'
+        })
+      }else {
+        this.list.forEach(item => {
+          item.checked = 'N'
+        })
+      }
+      let data = []
+      this.list.forEach(item => {
+        data.push(item)
+      })
+      this.checkedChange(data)
     },
     // 初始化选中状态
     initToggleSelection(){
@@ -204,6 +235,8 @@ export default {
         if (res.code === 0) {
           this.list.splice(index, 1)
           this.calculateTotal()
+        }else{
+          this.reload()
         }
       }).catch(() => {})
     },
@@ -212,6 +245,8 @@ export default {
       const res = await this.$axios.post('shopcar.tamount', this.list[index])
       if (res.code === 0) {
         this.resetData(index, res.data)
+      }else{
+        this.reload()
       }
     },
     // 数量切换
@@ -219,18 +254,18 @@ export default {
       const res = await this.$axios.post('shopcar.amount', this.list[index])
       if (res.code === 0) {
         this.resetData(index, res.data)
+      }else{
+        this.reload()
       }
     },
     // 时间单位切换
     async radioChange(row, index) {
-      console.log(index)
-      // this.list.forEach(item => {
-      //   item.checked = 'N'
-      // })
       const res = await this.$axios.post('shopcar.unit', this.list[index])
       if (res.code === 0) {
         console.log(1)
         this.resetData(index, res.data)
+      }else{
+        this.reload()
       }
     },
     // 操作成功重置数据
@@ -246,6 +281,9 @@ export default {
         }
       })
       this.total = num
+    },
+    reload() {
+      window.location.reload()
     },
     // 结算
     submit() {

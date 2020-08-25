@@ -8,6 +8,22 @@
       class="add-cart"
       title="选择产品"
       :visible="visible">
+      <el-dialog
+        width="60%"
+        title="以下产品购物车已经添加, 不能重复添加!,请重新选择"
+        :visible.sync="innerVisible"
+        append-to-body>
+        <div class="table-header">
+          <div class="index">序号</div>
+          <div class="name">产品名称</div>
+          <div class="subname">产品明细</div>
+        </div>
+        <div v-for="(item, index) in errorList" :key="item.id" class="table-body">
+          <div class="index">{{index + 1}}</div>
+          <div class="name error-product">{{item.pprodname}}</div>
+          <div class="subname error-product">{{item.pprodname}}</div>
+        </div>
+      </el-dialog>
       <el-table
         :data="list"
         @select-all="selectAll"
@@ -78,13 +94,14 @@ export default {
     return {
       list: [],
       selectList: [],
-      loading: false
+      loading: false,
+      innerVisible: false,
+      errorList: [] // 已经添加产品的错误提示信息
     };
   },
   created() {
     let product = JSON.parse(JSON.stringify(this.item))
     let arr = []
-    console.log(product)
     if(product.haschild === '1'){
       product.childs.forEach(item => {
         arr.push({
@@ -175,8 +192,13 @@ export default {
           duration: 1500
         })
         this.loading = false
-      }else{
+        this.hideDialog()
+      }else if(res.code === 200){
+        this.innerVisible = true
+        this.errorList = res.data
         this.loading = false
+      }else {
+        this.innerVisible = true
       }
     },
     selectAll(selection) {
@@ -193,12 +215,39 @@ export default {
 </script>
 
 <style lang="scss">
-.add-cart{
-  .el-form-item__content{
-    margin-left: 0!important;
+@import '~@/scss/utils/theme.scss';
+  .table-header, .table-body{
+    display: flex;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid $color-gray;
+    .index{
+      width: 50px;
+      border-right: 1px solid $color-gray;
+    }
+    .name{
+      width: 280px;
+      border-right: 1px solid $color-gray;
+    }
+    .subname{
+      flex: 1;
+    }
   }
-  .el-form-item{
-    margin: 0!important;
+  
+  .table-header{
+      border-bottom: none;
   }
-}
+
+  .error-product{
+    color: $color-red;
+  }
+
+  .add-cart{
+    .el-form-item__content{
+      margin-left: 0!important;
+    }
+    .el-form-item{
+      margin: 0!important;
+    }
+  }
 </style>
