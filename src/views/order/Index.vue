@@ -120,9 +120,19 @@ export default {
     }
   },
   mounted() {
-
+    this.getList()
   },
   methods: {
+    getList() {
+      this.loading = true
+      this.$axios.get('originorder.check').then((res) => {
+        if (res.code === 0) {
+          this.list = res.data.list
+        }
+      }).finally(() => {
+        this.loading = false
+      })
+    },
     // 查询
     search() {},
     resetForm(formName) {
