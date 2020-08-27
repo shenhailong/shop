@@ -25,6 +25,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "order" */ '../views/order/Index.vue')
   },
+  // 产品详情
+  {
+    path: '/order/:id',
+    name: 'OrderDetail',
+    component: () =>
+      import(/* webpackChunkName: "orderDetail" */ '../views/order/Detail.vue')
+  },
   // 产品中心
   {
     path: '/productCenter',
