@@ -51,7 +51,7 @@
         width="150"
         align="center">
         <template slot-scope="scope">
-          <span @click="goDetail(scope.row.orderno)" class="link">{{ scope.row.orderno }}</span>
+          <el-link @click="goDetail(scope.row.orderno)" type="primary">{{ scope.row.orderno }}</el-link>
         </template>
       </el-table-column>
       <el-table-column
@@ -98,6 +98,14 @@
         align="center">
       </el-table-column>
     </el-table>
+    <div class="pagination">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        @current-change="currentChange"
+        :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -109,7 +117,9 @@ export default {
         name: '',
         id: '',
         start: '',
-        end: ''
+        end: '',
+        curPage: 1, // 当前页
+        pageSize: 12,
       },
       list: [{
         orderno: 'O-00108823',
@@ -121,7 +131,11 @@ export default {
         ccorpname: '中国电子科技网络信息安全有限公司',
         tel: '010-58278923'
       }],
-      date: []
+      date: [],
+      curPage: 1, // 当前页
+      pageSize: 12,
+      total: 0,
+      loading: false
     }
   },
   mounted() {
@@ -130,7 +144,7 @@ export default {
   methods: {
     getList() {
       this.loading = true
-      this.$axios.post('originorder.list', this.ruleForm).then((res) => {
+      this.$axios.post('originorder.check', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
         }
@@ -140,6 +154,11 @@ export default {
     },
     // 查询
     search() {
+      this.getList()
+    },
+    // 页数切换
+    currentChange(value) {
+      this.curPage = value
       this.getList()
     },
     resetForm(formName) {
@@ -167,5 +186,10 @@ export default {
 
 .reset{
   margin-left: 30px;
+}
+
+.pagination{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
