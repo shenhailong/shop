@@ -8,8 +8,8 @@
   margin: 0 auto;
 }
 
-.link{
-  color: $color-primary;
-  cursor: pointer;
-  text-decoration: underline;
+.pagination{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
 }

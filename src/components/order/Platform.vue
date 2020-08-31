@@ -3,7 +3,7 @@
     <el-row :gutter="20" justify="end">
       <el-form :model="ruleForm" ref="ruleForm" label-width="80px">
         <el-col :span="6">
-          <el-form-item label="订单编号" prop="code">
+          <el-form-item label="订单号码" prop="code">
             <el-input v-model="ruleForm.code"></el-input>
           </el-form-item>
         </el-col>
@@ -12,7 +12,15 @@
               <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="6">
+          <el-form-item label="支付状态">
+            <el-select v-model="ruleForm.region" placeholder="请选择支付状态">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
           <el-form-item>
             <div class="btn-wrap">
               <el-button type="primary" @click="search">查询</el-button>
@@ -74,6 +82,14 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        @current-change="currentChange"
+        :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -83,7 +99,9 @@ export default {
     return {
       ruleForm: {
         code: '',
-        name: ''
+        name: '',
+        curPage: 1, // 当前页
+        pageSize: 12
       },
       list: [{
         date: '2016-05-02',
@@ -101,7 +119,9 @@ export default {
         date: '2016-05-03',
         name: '产品1',
         address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      }],
+      total: 0,
+      loading: false
     }
   },
   mounted() {
@@ -110,13 +130,18 @@ export default {
   methods: {
     getList() {
       this.loading = true
-      this.$axios.post('originorder.check', this.ruleForm).then((res) => {
+      this.$axios.post('order.listpaypage', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
         }
       }).finally(() => {
         this.loading = false
       })
+    },
+    // 页数切换
+    currentChange(value) {
+      this.curPage = value
+      this.getList()
     },
     // 查询
     search() {},

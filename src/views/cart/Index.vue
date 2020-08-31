@@ -286,8 +286,13 @@ export default {
       window.location.reload()
     },
     // 结算
-    submit() {
-
+    async submit() {
+      const res = await this.$axios.post('order.add')
+      if (res.code === 0) {
+        console.log(1)
+      }else{
+        this.reload()
+      }
     }
   }
 }
