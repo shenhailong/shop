@@ -98,10 +98,11 @@ export default {
   data() {
     return {
       ruleForm: {
-        code: '',
-        name: '',
-        curPage: 1, // 当前页
-        pageSize: 12
+        // code: '',
+        // name: '',
+        keyword: '',
+        curPage: 2, // 当前页
+        pageSize: 2
       },
       list: [{
         date: '2016-05-02',
@@ -130,7 +131,7 @@ export default {
   methods: {
     getList() {
       this.loading = true
-      this.$axios.post('order.listpaypage', this.ruleForm).then((res) => {
+      this.$axios.get('order.pagelist', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
         }

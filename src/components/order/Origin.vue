@@ -144,7 +144,7 @@ export default {
   methods: {
     getList() {
       this.loading = true
-      this.$axios.post('originorder.search', this.ruleForm).then((res) => {
+      this.$axios.get('originorder.search', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
         }

@@ -105,7 +105,7 @@ const routes = [
   },
   // 确认订单
   {
-    path: '/confirmOrder',
+    path: '/confirmOrder/:id',
     name: 'ConfirmOrder',
     component: () =>
       import(/* webpackChunkName: "ConfirmOrder" */ '../views/pay/ConfirmOrder.vue')

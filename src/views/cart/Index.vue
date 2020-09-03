@@ -112,7 +112,8 @@ export default {
       allChecked: false, // 自定义的全选
       discount: false, // 是否使用折扣
       total: 0, // 总价
-      select: [] // 选择的产品
+      select: [], // 选择的产品
+      submiting: false // 正在提交
     }
   },
   mounted() {
@@ -287,9 +288,18 @@ export default {
     },
     // 结算
     async submit() {
+      let checked = this.list.some(item => {
+        return item.checked === 'Y'
+      })
+      console.log(checked)
+      if(!checked){
+        this.$message.error('请选择产品');
+        return
+      }
+
       const res = await this.$axios.post('order.add')
       if (res.code === 0) {
-        console.log(1)
+        this.$router.push(`confirmOrder/${res.data.id}`)
       }else{
         this.reload()
       }
