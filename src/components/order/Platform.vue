@@ -33,52 +33,40 @@
 
     <el-table
       :data="list"
-      border
       style="width: 100%">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <Child :list="props.row.ldetails || []" />
+        </template>
+      </el-table-column>
       <el-table-column
-        prop="date"
+        prop="id"
         label="订单编号"
         width="180"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="产品名称"
-        width="180"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="mode"
-        label="时间单位"
-        width="100"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="length"
-        label="购买时长"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="num"
-        label="购买数量"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="date"
+        prop="createdt"
         label="下单时间"
         align="center">
+        <template slot-scope="props">
+          {{data(props.row.createdt)}}
+        </template>
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="paystatus"
         label="订单状态"
         align="center">
+        <template slot-scope="props">
+          {{props.row.paystatus === 'Y' ? '已支付' : '未支付'}}
+        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
         align="center">
         <template slot-scope="scope">
-          <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">上传支付凭证</el-button>
+          <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">支付</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,8 +81,12 @@
   </div>
 </template>
 <script>
-
+import Child from './OriginChild'
+import { getDate } from '@/utils/tools'
 export default {
+  components: {
+    Child
+  },
   data() {
     return {
       ruleForm: {
@@ -104,23 +96,7 @@ export default {
         curPage: 2, // 当前页
         pageSize: 2
       },
-      list: [{
-        date: '2016-05-02',
-        name: '产品1',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '产品1',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '产品1',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '产品1',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
+      list: [],
       total: 0,
       loading: false
     }
@@ -129,6 +105,9 @@ export default {
     this.getList()
   },
   methods: {
+    data(value) {
+      return getDate(value)
+    },
     getList() {
       this.loading = true
       this.$axios.get('order.pagelist', this.ruleForm).then((res) => {

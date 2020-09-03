@@ -3,10 +3,10 @@
     <NavBar current="cart" />
     <div class="content">
       <div
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-      >
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        >
         <Empty v-if="list.length === 0" type="cart" />
         <div v-else>
           <el-table
