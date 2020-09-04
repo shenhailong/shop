@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["Detail"],{abda:function(t,n,a){"use strict";a.r(n);var e=function(){var t=this,n=t.$createElement,a=t._self._c||n;return a("div",{staticClass:"wrap-index"},[a("NavBar",{attrs:{current:"productCenter"}}),a("div",{staticClass:"content"})],1)},r=[],s=a("d000"),c={components:{NavBar:s["a"]},data:function(){return{}},mounted:function(){},methods:{}},o=c,u=a("2877"),i=Object(u["a"])(o,e,r,!1,null,null,null);n["default"]=i.exports}}]);
-//# sourceMappingURL=Detail.41226fd2.js.map
