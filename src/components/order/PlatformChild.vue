@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 1.0.0
+ * @Author: Dragon
+ * @Date: 2020-09-04 09:31:02
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-09-04 10:46:18
+-->
 <template>
   <div>
     <el-table
@@ -14,6 +22,11 @@
       <el-table-column
         prop="name"
         label="产品名称"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="产品明细"
         align="center">
       </el-table-column>
       <el-table-column
@@ -34,6 +47,11 @@
       <el-table-column
         prop="amount"
         label="购买数量"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="totalprice"
+        label="价格"
         align="center">
       </el-table-column>
     </el-table>
