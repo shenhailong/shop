@@ -46,6 +46,7 @@
 <script>
 import md5 from 'md5'
 import { TOKEN, USER_INFO } from '@/constants/key'
+import { BASE_URL } from '@/constants/common'
 
 export default {
   data() {
@@ -59,7 +60,7 @@ export default {
       // 是否需要验证码
       needCaptcha: false,
       // 验证码路径
-      imgUrl: 'http://39.100.227.252:888/cnas/v1/vcode.picture.generate',
+      imgUrl: `${BASE_URL}/cnas/v1/vcode.picture.generate`,
       // 随机数
       random: '',
       codeUrl: '',
