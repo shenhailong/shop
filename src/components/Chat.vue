@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-10 14:51:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-13 11:16:26
+ * @LastEditTime: 2020-09-07 18:11:12
 -->
 <template>
   <div class="chat-wrap">
@@ -29,6 +29,9 @@
 </template>
 
 <script>
+import { getUser } from '@/utils/common'
+import { TOURIST } from '@/constants/key'
+
 export default {
   props: {
     dialogTableVisible: {
@@ -40,6 +43,7 @@ export default {
     return {
       websocket: null,
       text: '',
+      userid: 4,
       messageList: [{
         source: 'computer',
         text: '您好，有什么可以帮您解答的吗？'
@@ -50,8 +54,7 @@ export default {
     }
   },
   created () {
-    console.log('created')
-    // this.initWebSocket()
+    this.initWebSocket()
   },
   destroyed () {
     this.websock.close() // 离开路由之后断开websocket连接
@@ -60,46 +63,47 @@ export default {
     getUserInfo() {},
     //在方法里调用 this.websocketsend()发送数据给服务器
     onConfirm () {
-      let data = {
-        code: 1,
-        item: '传输的数据'
-      }
-      // this.websocketsend(JSON.stringify(data))
-      console.log(data)
-      
+      let message = 'setusername:' + this.text
       this.messageList.push({
         source: 'user',
         text: this.text
       })
       this.text = ''
+      this.websocketsend(message)
     },
-    /*
-    */
     initWebSocket () { // 初始化weosocket
-      let userinfo = this.getUserInfo()
-      let username = userinfo
-      this.websock = new WebSocket('ws://' + 'baseURL' + '/websocket/' + username)
-
+      let userid = ''
+      if(getUser()){
+        userid = getUser().uid
+      }else if(sessionStorage.getItem(TOURIST)){
+        userid = sessionStorage.getItem(TOURIST)
+      }else{
+        userid = new Date().getTime()
+        sessionStorage.setItem(TOURIST, userid)
+      }
+      this.userid = userid
+      // ws://39.106.115.196:8080/admin/webchat/userid/userid
+      // this.websock = new WebSocket('ws://' + 'baseURL' + '/websocket/' + username)
+      this.websock = new WebSocket(`ws://39.106.115.196:8080/admin/webchat/${this.userid}/${this.userid}`)
+      console.log(`ws://39.106.115.196:8080/admin/webchat/${this.userid}/${this.userid}`)
       this.websock.onmessage = this.websocketonmessage
       this.websock.onerror = this.websocketonerror
       this.websock.onopen = this.websocketonopen
       this.websock.onclose = this.websocketclose
     },
     websocketonopen () { // 连接建立之后执行send方法发送数据
-      let data = {
-        code: 0,
-        msg: '这是client：初次连接'
-      }
-      this.websocketsend(JSON.stringify(data))
+      let message = 'setusername:dragon'
+      this.websocketsend(message)
     },
     websocketonerror () {
       console.log( 'WebSocket连接失败')
     },
     websocketonmessage (e) { // 数据接收
-      console.log('数据接收' + e.data)
+      console.log('数据接收1111' + e.data)
     },
     websocketsend (Data) { // 数据发送
-      this.websock.send(Data)
+      console.log('发送数据' + Data)
+      // this.websock.send(Data)
     },
     websocketclose (e) {  // 关闭
       console.log('已关闭连接', e)
