@@ -33,8 +33,8 @@
             <el-form-item label="社会统一信用代码" prop="shtyxydm">
               <el-input v-model="ruleForm.shtyxydm" maxlength="30" placeholder="请填写社会统一信用代码"></el-input>
             </el-form-item>
-            <el-form-item label="通讯地址" prop="address">
-              <el-input v-model="ruleForm.address" maxlength="30" placeholder="请填写通讯地址"></el-input>
+            <el-form-item label="通讯地址" prop="txdz">
+              <el-input v-model="ruleForm.txdz" maxlength="30" placeholder="请填写通讯地址"></el-input>
             </el-form-item>
             <el-form-item label="联系人" prop="contact">
               <el-input v-model="ruleForm.contact" maxlength="25" placeholder="请填写联系人"></el-input>

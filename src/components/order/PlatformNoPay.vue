@@ -174,7 +174,9 @@ export default {
         cancelButtonText: '取消',
         type: 'error'
       }).then(async () => {
-        const res = await this.$axios.post('order.deld', row.id)
+        const res = await this.$axios.get('order.remove', {
+          id: row.id
+        })
         if (res.code === 0) {
           this.getList()
         }else{
