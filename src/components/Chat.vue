@@ -4,12 +4,12 @@
  * @Author: Dragon
  * @Date: 2020-08-10 14:51:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-07 18:11:12
+ * @LastEditTime: 2020-09-08 13:12:31
 -->
 <template>
   <div class="chat-wrap">
     <div class="chat-content">
-      <div v-for="(item, index) in messageList" :key="index + item.text" :class="item.source == 'computer' ? 'left' : 'right'" class="item">
+      <div :ref="index" v-for="(item, index) in messageList" :key="index + item.text" :class="item.source == 'computer' ? 'left' : 'right'" class="item">
         <div v-if="item.source == 'computer'" class="computer">
           <div class="computer-img"></div>
           <div class="text">{{item.text}}</div>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="footer">
-      <el-input placeholder="请输入内容" v-model="text" class="input-text">
+      <el-input @keyup.enter="onConfirm" placeholder="请输入内容" v-model="text" class="input-text">
       </el-input>
       <el-button :disabled="text ==''" @click="onConfirm" type="primary">发送</el-button>
     </div>
@@ -43,13 +43,10 @@ export default {
     return {
       websocket: null,
       text: '',
-      userid: 4,
+      userid: '',
       messageList: [{
         source: 'computer',
         text: '您好，有什么可以帮您解答的吗？'
-      }, {
-        source: 'user',
-        text: '我先sss'
       }]
     }
   },
@@ -63,13 +60,12 @@ export default {
     getUserInfo() {},
     //在方法里调用 this.websocketsend()发送数据给服务器
     onConfirm () {
-      let message = 'setusername:' + this.text
       this.messageList.push({
         source: 'user',
         text: this.text
       })
+      this.websocketsend(this.text)
       this.text = ''
-      this.websocketsend(message)
     },
     initWebSocket () { // 初始化weosocket
       let userid = ''
@@ -82,9 +78,8 @@ export default {
         sessionStorage.setItem(TOURIST, userid)
       }
       this.userid = userid
-      // ws://39.106.115.196:8080/admin/webchat/userid/userid
-      // this.websock = new WebSocket('ws://' + 'baseURL' + '/websocket/' + username)
       this.websock = new WebSocket(`ws://39.106.115.196:8080/admin/webchat/${this.userid}/${this.userid}`)
+      console.log(this.userid)
       console.log(`ws://39.106.115.196:8080/admin/webchat/${this.userid}/${this.userid}`)
       this.websock.onmessage = this.websocketonmessage
       this.websock.onerror = this.websocketonerror
@@ -92,18 +87,22 @@ export default {
       this.websock.onclose = this.websocketclose
     },
     websocketonopen () { // 连接建立之后执行send方法发送数据
-      let message = 'setusername:dragon'
-      this.websocketsend(message)
+      // this.websocketsend()
     },
     websocketonerror () {
       console.log( 'WebSocket连接失败')
     },
     websocketonmessage (e) { // 数据接收
-      console.log('数据接收1111' + e.data)
+      if(e.data){
+        let data = JSON.parse(e.data).data
+        this.messageList.push({
+          source: data.usertype === 'server' ? 'computer' : 'user',
+          text: data.msg
+        })
+      }
     },
     websocketsend (Data) { // 数据发送
-      console.log('发送数据' + Data)
-      // this.websock.send(Data)
+      this.websock.send(Data)
     },
     websocketclose (e) {  // 关闭
       console.log('已关闭连接', e)

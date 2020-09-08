@@ -1,13 +1,39 @@
-<!--
- * @Description: 待支付
- * @Version: 1.0.0
- * @Author: Dragon
- * @Date: 2020-09-04 09:43:56
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-04 13:23:12
--->
 <template>
   <div class="wrap-index">
+    <el-row :gutter="20" justify="end">
+      <el-form size="mini" :model="ruleForm" ref="ruleForm" label-width="80px">
+        <el-col :span="6">
+          <el-form-item label="订单号码" prop="orderno">
+            <el-input v-model="ruleForm.orderno"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="订单时间">
+            <el-date-picker
+              @change="dateChange"
+              v-model="date"
+              type="daterange"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          &nbsp;<div style="width:10px;height:10px"></div>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item>
+            <div class="btn-wrap">
+              <el-button type="primary" @click="search">查询</el-button>
+              <el-button @click="resetForm('ruleForm')" class="reset">重置</el-button>
+            </div>
+          </el-form-item>
+        </el-col>
+      </el-form>
+    </el-row>
+
     <el-table
       :data="list"
       style="width: 100%">
@@ -17,7 +43,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="id"
+        prop="orderno"
         label="订单编号"
         width="180"
         align="center">
@@ -34,8 +60,23 @@
         prop="paystatus"
         label="订单状态"
         align="center">
+        <template>
+          待支付
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="总价"
+        align="center">
         <template slot-scope="props">
-          {{props.row.paystatus === 'Y' ? '已支付' : '未支付'}}
+          合计: {{totalPrice(props.row.ldetails)}} 元
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="createdt"
+        label="凭证"
+        align="center">
+        <template slot-scope="props">
+          {{data(props.row.createdt)}}
         </template>
       </el-table-column>
       <el-table-column
@@ -68,9 +109,14 @@ export default {
   data() {
     return {
       ruleForm: {
+        paystatus: 'N',
+        orderno: '',
+        sstartdate: '',
+        senddate: '',
         curPage: 1, // 当前页
         pageSize: 10
       },
+      date: [],
       list: [],
       total: 0,
       loading: false
@@ -83,9 +129,17 @@ export default {
     data(value) {
       return getDate(value)
     },
+    // 总价
+    totalPrice(children) {
+      let price = 0
+      children.forEach(item => {
+        price += Number(item.totalprice)
+      })
+      return price
+    },
     getList() {
       this.loading = true
-      this.$axios.get('order.listnopaypage', this.ruleForm).then((res) => {
+      this.$axios.get('order.search', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
           this.total = res.data.total
@@ -98,6 +152,20 @@ export default {
     currentChange(value) {
       this.ruleForm.curPage = value
       this.getList()
+    },
+    dateChange(value) {
+      this.ruleForm.sstartdate = value ? value[0] : ''
+      this.ruleForm.senddate = value ? value[1] : ''
+    },
+    // 查询
+    search() {
+      this.getList()
+    },
+    resetForm(formName) {
+      this.date = []
+      this.ruleForm.sstartdate = ''
+      this.ruleForm.senddate = ''
+      this.$refs[formName].resetFields();
     },
     // 删除
     deleteOrder(row) {
@@ -120,3 +188,21 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.tip{
+  color: #333333;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 100px;
+}
+
+.btn-wrap{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reset{
+  margin-left: 20px;
+}
+</style>

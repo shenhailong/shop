@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-07 13:36:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-04 13:46:16
+ * @LastEditTime: 2020-09-08 15:16:55
 -->
 <template>
   <div class="pay-confirm">
@@ -123,6 +123,7 @@ export default {
       }],
       payType: 'wx',
       list: [],
+      total: 0,
       discount: false, // 是否使用折扣
     }
   },
@@ -132,7 +133,9 @@ export default {
   methods: {
     getList() {
       this.loading = true
-      this.$axios.get('order.listnopaypage', this.$route.params.id).then((res) => {
+      this.$axios.get('order.detail', {
+        id: this.$route.params.id
+      }).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
         }

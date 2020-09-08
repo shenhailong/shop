@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-04 09:31:02
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-04 10:46:18
+ * @LastEditTime: 2020-09-08 15:09:32
 -->
 <template>
   <div>
@@ -20,13 +20,15 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="pprodname"
         label="产品名称"
+        width="200"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="prodname"
         label="产品明细"
+        width="200"
         align="center">
       </el-table-column>
       <el-table-column
