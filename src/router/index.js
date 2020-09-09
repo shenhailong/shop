@@ -20,7 +20,7 @@ const routes = [
     path: '/order',
     name: 'Order',
     meta: {
-      authentication: false
+      authentication: true
     },
     component: () =>
       import(/* webpackChunkName: "order" */ '../views/order/Index.vue')
@@ -29,6 +29,9 @@ const routes = [
   {
     path: '/order/:id',
     name: 'OrderDetail',
+    meta: {
+      authentication: true
+    },
     component: () =>
       import(/* webpackChunkName: "orderDetail" */ '../views/order/Detail.vue')
   },
