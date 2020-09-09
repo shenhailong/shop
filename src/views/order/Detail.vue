@@ -1,10 +1,10 @@
 <!--
- * @Description: 
+ * @Description: 原厂订单详情
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-08-27 16:08:54
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-09 17:05:45
+ * @LastEditTime: 2020-09-09 17:32:20
 -->
 <template>
   <div class="wrap-index">
@@ -107,12 +107,12 @@ export default {
   data() {
     return {
       detail: {
-        orderno: 'O-00108823',
-        custid: 'A-S100108823',
-        prodno: 'T9584AAE',
-        proddesc: 'LoadRunner Professional Foundation Entitlement Software E-LTU',
-        amount: '100',
-        orderdt: '2020/7/9',
+        orderno: '',
+        custid: '',
+        prodno: '',
+        proddesc: '',
+        amount: '',
+        orderdt: '',
         enddt: '',
         ccorpname: '',
         ecorpname: '',
@@ -158,16 +158,22 @@ export default {
     font-size: 14px;
     color: #606266;
     margin-right: 10px;
+    width: 90px;
   }
 
   .value{
-    font-size: 20px;
+    font-size: 18px;
     color: '#333';
     font-weight: 600;
+    flex: 1;
+    padding-right: 10px;
   }
 
   .row-line{
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
+    margin-top: 20px;
+    height: 80px;
+    border-bottom: 1px solid #999;
   }
 }
 </style>
