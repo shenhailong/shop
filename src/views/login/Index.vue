@@ -104,7 +104,7 @@ export default {
               setTimeout(() => {
                 this.$router.replace('index')
                 this.submitting = false
-              }, 1000)
+              }, 500)
             } else {
               this.submitting = false
             }

@@ -3,21 +3,11 @@
     <el-row :gutter="20" justify="end">
       <el-form :model="ruleForm" size="mini" ref="ruleForm" label-width="80px">
         <el-col :span="6">
-          <el-form-item label="订单号码" prop="code">
-            <el-input v-model="ruleForm.code"></el-input>
+          <el-form-item label="查询条件" prop="searchString">
+            <el-input v-model="ruleForm.searchString" placeholder="请输入订单编号 / 产品编号"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="产品名称" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="产品编号" prop="id">
-            <el-input v-model="ruleForm.id"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item label="订单时间">
             <el-date-picker
               @change="dateChange"
@@ -30,7 +20,10 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="6">
+          &nbsp;<div style="width:10px;height:10px"></div>
+        </el-col>
+        <el-col :span="6">
           <el-form-item>
             <div class="btn-wrap">
               <el-button type="primary" @click="search">查询</el-button>
@@ -43,6 +36,7 @@
 
     <el-table
       :data="list"
+      v-loading="loading"
       border
       style="width: 100%">
       <el-table-column
@@ -51,19 +45,13 @@
         width="150"
         align="center">
         <template slot-scope="scope">
-          <el-link @click="goDetail(scope.row.orderno)" type="primary">{{ scope.row.orderno }}</el-link>
+          <el-link @click="goDetail(scope.row.id)" type="primary">{{ scope.row.orderno }}</el-link>
         </template>
       </el-table-column>
       <el-table-column
         prop="custid"
         label="客户订阅号"
         width="150"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="mode"
-        label="产品名称"
-        width="100"
         align="center">
       </el-table-column>
       <el-table-column
@@ -86,6 +74,9 @@
         prop="orderdt"
         label="订单时间"
         align="center">
+        <template slot-scope="props">
+          {{data(props.row.orderdt)}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="ccorpname"
@@ -109,31 +100,20 @@
   </div>
 </template>
 <script>
+import { getDate } from '@/utils/tools'
+
 export default {
   data() {
     return {
       ruleForm: {
-        code: '',
-        name: '',
-        id: '',
-        start: '',
-        end: '',
+        searchString: '',
+        sstartdate: '',
+        senddate: '',
         curPage: 1, // 当前页
         pageSize: 12,
       },
-      list: [{
-        orderno: 'O-00108823',
-        custid: 'A-S100108823',
-        prodno: 'T9584AAE',
-        proddesc: 'LoadRunner Professional Foundation Entitlement Software E-LTU',
-        amount: '100',
-        orderdt: '2020/7/9',
-        ccorpname: '中国电子科技网络信息安全有限公司',
-        tel: '010-58278923'
-      }],
+      list: [],
       date: [],
-      curPage: 1, // 当前页
-      pageSize: 12,
       total: 0,
       loading: false
     }
@@ -142,9 +122,12 @@ export default {
     this.getList()
   },
   methods: {
+    data(value) {
+      return getDate(value)
+    },
     getList() {
       this.loading = true
-      this.$axios.get('originorder.search', this.ruleForm).then((res) => {
+      this.$axios.get('originorder.searchpage', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
         }
@@ -163,11 +146,13 @@ export default {
     },
     resetForm(formName) {
       this.date = []
+      this.ruleForm.sstartdate = ''
+      this.ruleForm.senddate = ''
       this.$refs[formName].resetFields();
     },
     dateChange(value) {
-      this.ruleForm.start = value ? value[0] : ''
-      this.ruleForm.end = value ? value[1] : ''
+      this.ruleForm.sstartdate = value ? value[0] : ''
+      this.ruleForm.senddate = value ? value[1] : ''
     },
     goDetail(value) {
       this.$router.push({
