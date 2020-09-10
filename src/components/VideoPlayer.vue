@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-18 13:15:03
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-18 14:29:58
+ * @LastEditTime: 2020-09-10 18:27:52
 -->
 <template>
   <div>
@@ -43,7 +43,7 @@ export default {
         playbackRates: [0.7, 1.0, 1.5, 2.0],
         sources: [{
           type: 'video/mp4',
-          src: 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
+          src: this.sources
         }],
         poster: 'docs/corpfile/2352f228ecaabc939bf21b08d3beb9a6.png',
       }

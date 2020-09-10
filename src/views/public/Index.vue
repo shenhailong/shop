@@ -4,14 +4,14 @@
  * @Author: Dragon
  * @Date: 2020-07-29 09:40:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-18 14:27:03
+ * @LastEditTime: 2020-09-10 18:26:55
 -->
 <template>
   <div class="wrap-index">
     <NavBar current="public" />
     <div class="content">
       <div class="search-wrap">
-        <el-input class="serach-input" v-model="keyword" placeholder="请输入资料名称" clearable></el-input>
+        <el-input class="serach-input" v-model="searchString" placeholder="请输入资料名称" clearable></el-input>
         <el-button type="primary" :disabled="loading" @click="getList">搜索</el-button>
       </div>
       <el-table
@@ -19,16 +19,26 @@
         stripe
         style="width: 100%">
         <el-table-column
-          prop="date"
+          prop="resname"
           label="资料名称"
           width="180"
           align="center">
         </el-table-column>
         <el-table-column
+          prop="resname"
+          label="资料类型"
+          width="180"
+          align="center">
+          <template slot-scope="scope">
+            {{scope.row.restype === 'PDF' ? 'pdf文件' : '视频'}}
+          </template>
+        </el-table-column>
+        <el-table-column
           label="预览"
           align="center">
           <template slot-scope="scope">
-            <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">预览</el-button>
+            <el-button v-if="scope.row.restype === 'PDF'" @click="preview(scope.row.resurl)" type="primary" size="small">预览</el-button>
+            <el-button v-else @click="play(scope.row.resurl)" type="success" size="small">播放</el-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -49,7 +59,7 @@
       </div>
     </div>
     <el-dialog title="视频" :visible.sync="palyer">
-      <VideoPlayer :sources="sources" v-if="palyer" />
+      <VideoPlayer :sources="resurl" v-if="palyer" />
     </el-dialog>
   </div>
 </template>
@@ -65,12 +75,12 @@ export default {
   data() {
     return {
       list: [],
-      keyword: '',
+      searchString: '',
       curPage: 1, // 当前页
       pageSize: 12,
       total: 0,
       loading: false,
-      sources: 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm',
+      resurl: '',
       palyer: false
     }
   },
@@ -78,8 +88,16 @@ export default {
     this.getList()
   },
   methods: {
-    uploadVoucher(){
+    uploadVoucher(resurl){
+      // this.palyer = true
+      this.resurl = resurl
+    },
+    preview(resurl) {
+      window.open(resurl)
+    },
+    play(resurl) {
       this.palyer = true
+      this.resurl = resurl
     },
     currentChange(value) {
       this.curPage = value
@@ -87,10 +105,10 @@ export default {
     },
     getList() {
       this.loading = true
-      this.$axios.get('custprod.list', {
+      this.$axios.get('resource.search', {
         curPage: this.curPage,
         pageSize: this.pageSize,
-        keyword: this.keyword
+        searchString: this.searchString
       }).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
