@@ -26,6 +26,7 @@ module.exports = {
       .set('@constants', resolve('src/constants'))
       .set('@config', resolve('src/config'))
       .set('@store', resolve('src/store'))
+      .set('@mixin', resolve('src/mixin'))
     return config
   }
 }

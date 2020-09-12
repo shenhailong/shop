@@ -1,4 +1,4 @@
-# hello
+# CANS
 
 ## Project setup
 ```

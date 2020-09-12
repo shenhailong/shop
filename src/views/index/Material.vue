@@ -1,17 +1,20 @@
+<!--
+ * @Description: 
+ * @Version: 1.0.0
+ * @Author: Dragon
+ * @Date: 2020-07-29 09:40:44
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-09-10 18:26:55
+-->
 <template>
   <div class="wrap-index">
-    <NavBar current="member" />
+    <NavBar current="" />
     <div class="content">
-      <div v-if="!isMember" class="tip">
-        您还不是会员,请及时缴费,成为会员方可使用
-        <el-button type="primary" @click="$router.push('selectMember')">成为会员</el-button>
+      <div class="search-wrap">
+        <el-input class="serach-input" v-model="searchString" placeholder="请输入资料名称" clearable></el-input>
+        <el-button type="primary" :disabled="loading" @click="getList">搜索</el-button>
       </div>
-      <div v-else>
-        <div class="search-wrap">
-          <el-input class="serach-input" v-model="searchString" placeholder="请输入资料名称" clearable></el-input>
-          <el-button type="primary" :disabled="loading" @click="getList">搜索</el-button>
-        </div>
-        <el-table
+      <el-table
         :data="list"
         v-loading="loading"
         stripe
@@ -23,15 +26,8 @@
           align="center">
         </el-table-column>
         <el-table-column
+          prop="resname"
           label="资料类型"
-          width="180"
-          align="center">
-          <template slot-scope="scope">
-            {{scope.row.restype === 'PDF' ? 'pdf文件' : '视频'}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="资料等级"
           width="180"
           align="center">
           <template slot-scope="scope">
@@ -50,59 +46,44 @@
           label="下载"
           align="center">
           <template slot-scope="scope">
-            <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">下载</el-button>
+            <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">预览</el-button>
           </template>
         </el-table-column>
       </el-table>
-        <div class="pagination">
-          <el-pagination
-            background
-            layout="prev, pager, next"
-            @current-change="currentChange"
-            :total="total">
-          </el-pagination>
-        </div>
+      <div class="pagination">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          @current-change="currentChange"
+          :total="total">
+        </el-pagination>
       </div>
-      <el-dialog top="50px" height="50%" title="视频" :visible.sync="player">
+    </div>
+    <el-dialog top="50px" height="50%" title="视频" :visible.sync="player">
       <VideoPlayer :sources="resurl" v-if="player" :poster="poster" />
     </el-dialog>
-    </div>
   </div>
 </template>
 
 <script>
-import { getUser } from '@/utils/common'
 import MaterialMethod from '@mixin/MaterialMethod'
-
 export default {
   mixins: [ MaterialMethod ],
-  data() {
-    return {
-      isMember: false // 是否是会员
-    }
-  },
   mounted() {
-    this.type = this.$route.query.type
-    if(getUser()){
-      let user = getUser()
-      if(user.corp.mid > -2) {
-        this.isMember = true
-        this.getList()
-      }
-    }
+    this.searchString = this.$route.query.keyword
+    this.getList()
   },
   methods: {
     uploadVoucher(resurl){
+      // this.palyer = true
       this.resurl = resurl
     },
     getList() {
       this.loading = true
-      this.$axios.get('resource.search', {
+      this.$axios.get('resource.homesearch', {
         curPage: this.curPage,
         pageSize: this.pageSize,
-        searchString: this.searchString,
-        busitype: this.type,
-        level: 6
+        searchString: this.searchString
       }).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
@@ -112,28 +93,11 @@ export default {
         this.loading = false
       })
     }
-  },
-  watch: {
-    $route(value) {
-      this.type = value.query.type
-      this.getList()
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.tip{
-  color: #333333;
-  font-size: 20px;
-  text-align: center;
-  padding-top: 100px;
-}
-
-.btn-wrap{
-  display: flex;
-  justify-content: flex-end;
-}
 
 .search-wrap{
   display: flex;

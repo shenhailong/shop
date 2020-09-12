@@ -80,21 +80,21 @@ export default {
             name: '产品资料',
             value: 'member',
             query: {
-              type: 'product'
+              type: 1
             }
           }, {
             url: '/member',
             name: '最佳实践',
             value: 'member',
             query: {
-              type: 'practice'
+              type: 2
             }
           }, {
             url: '/member',
             name: '其他',
             value: 'member',
             query: {
-              type: 'other'
+              type: 3
             }
           }]
         },

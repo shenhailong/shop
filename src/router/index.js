@@ -42,6 +42,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "productCenter" */ '../views/productCenter/Index.vue')
   },
+  // 首页搜索资料
+  {
+    path: '/material',
+    name: 'Material',
+    component: () =>
+      import(/* webpackChunkName: "Material" */ '../views/index/Material.vue')
+  },
   // 公共资料
   {
     path: '/public',

@@ -31,7 +31,8 @@ export default {
     videoPlayer
   },
   props: {
-    sources: {}
+    sources: {},
+    poster: {}
   },
   data() {
     return {
@@ -45,12 +46,12 @@ export default {
           type: 'video/mp4',
           src: this.sources
         }],
-        poster: 'docs/corpfile/2352f228ecaabc939bf21b08d3beb9a6.png',
+        poster: this.poster,
       }
     }
   },
   mounted() {
-    console.log('this is current player instance object', this.player)
+    // console.log('this is current player instance object', this.player)
   },
   methods: {
     // listen event

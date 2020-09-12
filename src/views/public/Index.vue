@@ -16,6 +16,7 @@
       </div>
       <el-table
         :data="list"
+        v-loading="loading"
         stripe
         style="width: 100%">
         <el-table-column
@@ -37,8 +38,8 @@
           label="预览"
           align="center">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.restype === 'PDF'" @click="preview(scope.row.resurl)" type="primary" size="small">预览</el-button>
-            <el-button v-else @click="play(scope.row.resurl)" type="success" size="small">播放</el-button>
+            <el-button v-if="scope.row.restype === 'PDF'" @click="preview(scope.row.id)" type="primary" size="small">预览</el-button>
+            <el-button v-else @click="play(scope.row.id)" type="success" size="small">播放</el-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -58,31 +59,18 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog title="视频" :visible.sync="palyer">
-      <VideoPlayer :sources="resurl" v-if="palyer" />
+    <el-dialog top="50px" height="50%" title="视频" :visible.sync="player">
+      <VideoPlayer :sources="resurl" v-if="player" :poster="poster" />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import NavBar from '@components/NavBar'
-import VideoPlayer from '@components/VideoPlayer'
+import MaterialMethod from '@mixin/MaterialMethod'
 export default {
-  components: {
-    NavBar,
-    VideoPlayer
-  },
+  mixins: [ MaterialMethod ],
   data() {
-    return {
-      list: [],
-      searchString: '',
-      curPage: 1, // 当前页
-      pageSize: 12,
-      total: 0,
-      loading: false,
-      resurl: '',
-      palyer: false
-    }
+    return {}
   },
   mounted() {
     this.getList()
@@ -92,23 +80,13 @@ export default {
       // this.palyer = true
       this.resurl = resurl
     },
-    preview(resurl) {
-      window.open(resurl)
-    },
-    play(resurl) {
-      this.palyer = true
-      this.resurl = resurl
-    },
-    currentChange(value) {
-      this.curPage = value
-      this.getList()
-    },
     getList() {
       this.loading = true
       this.$axios.get('resource.search', {
         curPage: this.curPage,
         pageSize: this.pageSize,
-        searchString: this.searchString
+        searchString: this.searchString,
+        level: 2
       }).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list

@@ -10,10 +10,10 @@
   <div class="pay-confirm">
     <div class="content">
       <div class="title">
-        确认订单
+        订单详情
       </div>
       <el-steps :active="1" simple>
-        <el-step title="确认订单" icon="el-icon-edit"></el-step>
+        <el-step title="订单详情" icon="el-icon-edit"></el-step>
         <el-step title="支付"></el-step>
         <el-step title="支付成功"></el-step>
       </el-steps>
@@ -31,12 +31,12 @@
             width="50">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pprodname"
             label="产品名称"
             align="center">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="prodname"
             label="产品明细"
             align="center">
           </el-table-column>
@@ -68,7 +68,7 @@
         </el-table>
       </div>
 
-      <div class="title">请选择支付方式</div>
+      <!-- <div class="title">请选择支付方式</div>
       <div class="tab">
         <div @click="payType = 'wx'" :class="{ active : payType == 'wx'}" class="item">
           <div class="wx-logo"></div>
@@ -82,13 +82,13 @@
           <div class="card-logo"></div>
           银行卡
         </div>
-      </div>
+      </div> -->
 
       <div class="footer">
         <div class="footer-content">
           <div class="left">
             <div class="footer-item">
-              下单时间
+              下单时间: {{date()}}
             </div>
           </div>
           <div class="right">
@@ -110,42 +110,56 @@
 </template>
 
 <script>
+import { getDate } from '@/utils/tools'
+
 export default {
   components: {
 
   },
   data() {
     return {
-      tableData: [{
-        name: '升级会员',
-        a: '王小虎',
-        money: '2000元'
-      }],
       payType: 'wx',
       list: [],
       total: 0,
+      detail: {},
       discount: false, // 是否使用折扣
     }
   },
   mounted() {
-    this.getList()
+    this.getDetail()
   },
   methods: {
-    getList() {
+    date() {
+      if(this.detail.createdt){
+        return getDate(this.detail.createdt)
+      }
+    },
+    getDetail() {
       this.loading = true
       this.$axios.get('order.detail', {
         id: this.$route.params.id
       }).then((res) => {
         if (res.code === 0) {
-          this.list = res.data.list
+          this.list = res.data.ldetails
+          this.detail = res.data
         }
       }).finally(() => {
         this.loading = false
       })
     },
+    // 是否可以使用折扣
+    async getDiscount() {
+      const res = await this.$axios.post('order.zhekou', 
+        { id: this.$route.params.id })
+      if (res.code === 0) {
+        this.calculateTotal()
+      }else{
+        this.reload()
+      }
+    },
     pay() {
       let data = {}
-      this.$axios.post('user.register', data).then((res) => {
+      this.$axios.post('order.topay', data).then((res) => {
         if (res.data.code === 0) {
           if(this.payType === 'wx'){
             this.$router.push('wxPay')
@@ -159,8 +173,18 @@ export default {
         this.submitting = false
       })
     },
-    useDiscount(value) {
-      console.log(value)
+    calculateTotal() {
+
+    },
+    // 时长切换
+    async useDiscount(value) {
+      const res = await this.$axios.post('order.discount', 
+        { orderid: this.$route.params.id, discount: value })
+      if (res.code === 0) {
+        this.calculateTotal()
+      }else{
+        this.reload()
+      }
     },
   }
 }

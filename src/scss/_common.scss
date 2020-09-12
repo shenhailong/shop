@@ -8,8 +8,21 @@
   margin: 0 auto;
 }
 
+.internal-content{
+  max-width: 1170px;
+  margin: 0 auto;
+}
+
 .pagination{
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+}
+
+.disB{
+  display: block;
+}
+
+.disN{
+  display: none;
 }
