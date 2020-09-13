@@ -82,7 +82,7 @@ export default {
     },
     getList() {
       this.loading = true
-      this.$axios.get('resource.search', {
+      this.$axios.get('resource.searchEq', {
         curPage: this.curPage,
         pageSize: this.pageSize,
         searchString: this.searchString,

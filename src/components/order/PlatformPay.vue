@@ -39,12 +39,27 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="总价"
+        align="center">
+        <template slot-scope="props">
+          合计: {{props.row.curprice}} 元
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="createdt"
+        label="凭证"
+        width="200"
+        align="center">
+        <template slot-scope="props">
+          <img v-if="props.row.clurl" :src="props.row.clurl" height="100px" width="150px" />
+        </template>
+      </el-table-column>
+      <el-table-column
         fixed="right"
         label="操作"
         align="center">
         <template slot-scope="scope">
           <el-button @click="deleteOrder(scope.row)" type="danger" size="small">删除</el-button>
-          <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">上传凭证</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -85,9 +100,17 @@ export default {
     data(value) {
       return getDate(value)
     },
+    // 总价
+    totalPrice(children) {
+      let price = 0
+      children.forEach(item => {
+        price += Number(item.totalprice)
+      })
+      return price
+    },
     getList() {
       this.loading = true
-      this.$axios.get('order.search', this.ruleForm).then((res) => {
+      this.$axios.get('order.listpaypage', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
           this.total = res.data.total
@@ -108,7 +131,9 @@ export default {
         cancelButtonText: '取消',
         type: 'error'
       }).then(async () => {
-        const res = await this.$axios.post('order.deld', row.id)
+        const res = await this.$axios.post('order.remove', {
+          id: row.id
+        })
         if (res.code === 0) {
           this.getList()
         }else{

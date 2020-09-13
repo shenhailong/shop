@@ -31,26 +31,33 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="资料等级"
+          label="查看资料等级"
           width="180"
           align="center">
           <template slot-scope="scope">
-            {{scope.row.restype === 'PDF' ? 'pdf文件' : '视频'}}
+            {{USER_LEVEL[scope.row.level]}}
           </template>
         </el-table-column>
         <el-table-column
           label="预览"
           align="center">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.restype === 'PDF'" @click="preview(scope.row.id)" type="primary" size="small">预览</el-button>
-            <el-button v-else @click="play(scope.row.id)" type="success" size="small">播放</el-button>
+            <template v-if="scope.row.level > userLevel">
+              <el-button @click="goMember" type="primary" size="small">升级会员</el-button>
+            </template>
+            <template v-else>
+              <el-button v-if="scope.row.restype === 'PDF'" @click="preview(scope.row.id)" type="primary" size="small">预览</el-button>
+              <el-button v-else @click="play(scope.row.id)" type="success" size="small">播放</el-button>
+            </template>
           </template>
         </el-table-column>
         <el-table-column
           label="下载"
           align="center">
           <template slot-scope="scope">
-            <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">下载</el-button>
+            <template v-if="scope.row.level <= userLevel">
+              <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">下载</el-button>
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -73,20 +80,24 @@
 <script>
 import { getUser } from '@/utils/common'
 import MaterialMethod from '@mixin/MaterialMethod'
+import { USER_LEVEL } from '@/constants/status'
 
 export default {
   mixins: [ MaterialMethod ],
   data() {
     return {
-      isMember: false // 是否是会员
+      USER_LEVEL,
+      isMember: false, // 是否是会员
+      userLevel: 1
     }
   },
   mounted() {
     this.type = this.$route.query.type
     if(getUser()){
       let user = getUser()
-      if(user.corp.mid > -2) {
+      if(user.corp.level > 2) {
         this.isMember = true
+        this.userLevel = user.corp.level
         this.getList()
       }
     }
@@ -95,9 +106,13 @@ export default {
     uploadVoucher(resurl){
       this.resurl = resurl
     },
+    // 跳转升级会员页面
+    goMember() {
+      this.$router.push('selectMember')
+    },
     getList() {
       this.loading = true
-      this.$axios.get('resource.search', {
+      this.$axios.get('resource.searchEq', {
         curPage: this.curPage,
         pageSize: this.pageSize,
         searchString: this.searchString,

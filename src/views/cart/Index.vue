@@ -74,9 +74,6 @@
                 <div class="footer-item">
                   <el-checkbox v-model="allChecked" @change="toggleSelection">全选</el-checkbox>
                 </div>
-                <div class="footer-item">
-                  <el-checkbox v-model="discount" @change="useDiscount">使用95折优惠</el-checkbox>
-                </div>
               </div>
               <div class="right">
                 <div class="footer-item">
@@ -110,7 +107,6 @@ export default {
       loading: true,
       list: [],
       allChecked: false, // 自定义的全选
-      discount: false, // 是否使用折扣
       total: 0, // 总价
       select: [], // 选择的产品
       submiting: false // 正在提交
@@ -180,9 +176,6 @@ export default {
       if (res.code === 0) {
         this.calculateTotal()
       }
-    },
-    useDiscount(value) {
-      console.log(value)
     },
     // 自定义的全选
     toggleSelection(value){

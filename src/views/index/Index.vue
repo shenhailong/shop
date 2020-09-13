@@ -21,11 +21,11 @@
         </div>
       </div>
       <!-- Swiper -->
-      <div class="swiper-container">
+      <div v-loading="loadingBanner" class="swiper-container">
         <div class="swiper-wrapper ">
-          <div class="swiper-slide slider" v-for="(item, index) in swiperList" :key="index">
-            <a :href="item.url">
-            <img :src="item.src" />
+          <div class="swiper-slide slider" v-for="(item) in swiperList" :key="item.id">
+            <a :href="item.navurl">
+              <img :src="item.navpic" />
             </a>
           </div>
         </div>
@@ -83,20 +83,7 @@ export default {
   },
   data() {
     return {
-      swiperList: [
-        {
-          url: 'https://www.baidu.com/',
-          src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1621892280,3672596328&fm=26&gp=0.jpg'
-        },
-        {
-          url: 'https://cn.bing.com/?FORM=Z9FD1',
-          src: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3980421992,4198883825&fm=11&gp=0.jpg'
-        },
-        {
-          url: 'https://cn.vuejs.org/v2/guide/',
-          src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=668925903,3991018893&fm=26&gp=0.jpg'
-        }
-      ],
+      swiperList: [],
       list: [],
       aboutList: [
         { text: '基本信息'},
@@ -109,14 +96,28 @@ export default {
       options: [],
       value: '',
       keyword: '',
-      loading: false
+      loading: false,
+      loadingBanner: false
     }
   },
   mounted() {
-    this.initSwiper()
     this.getList()
+    this.getBanner()
   },
   methods: {
+    getBanner() {
+      this.loadingBanner = true
+      this.$axios.get('home.nav').then((res) => {
+        if (res.code === 0) {
+          this.swiperList = res.data
+          this.$nextTick(() => {
+            this.initSwiper()
+          })
+        }
+      }).finally(() => {
+        this.loadingBanner = false
+      })
+    },
     getList() {
       this.loading = true
       this.$axios.get('custcoreprod.list', {
@@ -273,6 +274,7 @@ export default {
     margin: 0 auto;
     border-bottom: 1px solid #808183;
     margin-bottom: 50px;
+    cursor: pointer;
   }
 
   .about-content{
@@ -286,6 +288,7 @@ export default {
     // height: 123px;
     text-align: center;
     font-size: 15px;
+    cursor: pointer;
   }
 
   .item .img{
@@ -326,11 +329,13 @@ export default {
   }
 
   .description{
-    margin-top: 50px;
     font-size: 16px;
     line-height: 22px;
     text-align: center;
     color: '#333';
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 50px;
   }
 }
 </style>

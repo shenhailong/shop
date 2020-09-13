@@ -93,18 +93,17 @@
           </div>
           <div class="right">
             <div class="footer-item">
-              合计:  <span class="money">{{total}}</span> 元
+              合计:  <span class="money">{{detail.curprice}}</span> 元
             </div>
-            <div class="footer-item">
-              <el-checkbox v-model="discount" @change="useDiscount">使用95折优惠</el-checkbox>
+            <div v-if="showDiscount" class="footer-item">
+              <el-checkbox v-model="discount" @change="useDiscount">使用{{rate}}折优惠</el-checkbox>
             </div>
             <div class="footer-item btn-wrap">
-              <el-button @click="submit()" type="primary" size="large">立即支付</el-button>
+              <el-button @click="getPayType()" type="primary" size="large">获取支付方式</el-button>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -120,9 +119,10 @@ export default {
     return {
       payType: 'wx',
       list: [],
-      total: 0,
       detail: {},
+      showDiscount: false, // 是否显示折扣
       discount: false, // 是否使用折扣
+      rate: 100
     }
   },
   mounted() {
@@ -142,6 +142,8 @@ export default {
         if (res.code === 0) {
           this.list = res.data.ldetails
           this.detail = res.data
+          this.discount = res.data.discountType === '2'
+          this.getDiscount()
         }
       }).finally(() => {
         this.loading = false
@@ -150,11 +152,13 @@ export default {
     // 是否可以使用折扣
     async getDiscount() {
       const res = await this.$axios.post('order.zhekou', 
-        { id: this.$route.params.id })
-      if (res.code === 0) {
+        { orderid: this.$route.params.id })
+      if (res.code === 0 && res.data) {
         this.calculateTotal()
+        this.showDiscount = true
+        this.rate = (parseFloat(res.data) * 100)
       }else{
-        this.reload()
+        this.showDiscount = false
       }
     },
     pay() {
@@ -176,16 +180,20 @@ export default {
     calculateTotal() {
 
     },
-    // 时长切换
+    // 使用折扣
     async useDiscount(value) {
+      let discount = value ? 2 : 1
       const res = await this.$axios.post('order.discount', 
-        { orderid: this.$route.params.id, discount: value })
+        { orderid: this.$route.params.id, discount })
       if (res.code === 0) {
-        this.calculateTotal()
+        this.getDetail()
       }else{
-        this.reload()
+        // this.reload()
       }
     },
+    getPayType() {
+      window.open('http://39.100.227.252:888/cnas/order/topay.jsp')
+    }
   }
 }
 </script>

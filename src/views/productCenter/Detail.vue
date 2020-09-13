@@ -14,7 +14,7 @@
       <el-button type="primary" @click="visible = true">加入购物车</el-button>
 
     </div>
-    <AddCart :visible.sync="visible" @hide="visible = false" />
+    <AddCart v-if="visible" :visible.sync="visible" :item=item @hide="visible = false" />
   </div>
 </template>
 
@@ -29,14 +29,27 @@ export default {
   },
   data() {
     return {
-      visible: false
+      visible: false,
+      item: [],
+      detai: {}
     }
   },
   mounted() {
-
+    this.geDetail()
   },
   methods: {
-
+    geDetail() {
+      this.loading = true
+      this.$axios.get('product.detail', {
+        id: this.$route.params.id
+      }).then((res) => {
+        if (res.code === 0) {
+          this.detail = res.data
+        }
+      }).finally(() => {
+        this.loading = false
+      })
+    },
   }
 }
 </script>

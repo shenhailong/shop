@@ -134,6 +134,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "Detail" */ '../views/productCenter/Detail.vue')
   },
+  // 关于我们
+  {
+    path: '/about',
+    name: 'About',
+    component: () =>
+      import(/* webpackChunkName: "About" */ '../views/about/Index.vue')
+  },
 ];
 
 const router = new VueRouter({
