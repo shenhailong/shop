@@ -4,13 +4,19 @@
  * @Author: Dragon
  * @Date: 2020-07-27 13:45:15
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-11 15:46:55
+ * @LastEditTime: 2020-09-14 09:55:45
 -->
 <template>
   <div class="wrap-index">
     <NavBar current="productCenter" />
     <div class="content">
       产品详情
+      <div class="detail-box">
+        <div class="left">
+          <img :src="BASE_URL + item.picture" class="product-img" alt="">
+        </div>
+        <div class="right"></div>
+      </div>
       <el-button type="primary" @click="visible = true">加入购物车</el-button>
 
     </div>
@@ -21,6 +27,7 @@
 <script>
 import NavBar from '@components/NavBar'
 import AddCart from '@components/AddCart'
+import { BASE_URL } from '@/constants/common'
 
 export default {
   components: {
@@ -31,7 +38,8 @@ export default {
     return {
       visible: false,
       item: [],
-      detai: {}
+      detai: {},
+      BASE_URL
     }
   },
   mounted() {
@@ -53,3 +61,16 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.detail-box{
+  display: flex;
+  align-items: center;
+
+  .left{
+    margin-right: 30px;
+    height: 200px;
+    width: 200px;
+  }
+}
+</style>

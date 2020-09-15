@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-11 15:51:38
+ * @LastEditTime: 2020-09-15 13:45:48
 -->
 <template>
   <div class="member-select">
@@ -12,19 +12,17 @@
     <div class="content">
       <h2 class="title">您的中级会员将于2010-08-02到期</h2>
       <div class="member-item">
-        <div class="item">初级会员年费: <span class="text">1200 <span class="unit">元</span></span></div>
-        <div class="item">中级会员年费: <span class="text">1200 <span class="unit">元</span></span></div>
+        <div v-for="item in memberList" :key="item.id" class="item">{{item.membername}}年费:
+          <span class="text">{{item.nianfei}} <span class="unit">元</span></span>
+        </div>
       </div>
-      <div class="member-item">
-        <div class="item">高级会员年费: <span class="text">1200 <span class="unit">元</span></span></div>
-        <div class="item">终身会员年费: <span class="text">1200 <span class="unit">元</span></span></div>
-      </div>
+
       <div class="tab">
-        <div @click="type = 'update'" :class="{ active : type == 'update'}" class="item">升级会员</div>
+        <div @click="type = 'upgrade'" :class="{ active : type == 'upgrade'}" class="item">升级会员</div>
         <div @click="type = 'buy'" :class="{ active : type == 'buy'}" class="item">购买会员</div>
       </div>
 
-      <div v-if="type === 'update'" class="">
+      <div v-if="type === 'upgrade'" class="">
         <el-radio-group v-model="update">
           <el-radio :label="6" border>中级会员</el-radio>
           <el-radio :label="9" border>高级会员</el-radio>
@@ -43,7 +41,7 @@
         缴费金额: <span class="text">1200 <span class="unit">元</span></span>
       </div>
       <div class="footer">
-        <el-button @click="next" type="primary">下一步</el-button>
+        <el-button @click="submit" type="primary">提交</el-button>
       </div>
     </div>
   </div>
@@ -58,16 +56,60 @@ export default {
   },
   data() {
     return {
-      type: 'update', // 升级(update) | 购买(buy)
+      type: 'upgrade', // 升级(upgrade) | 购买(buy)
       update: null,
       buy: null,
-      payType: null
+      payType: null,
+      memberList: []
     }
   },
   mounted() {
-
+    this.getMemberlist()
+    this.getMemberlast()
+    this.getUpgradeList()
   },
   methods: {
+    // 会员信息
+    getMemberlist() {
+      this.$axios.get('member.memberlist').then((res) => {
+        if (res.code === 0) {
+          this.memberList = res.data
+        }
+      })
+    },
+    // 最后购买的会员信息
+    getMemberlast() {
+      this.$axios.get('member.last').then((res) => {
+        if (res.code === 0) {
+          this.s = res.data
+        }
+      })
+    },
+    // 获取升级会员列表
+    getUpgradeList() {
+      this.$axios.post('member.toupgrade').then((res) => {
+        if (res.code === 0) {
+          this.s = res.data
+        }
+      })
+    },
+    submit() {},
+    // 购买会员
+    buyMember() {
+      this.$axios.post('member.buy').then((res) => {
+        if (res.code === 0) {
+          this.s = res.data
+        }
+      })
+    },
+    // 升级会员
+    upgradeMember() {
+      this.$axios.post('member.upgrade').then((res) => {
+        if (res.code === 0) {
+          this.s = res.data
+        }
+      })
+    },
     next() {
       this.$router.push('confirmOrder')
     }
@@ -82,6 +124,7 @@ export default {
     background: #ffffff;
     padding-left: 20px;
     padding-right: 20px;
+    box-sizing: border-box;
   }
 
   .title{
@@ -91,7 +134,7 @@ export default {
   .member-item{
     display: flex;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     .item{
       width: 50%;
       font-size: 16px;

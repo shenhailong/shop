@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:22:49
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-10 17:50:20
+ * @LastEditTime: 2020-09-15 12:57:11
 -->
 <template>
   <div class="wrap-index">
@@ -16,7 +16,7 @@
         <el-tab-pane label="补充材料"><SupplyMaterial /></el-tab-pane>
         <el-tab-pane label="修改核心资料"><ChangeMaterial /></el-tab-pane>
         <el-tab-pane label="积分详情"><Score /></el-tab-pane>
-        <el-tab-pane label="会员购买记录">定时任务补偿</el-tab-pane>
+        <el-tab-pane label="会员购买记录"><MemberBuyList /></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -28,6 +28,8 @@ import Info from '@components/user/Info'
 import ChangePassword from '@components/user/ChangePassword'
 import SupplyMaterial from '@components/user/SupplyMaterial'
 import ChangeMaterial from '@components/user/ChangeMaterial'
+import MemberBuyList from '@components/user/MemberBuyList'
+
 import Score from '@components/user/Score'
 
 export default {
@@ -37,6 +39,7 @@ export default {
     ChangePassword,
     SupplyMaterial,
     ChangeMaterial,
+    MemberBuyList,
     Score
   },
   data() {
