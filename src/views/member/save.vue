@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-15 18:41:36
+ * @LastEditTime: 2020-09-15 18:08:34
 -->
 <template>
   <div class="member-select">
@@ -17,51 +17,57 @@
         </div>
       </div>
 
+      <div class="tab">
+        <div @click="type = 'buy'" :class="{ active : type == 'buy'}" class="item">购买会员</div>
+        <div @click="type = 'upgrade'" :class="{ active : type == 'upgrade'}" class="item">升级会员</div>
+      </div>
+
+      <div v-if="type === 'buy'" class="">
+        <el-radio-group @change="radioBuyChange" v-model="upgrade">
+          <el-radio v-for="item in memberList" :key="item.id" :label="item.level" border>
+            {{item.membername}}
+          </el-radio>
+        </el-radio-group>
+      </div>
+      <div v-else class="">
+        <el-radio-group @change="radioUpgradeChange" v-model="buy">
+          <el-radio v-for="item in upgradeList" :key="item.id" :label="item.level" border>
+            {{item.membername}}
+          </el-radio>
+        </el-radio-group>
+      </div>
+      <div class="money-wrap">
+        缴费金额: <span class="text">{{total}} <span class="unit">元</span></span>
+      </div>
+
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="购买方式">
-          <div class="tab">
-            <div @click="type = 'buy'" :class="{ active : type == 'buy'}" class="item">购买会员</div>
-            <div @click="type = 'upgrade'" :class="{ active : type == 'upgrade'}" class="item">升级会员</div>
-          </div>
-        </el-form-item>
+  
+  
+  <el-form-item label="活动时间" required>
+    <el-col :span="11">
+      <el-form-item prop="date2">
+        <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
+      </el-form-item>
+    </el-col>
+  </el-form-item>
 
-        <div v-if="type === 'buy'" class="">
-          <el-form-item label="会员等级" prop="upgrade">
-            <el-radio-group @change="radioBuyChange" v-model="ruleForm.upgrade">
-              <el-radio v-for="item in memberList" :key="item.id" :label="item.level" border>
-                {{item.membername}}
-              </el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </div>
-        <div v-else class="">
-          <el-form-item label="会员等级" prop="buy">
-            <el-radio-group @change="radioUpgradeChange" v-model="ruleForm.buy">
-              <el-radio v-for="item in upgradeList" :key="item.id" :label="item.level" border>
-                {{item.membername}}
-              </el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </div>
 
-        <el-form-item label="开始日期" required>
-          <el-col :span="10">
-            <el-form-item prop="hyksrq">
-              <el-date-picker placeholder="选择开始日期" v-model="ruleForm.hyksrq" style="width: 100%;"></el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-form-item>
-
-        <el-form-item label="缴费金额:">
-          <div class="money-wrap">
-            <span class="text">{{total}} <span class="unit">元</span></span>
-          </div>
-        </el-form-item>
-        <el-form-item>
-          <el-button :loading="loading" type="primary" @click="submitForm('ruleForm')">提交</el-button>
-          <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-        </el-form-item>
-      </el-form>
+  <el-form-item label="特殊资源" prop="resource">
+    <el-radio-group v-model="ruleForm.resource">
+      <el-radio label="线上品牌商赞助"></el-radio>
+      <el-radio label="线下场地免费"></el-radio>
+    </el-radio-group>
+  </el-form-item>
+  
+  
+  <el-form-item>
+    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+    <el-button @click="resetForm('ruleForm')">重置</el-button>
+  </el-form-item>
+</el-form>
+      <div class="footer">
+        <el-button :loading="loading" @click="submit" type="primary">提交</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -89,20 +95,21 @@ export default {
       tip: '',
       isMember: false, // 是否是会员
       ruleForm: {
-        hyksrq: '',
-        buy: '',
+
+        date2: '',
+
         resource: '',
       },
       rules: {
-        hyksrq: [
-          { type: 'date', required: true, message: '请选择开始日期', trigger: 'change' }
+
+        date2: [
+          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
         ],
-        buy: [
-          { required: true, message: '请选择需要购买的会员级别', trigger: 'change' }
+
+        resource: [
+          { required: true, message: '请选择活动资源', trigger: 'change' }
         ],
-        upgrade: [
-          { required: true, message: '请选择需要升级的会员级别', trigger: 'change' }
-        ],
+
       }
     }
   },
@@ -121,6 +128,16 @@ export default {
 
   },
   methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
@@ -175,13 +192,6 @@ export default {
       }
       this.total = total
     },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.submit()
-        }
-      });
-    },
     submit() {
       this.loading = true
       if(this.type === 'buy'){
@@ -193,8 +203,8 @@ export default {
     // 购买会员
     buyMember() {
       this.$axios.post('member.buy', {
-        'mid': this.ruleForm.buy,
-        'hyksrq': this.ruleForm.hyksrq,
+        'mid': 3,
+        'hyksrq': '2020-09-11',
         'paynum': 1200
       }).then((res) => {
         if (res.code === 0) {
@@ -207,8 +217,8 @@ export default {
     // 升级会员
     upgradeMember() {
       this.$axios.post('member.upgrade', {
-        'mid': this.ruleForm.upgrade,
-        'hyksrq': this.ruleForm.hyksrq,
+        'mid': 3,
+        'hyksrq': '2020-09-11',
         'paynum': 1200
       }).then((res) => {
         if (res.code === 0) {
@@ -224,6 +234,7 @@ export default {
   },
   watch: {
     type (value) {
+      console.log(value)
       if(value === 'buy' && this.buy !== ''){
         this.findTotal(this.buy, 'buy')
       }else if(value === 'upgrade' && this.upgrade !== ''){
@@ -242,7 +253,6 @@ export default {
     padding-left: 20px;
     padding-right: 20px;
     box-sizing: border-box;
-    padding-bottom: 50px;
   }
 
   .title{
@@ -273,7 +283,7 @@ export default {
   }
 
   .tab{
-    // margin-bottom: 20px;
+    margin-bottom: 20px;
     display: flex;
 
     .item{
@@ -281,7 +291,7 @@ export default {
       text-align: center;
       font-size: 16px;
       cursor: pointer;
-      padding: 0 10px;
+      padding: 10px;
       background: $color-gray;
       border-radius: 50px;
       margin-right: 5px;
@@ -295,7 +305,7 @@ export default {
   .money-wrap{
     font-size: 16px;
     line-height: 30px;
-    margin: 5px 0;
+    margin: 20px 0;
     .text{
       font-size: 20px;
       font-weight: 600;
@@ -307,5 +317,11 @@ export default {
     }
   }
 
+  .footer{
+    margin-top: 20px;
+    display: flex;
+    padding: 20px;
+    flex-direction: row-reverse;
+  }
 }
 </style>
