@@ -24,9 +24,9 @@
       <div v-loading="loadingBanner" class="swiper-container">
         <div class="swiper-wrapper ">
           <div class="swiper-slide slider" v-for="(item) in swiperList" :key="item.id">
-            <a :href="item.navurl">
+            <div @click="newPage(item.navurl)" :href="item.navurl">
               <img :src="item.navpic" />
-            </a>
+            </div>
           </div>
         </div>
         <!-- Add Pagination -->
@@ -190,6 +190,9 @@ export default {
     },
     aboutHover(index) {
       this.currentAbout = index
+    },
+    newPage(url) {
+      window.open(url)
     }
   }
 }
