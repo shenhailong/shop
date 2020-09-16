@@ -4,31 +4,45 @@
       :data="list"
       style="width: 100%">
       <el-table-column
-        prop="orderno"
-        label="订单编号"
-        width="180"
+        label="购买的会员等级"
+        width="120"
         align="center">
+        <template slot-scope="props">
+          {{USER_LEVEL[props.row.mid]}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="createdt"
-        label="下单时间"
-        width="180"
+        label="开始日期"
+        width="150"
         align="center">
         <template slot-scope="props">
-          {{data(props.row.createdt)}}
+          {{data(props.row.hyksrq)}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="createdt"
+        label="结束日期"
+        width="140"
+        align="center">
+        <template slot-scope="props">
+          {{data(props.row.hyjsrq)}}
         </template>
       </el-table-column>
       <el-table-column
         prop="paystatus"
         label="支付状态"
+        width="140"
         align="center">
         <template slot-scope="props">
-          {{props.row.paystatus === 'Y' ? '已支付' : '待支付'}}
+          <div v-if="props.row.paystatus === 'Y'" class="color-red">待支付</div>
+          <div v-else class="color-green">已支付</div>
         </template>
       </el-table-column>
       <el-table-column
         label="金额"
         prop="curprice"
+        width="140"
         align="center">
         <template slot-scope="props">
           {{props.row.paynum}} 元
@@ -46,7 +60,7 @@
       <el-table-column
         fixed="right"
         label="操作"
-        width="300"
+        width="250"
         align="center">
         <template slot-scope="scope">
           <el-button @click="deleteOrder(scope.row)" type="danger" size="small">删除</el-button>
@@ -68,7 +82,7 @@
       :visible.sync="uploadShow"
       width="30%">
       <el-upload
-        :headers="{'api-action': 'memberpay.upload'}"
+        :headers="{'api-action': 'memberpay.upload', 'api-token': token ? token : ''}"
         action="/cnas/v1"
         list-type="picture" name="orderFile" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
           <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
@@ -83,19 +97,18 @@
 </template>
 <script>
 import { getDate } from '@/utils/tools'
-export default {
+import { USER_LEVEL } from '@/constants/status'
+import { TOKEN } from '@/constants/key'
 
+export default {
   data() {
     return {
+      USER_LEVEL,
       ruleForm: {
-        paystatus: 'N',
-        orderno: '',
-        sstartdate: '',
-        senddate: '',
         curPage: 1, // 当前页
         pageSize: 10
       },
-      date: [],
+      token: '',
       list: [],
       total: 0,
       loading: false,
@@ -110,18 +123,11 @@ export default {
   },
   mounted() {
     this.getList()
+    this.token = window.localStorage.getItem(TOKEN)
   },
   methods: {
     data(value) {
-      return getDate(value)
-    },
-    // 总价
-    totalPrice(children) {
-      let price = 0
-      children.forEach(item => {
-        price += Number(item.totalprice)
-      })
-      return price
+      return getDate(value, true)
     },
     getList() {
       this.loading = true
@@ -139,34 +145,16 @@ export default {
       this.ruleForm.curPage = value
       this.getList()
     },
-    dateChange(value) {
-      this.ruleForm.sstartdate = value ? value[0] : ''
-      this.ruleForm.senddate = value ? value[1] : ''
-    },
-    // 查询
-    search() {
-      this.getList()
-    },
-    resetForm(formName) {
-      this.date = []
-      this.ruleForm.sstartdate = ''
-      this.ruleForm.senddate = ''
-      this.$refs[formName].resetFields();
-    },
     // 删除
     deleteOrder(row) {
-      this.$confirm('确定删除该订单?', '删除订单', {
+      this.$confirm('确定删除该购买记录?', '删除记录', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'error'
       }).then(async () => {
-        const res = await this.$axios.post('order.remove', {
-          id: row.id
-        })
+        const res = await this.$axios.post('memberpay.delete', { id: row.id })
         if (res.code === 0) {
           this.getList()
-        }else{
-          this.reload()
         }
       }).catch(() => {})
     },
@@ -179,7 +167,7 @@ export default {
     },
     // 上传图片操作
     handleRemove(file, fileList) {
-      this.ruleForm.clurl = ''
+      this.uploadData.clurl = ''
       this.fileList = fileList
     },
     handleBeforeUpload(file) {
@@ -197,16 +185,21 @@ export default {
       if (response.code === 0) {
         this.uploadData.clurl = response.data
         this.fileList = fileList
-        this.uploading = false
-      } else {
-        this.uploading = false
+      } else if(response.code === 9900) {
+        this.$message.warning('请重新登录')
+        this.$router.push('login')
       }
+      this.uploading = false
     },
     handleExceed() {
       this.$message.warning('请先删除后再上传')
     },
     // 确定上传
     uploadOk() {
+      if(this.uploadData.clurl === ''){
+        this.$message.error('请上传图片')
+        return
+      }
       this.loading = true
       this.$axios.post('memberpay.savecl', this.uploadData).then((res) => {
         if (res.code === 0) {

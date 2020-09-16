@@ -107,7 +107,7 @@
       :visible.sync="uploadShow"
       width="30%">
       <el-upload 
-        :headers="{'api-action': 'order.upload'}" 
+        :headers="{'api-action': 'order.upload', 'api-token': token ? token : ''}"
         action="/cnas/v1"
         list-type="picture" name="orderFile" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
           <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
@@ -123,12 +123,15 @@
 <script>
 import Child from './PlatformChild'
 import { getDate } from '@/utils/tools'
+import { TOKEN } from '@/constants/key'
+
 export default {
   components: {
     Child
   },
   data() {
     return {
+      token: '',
       ruleForm: {
         paystatus: 'N',
         orderno: '',
@@ -152,6 +155,7 @@ export default {
   },
   mounted() {
     this.getList()
+    this.token = window.localStorage.getItem(TOKEN)
   },
   methods: {
     data(value) {
@@ -216,13 +220,12 @@ export default {
       this.$router.push(`confirmOrder/${row.id}`)
     },
     upload(id) {
-      console.log(id)
       this.uploadData.orderid = id
       this.uploadShow = true
     },
     // 上传图片操作
     handleRemove(file, fileList) {
-      this.ruleForm.clurl = ''
+      this.uploadData.clurl = ''
       this.fileList = fileList
     },
     handleBeforeUpload(file) {
@@ -240,10 +243,11 @@ export default {
       if (response.code === 0) {
         this.uploadData.clurl = response.data
         this.fileList = fileList
-        this.uploading = false
-      } else {
-        this.uploading = false
+      } else if (response.code === 9900) {
+        this.$message.warning('请重新登录')
+        this.$router.push('login')
       }
+      this.uploading = false
     },
     handleExceed() {
       this.$message.warning('请先删除后再上传')

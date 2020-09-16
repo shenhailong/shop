@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-15 18:41:36
+ * @LastEditTime: 2020-09-16 13:23:59
 -->
 <template>
   <div class="member-select">
@@ -47,7 +47,7 @@
         <el-form-item label="开始日期" required>
           <el-col :span="10">
             <el-form-item prop="hyksrq">
-              <el-date-picker placeholder="选择开始日期" v-model="ruleForm.hyksrq" style="width: 100%;"></el-date-picker>
+              <el-date-picker :picker-options="pickerOptions" type="date" value-format="yyyy-MM-dd" placeholder="选择开始日期" v-model="ruleForm.hyksrq" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-form-item>
@@ -79,23 +79,29 @@ export default {
   data() {
     return {
       type: 'buy', // 升级(upgrade) | 购买(buy)
-      upgrade: '',
-      buy: '',
       payType: null,
       memberList: [],
       upgradeList: [], // 升级会员列表
       loading: false,
       total: 0, // 缴费金额
       tip: '',
+      userhyjsrq: '',
       isMember: false, // 是否是会员
+      pickerOptions: {
+        disabledDate: (time) => {
+          let date = (new Date).getTime() - 24 * 60 * 60 * 1000;
+          let yesterday = new Date(date);
+          return time < yesterday
+        }
+      },
       ruleForm: {
         hyksrq: '',
         buy: '',
-        resource: '',
+        upgrade: ''
       },
       rules: {
         hyksrq: [
-          { type: 'date', required: true, message: '请选择开始日期', trigger: 'change' }
+          { type: 'string', required: true, message: '请选择开始日期', trigger: 'change' }
         ],
         buy: [
           { required: true, message: '请选择需要购买的会员级别', trigger: 'change' }
@@ -137,6 +143,7 @@ export default {
       this.$axios.get('member.last').then((res) => {
         if (res.code === 0) {
           let { mid, hyjsrq } = res.data
+          this.userhyjsrq = hyjsrq
           this.tip = `您的${USER_LEVEL[mid]}将于${getDate(hyjsrq, true)}到期`
         }
       })
@@ -183,6 +190,15 @@ export default {
       });
     },
     submit() {
+      // 是会员: 购买只能选择到期之后的日期,升级不受影响
+      // 不是会员: 购买或升级都可以
+      if(this.isMember){
+        let hyksrq = new Date(this.ruleForm.hyksrq.replace(/\-/g, '\/')).getTime()
+        if(this.type === 'buy' && hyksrq <= this.userhyjsrq){
+          this.$message.error('开始日期必须是会员结束日期之后')
+          return
+        }
+      }
       this.loading = true
       if(this.type === 'buy'){
         this.buyMember()
@@ -194,8 +210,7 @@ export default {
     buyMember() {
       this.$axios.post('member.buy', {
         'mid': this.ruleForm.buy,
-        'hyksrq': this.ruleForm.hyksrq,
-        'paynum': 1200
+        'hyksrq': this.ruleForm.hyksrq
       }).then((res) => {
         if (res.code === 0) {
           this.next()
@@ -208,8 +223,7 @@ export default {
     upgradeMember() {
       this.$axios.post('member.upgrade', {
         'mid': this.ruleForm.upgrade,
-        'hyksrq': this.ruleForm.hyksrq,
-        'paynum': 1200
+        'hyksrq': this.ruleForm.hyksrq
       }).then((res) => {
         if (res.code === 0) {
           this.next()
@@ -224,10 +238,10 @@ export default {
   },
   watch: {
     type (value) {
-      if(value === 'buy' && this.buy !== ''){
-        this.findTotal(this.buy, 'buy')
-      }else if(value === 'upgrade' && this.upgrade !== ''){
-        this.findTotal(this.upgrade, 'upgrade')
+      if(value === 'buy' && this.ruleForm.buy !== ''){
+        this.findTotal(this.ruleForm.buy, 'buy')
+      }else if(value === 'upgrade' && this.ruleForm.upgrade !== ''){
+        this.findTotal(this.ruleForm.upgrade, 'upgrade')
       }
     }
   }

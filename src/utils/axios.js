@@ -40,8 +40,9 @@ axios.interceptors.response.use(
         title: '错误',
         message: response.data.msg
       })
-    } else if (response.data.code === '403') {
-      console.log(response.data.message);
+    } else if (response.data.code === 9900) {
+      this.$message.warning('请重新登录')
+      this.$router.push('login')
     }
     return response;
   },

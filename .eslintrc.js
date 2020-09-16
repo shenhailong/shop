@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Version: 1.0.0
+ * @Author: Dragon
+ * @Date: 2020-07-24 10:01:11
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-09-16 13:10:21
+ */
 module.exports = {
   root: true,
   env: {
@@ -17,6 +25,7 @@ module.exports = {
     "lines-between-class-members": ["error", "always"],
     "no-redeclare": "error",
     "comma-spacing": ["error", { "before": false, "after": true }],
-    "no-unneeded-ternary": "error"
+    "no-unneeded-ternary": "error",
+    "no-useless-escape": "off"
   }
 };
