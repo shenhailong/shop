@@ -213,7 +213,7 @@ export default {
         'hyksrq': this.ruleForm.hyksrq
       }).then((res) => {
         if (res.code === 0) {
-          this.next()
+          this.next(res.data.id)
         }
       }).finally(() => {
         this.loading = false
@@ -226,14 +226,14 @@ export default {
         'hyksrq': this.ruleForm.hyksrq
       }).then((res) => {
         if (res.code === 0) {
-          this.next()
+          this.next(res.data.id)
         }
       }).finally(() => {
         this.loading = false
       })
     },
-    next() {
-      this.$router.push('confirmOrder')
+    next(id) {
+      this.$router.push(`confirmMember/${id}`)
     }
   },
   watch: {

@@ -22,10 +22,10 @@
             <el-button type="primary" @click="visible = true">加入购物车</el-button>
           </div>
         </div>
-
+        <div v-html="detail.a" class=""></div>
       </div>
     </div>
-    <AddCart v-if="visible" :visible.sync="visible" :item=item @hide="visible = false" />
+    <AddCart v-if="visible" :visible.sync="visible" :item="detail" @hide="visible = false" />
   </div>
 </template>
 
@@ -84,7 +84,7 @@ export default {
 .detail-box{
   display: flex;
   // align-items: center;
-
+  margin-bottom: 20px;
   .left{
     margin-right: 30px;
     height: 350px;
@@ -105,6 +105,7 @@ export default {
     font-size: 16px;
     color: #999999;
     line-height: 22px;
+    margin-bottom: 20px;
   }
 }
 </style>

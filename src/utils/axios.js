@@ -34,15 +34,19 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   function(response) {
-    if (response.data.code !== 0) {
+    if (response.data.code !== 0 && response.data.code !== 9900) {
       Notification({
         type: 'error',
         title: '错误',
         message: response.data.msg
       })
     } else if (response.data.code === 9900) {
-      this.$message.warning('请重新登录')
-      this.$router.push('login')
+      Notification({
+        type: 'error',
+        title: '错误',
+        message: response.data.msg
+      })
+      window.location.href = '#/login'
     }
     return response;
   },

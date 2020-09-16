@@ -7,6 +7,7 @@
       :show-close="false"
       class="add-cart"
       title="选择产品"
+      top="40px"
       :visible="visible">
       <el-dialog
         width="60%"

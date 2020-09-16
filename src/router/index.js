@@ -113,6 +113,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "SelectMember" */ '../views/member/SelectMember.vue')
   },
+  // 确认会员
+  {
+    path: '/confirmMember/:id',
+    name: 'ConfirmMember',
+    component: () =>
+      import(/* webpackChunkName: "ConfirmMember" */ '../views/member/ConfirmMember.vue')
+  },
   // 确认订单
   {
     path: '/confirmOrder/:id',

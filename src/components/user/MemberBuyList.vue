@@ -159,7 +159,7 @@ export default {
       }).catch(() => {})
     },
     pay(row){
-      this.$router.push(`confirmOrder/${row.id}`)
+      this.$router.push(`confirmMember/${row.id}`)
     },
     upload(id) {
       this.uploadData.id = id
