@@ -4,11 +4,12 @@
  * @Author: Dragon
  * @Date: 2020-08-14 09:14:09
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-07 10:58:43
+ * @LastEditTime: 2020-09-18 18:11:05
  */
 const HIDE_CHAT_LIST = [
   'Login',
-  'Register'
+  'Register',
+  'ForgetPassword'
 ]
 
 const BASE_URL = 'http://39.100.227.252:888/'
