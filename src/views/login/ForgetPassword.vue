@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-08-03 15:25:04
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-03 16:26:31
+ * @LastEditTime: 2020-09-18 18:03:24
 -->
 <template>
   <div class="wrap-login">
@@ -46,7 +46,7 @@ export default {
 .wrap-login {
   width: 100%;
   height: 100%;
-  background: url(~@/assets/login-bg.jpg);
+  background: url(~@/assets/login-bg1.jpg);
   background-size: cover;
   background-position: center;
   position: relative;

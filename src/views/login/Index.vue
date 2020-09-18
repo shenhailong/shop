@@ -133,7 +133,7 @@ export default {
 .wrap-login {
   width: 100%;
   height: 100%;
-  background: url(~@/assets/login-bg.jpg);
+  background: url(~@/assets/login-bg1.jpg);
   background-size: cover;
   background-position: center;
   position: relative;
