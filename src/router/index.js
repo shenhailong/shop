@@ -60,6 +60,9 @@ const routes = [
   {
     path: '/member',
     name: 'Member',
+    meta: {
+      authentication: true
+    },
     component: () =>
       import(/* webpackChunkName: "Member" */ '../views/member/Index.vue')
   },
@@ -110,6 +113,9 @@ const routes = [
   {
     path: '/selectMember',
     name: 'SelectMember',
+    meta: {
+      authentication: true
+    },
     component: () =>
       import(/* webpackChunkName: "SelectMember" */ '../views/member/SelectMember.vue')
   },
@@ -117,6 +123,9 @@ const routes = [
   {
     path: '/confirmMember/:id',
     name: 'ConfirmMember',
+    meta: {
+      authentication: true
+    },
     component: () =>
       import(/* webpackChunkName: "ConfirmMember" */ '../views/member/ConfirmMember.vue')
   },
@@ -124,6 +133,9 @@ const routes = [
   {
     path: '/confirmOrder/:id',
     name: 'ConfirmOrder',
+    meta: {
+      authentication: true
+    },
     component: () =>
       import(/* webpackChunkName: "ConfirmOrder" */ '../views/pay/ConfirmOrder.vue')
   },
