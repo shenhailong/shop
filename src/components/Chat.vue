@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-10 14:51:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-08 13:12:31
+ * @LastEditTime: 2020-09-18 17:21:12
 -->
 <template>
   <div class="chat-wrap">
@@ -118,6 +118,7 @@ export default {
   height: 440px;
   width: 100%;
   border: 1px solid #e4e7f1;
+  border-bottom: none;
   border-radius: 6px;
   .chat-content{
     height: 400px;

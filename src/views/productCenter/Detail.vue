@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 13:45:15
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-18 17:11:49
+ * @LastEditTime: 2020-09-18 17:18:34
 -->
 <template>
   <div class="wrap-index">
@@ -19,7 +19,7 @@
             <div class="title">产品名称: {{detail.prodname}}</div>
             <div class="subtitle">产品编号 {{detail.prodcode}}</div>
             <div class="subtitle">{{detail.descr}}</div>
-            <el-button type="primary" @click="visible = true">加入购物车</el-button>
+            <el-button type="primary" @click="addCart">加入购物车</el-button>
           </div>
         </div>
         <div v-html="detail.detail" class="detail-html"></div>
@@ -32,6 +32,7 @@
 <script>
 import NavBar from '@components/NavBar'
 import AddCart from '@components/AddCart'
+import { getToken } from '@/utils/common'
 
 export default {
   components: {
@@ -49,6 +50,14 @@ export default {
     this.geDetail()
   },
   methods: {
+    addCart() {
+      let token = getToken()
+      if(token){
+        this.visible = true
+      }else{
+        this.$router.push('/login')
+      }
+    },
     geDetail() {
       this.loading = true
       this.$axios.get('product.detail', {
