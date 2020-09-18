@@ -3,7 +3,7 @@
     <el-col :span="6" class="product">
       <div class="wrap">
         <div @click="goDetail">
-          <div class="img-wrap"><img :src="BASE_URL + item.picture" class="product-img" alt=""></div>
+          <div class="img-wrap"><img :src="BASE_URL + item.picture" class="product-img" alt="产品图片"></div>
           <div class="title">{{item.prodname}}</div>
           <div class="subtitle">产品编号 {{item.prodcode}}</div>
           <div class="subtitle">{{item.descr}}</div>
@@ -72,11 +72,12 @@ export default {
     overflow: hidden;
     background: #ffffff;
     border-radius: 5px 5px 0 0;
+    height: 280px;
 
     // padding: 10px;
   }
   .product-img{
-    // height: 300px;
+    height: 280px;
     width: 100%;
     border-radius: 5px 5px 0 0;
   }

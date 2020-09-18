@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-29 09:40:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-10 18:26:55
+ * @LastEditTime: 2020-09-18 13:57:29
 -->
 <template>
   <div class="wrap-index">
@@ -46,7 +46,7 @@
           label="下载"
           align="center">
           <template slot-scope="scope">
-            <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">预览</el-button>
+            <el-button @click="download(scope.row.id)" type="primary" size="small">下载</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -74,10 +74,6 @@ export default {
     this.getList()
   },
   methods: {
-    uploadVoucher(resurl){
-      // this.palyer = true
-      this.resurl = resurl
-    },
     getList() {
       this.loading = true
       this.$axios.get('resource.homesearch', {

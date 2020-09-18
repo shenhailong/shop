@@ -50,11 +50,11 @@
     </div>
     <div class="about">
       <div class="internal-content">
-        <div class="about-title">
+        <div @click="goAbout" class="about-title">
           磐安云创简介
         </div>
         <div class="about-content">
-          <div @mouseover="aboutHover(index)" v-for="(item, index) in aboutList" :key="index" class="item">
+          <div @click="goAbout" @mouseover="aboutHover(index)" v-for="(item, index) in aboutList" :key="index" class="item">
             <div :class="'img' + (index + 1)" class="img"></div>
             <div class="text">{{item.text}}</div>
           </div>
@@ -152,7 +152,7 @@ export default {
         },
 
       });
-      console.log(swiper)
+      this.swiper = swiper
     },
     // 每行需要循环商品的个数
     count(index) {
@@ -193,6 +193,9 @@ export default {
     },
     newPage(url) {
       window.open(url)
+    },
+    goAbout() {
+      this.$router.push('about')
     }
   }
 }
@@ -336,7 +339,7 @@ export default {
     line-height: 22px;
     text-align: center;
     color: '#333';
-    width: 60%;
+    width: 80%;
     margin: 0 auto;
     margin-top: 50px;
   }

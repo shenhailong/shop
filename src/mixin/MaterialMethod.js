@@ -44,6 +44,19 @@ const MaterialMethod = {
           }
         }
       })
+    },
+    // 获取资料信息
+    download(id) {
+      this.$axios.get('resource.detail', { id }).then((res) => {
+        if (res.code === 0) {
+          // 下载需要同一个域名
+          let { resurl, resname } = res.data
+          const link = document.createElement('a')
+          link.setAttribute('download', resname) //下载的文件名
+          link.href = resurl   //文件url
+          link.click()
+        }
+      })
     }
   }
 }

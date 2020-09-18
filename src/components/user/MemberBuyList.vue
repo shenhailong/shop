@@ -7,8 +7,8 @@
         label="购买的会员等级"
         width="120"
         align="center">
-        <template slot-scope="props">
-          {{USER_LEVEL[props.row.mid]}}
+        <template slot-scope="scope">
+          {{USER_LEVEL[scope.row.mid]}}
         </template>
       </el-table-column>
       <el-table-column
@@ -16,8 +16,8 @@
         label="开始日期"
         width="150"
         align="center">
-        <template slot-scope="props">
-          {{data(props.row.hyksrq)}}
+        <template slot-scope="scope">
+          {{data(scope.row.hyksrq)}}
         </template>
       </el-table-column>
       <el-table-column
@@ -25,8 +25,8 @@
         label="结束日期"
         width="140"
         align="center">
-        <template slot-scope="props">
-          {{data(props.row.hyjsrq)}}
+        <template slot-scope="scope">
+          {{data(scope.row.hyjsrq)}}
         </template>
       </el-table-column>
       <el-table-column
@@ -34,9 +34,9 @@
         label="支付状态"
         width="140"
         align="center">
-        <template slot-scope="props">
-          <div v-if="props.row.paystatus === 'Y'" class="color-red">待支付</div>
-          <div v-else class="color-green">已支付</div>
+        <template slot-scope="scope">
+          <div v-if="scope.row.paystatus === 'Y'" class="color-green">已支付</div>
+          <div v-else class="color-red">待支付</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -44,8 +44,8 @@
         prop="curprice"
         width="140"
         align="center">
-        <template slot-scope="props">
-          {{props.row.paynum}} 元
+        <template slot-scope="scope">
+          {{scope.row.paynum}} 元
         </template>
       </el-table-column>
       <el-table-column
@@ -53,19 +53,19 @@
         label="凭证"
         width="200"
         align="center">
-        <template slot-scope="props">
-          <img v-if="props.row.clurl" :src="props.row.clurl" height="100px" width="150px" />
+        <template slot-scope="scope">
+          <img v-if="scope.row.clurl" :src="scope.row.clurl" height="100px" width="150px" />
         </template>
       </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
-        width="250"
+        width="280"
         align="center">
         <template slot-scope="scope">
           <el-button @click="deleteOrder(scope.row)" type="danger" size="small">删除</el-button>
-          <el-button @click="pay(scope.row)" type="primary" size="small">支付</el-button>
-          <el-button @click="upload(scope.row.id)" type="success" size="small">上传凭证</el-button>
+          <el-button v-if="scope.row.paystatus !== 'Y'" @click="pay(scope.row)" type="primary" size="small">获取支付方式</el-button>
+          <el-button v-if="scope.row.paystatus !== 'Y'" @click="upload(scope.row.id)" type="success" size="small">上传凭证</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -158,8 +158,9 @@ export default {
         }
       }).catch(() => {})
     },
-    pay(row){
-      this.$router.push(`confirmMember/${row.id}`)
+    pay(){
+      // this.$router.push(`confirmMember/${row.id}`)
+      window.open('http://39.100.227.252:888/cnas/order/topay.jsp')
     },
     upload(id) {
       this.uploadData.id = id

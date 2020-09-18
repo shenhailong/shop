@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-07 13:36:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-08 15:16:55
+ * @LastEditTime: 2020-09-18 12:50:19
 -->
 <template>
   <div class="pay-confirm">
@@ -112,7 +112,7 @@ export default {
     },
     getDetail() {
       this.loading = true
-      this.$axios.get('member.detail', {
+      this.$axios.post('memberpay.detail', {
         id: this.$route.params.id
       }).then((res) => {
         if (res.code === 0) {
