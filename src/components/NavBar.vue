@@ -2,15 +2,15 @@
   <div class="wrap-header">
     <header class="main-header">
       <div class="container">
-        <div class="logo">
+        <div @click="goIndex" class="logo">
           <img src="../assets/logo.png" />
         </div>
         <ul class="bar">
           <li v-for="(items, index) in list" :key="index" @click="changePage(items)" :class="{active: current === items.value }" class="item">
             {{items.name}}
             <div v-if="items.value === 'cart' && cartNum !== 0" class="badge">{{cartNum}}</div>
-            <div class="child">
-              <div v-for="(item, index) in items.children" :key="index" @click.stop="changePage(item)" :class="{active: current === item.value && ($route.query.type === item.query.type)}" class="child-item">
+            <div v-if="items.children" class="child">
+              <div v-for="(item, index) in items.children" :key="index" @click.stop="childChangePage(item)" :class="{active: current === item.value && item.query && ($route.query.type === item.query.type)}" class="child-item">
                 {{item.name}}
               </div>
             </div>
@@ -142,8 +142,8 @@ export default {
     }
   },
   methods: {
-    changePage(item) {
-      if((this.$route.path === item.url && this.$route.query.type === item.query.type) || item.children){
+    childChangePage(item) {
+      if(( this.$route.path === item.url && item.query && this.$route.query.type === item.query.type) || item.children){
         return
       }
       this.$router.push({
@@ -151,6 +151,22 @@ export default {
         query: {
           ...item.query
         }
+      })
+    },
+    changePage(item) {
+      if((this.$route.path === item.url) || item.children){
+        return
+      }
+      this.$router.push({
+        path: item.url
+      })
+    },
+    goIndex() {
+      if(this.$route.path === '/index'){
+        return
+      }
+      this.$router.push({
+        path: 'index'
       })
     },
     // 退出
