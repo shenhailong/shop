@@ -3,7 +3,7 @@
     <el-col :span="6" class="product">
       <div class="wrap">
         <div @click="goDetail">
-          <div class="img-wrap"><img :src="BASE_URL + item.picture" class="product-img" alt="产品图片"></div>
+          <div class="img-wrap"><img :src="item.picture" class="product-img" alt="产品图片"></div>
           <div class="title">{{item.prodname}}</div>
           <div class="subtitle">产品编号 {{item.prodcode}}</div>
           <div class="subtitle">{{item.descr}}</div>
@@ -34,9 +34,6 @@ export default {
       visible: false,
       BASE_URL
     }
-  },
-  mounted() {
-
   },
   methods: {
     goDetail() {

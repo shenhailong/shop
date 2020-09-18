@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 13:45:15
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-16 15:35:15
+ * @LastEditTime: 2020-09-18 17:11:49
 -->
 <template>
   <div class="wrap-index">
@@ -22,7 +22,7 @@
             <el-button type="primary" @click="visible = true">加入购物车</el-button>
           </div>
         </div>
-        <div v-html="detail.a" class=""></div>
+        <div v-html="detail.detail" class="detail-html"></div>
       </div>
     </div>
     <AddCart v-if="visible" :visible.sync="visible" :item="detail" @hide="visible = false" />
@@ -32,7 +32,6 @@
 <script>
 import NavBar from '@components/NavBar'
 import AddCart from '@components/AddCart'
-import { BASE_URL } from '@/constants/common'
 
 export default {
   components: {
@@ -43,8 +42,7 @@ export default {
     return {
       visible: false,
       item: [],
-      detail: {},
-      BASE_URL
+      detail: {}
     }
   },
   mounted() {
@@ -72,7 +70,7 @@ export default {
   background: #ffffff;
   // min-height: 100vh;
   padding-top: 20px;
-  margin-top: 110px;
+  margin-top: 100px;
 }
 
 .out-content{

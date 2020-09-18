@@ -4,12 +4,15 @@
  * @Author: Dragon
  * @Date: 2020-08-27 16:08:54
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-09 17:32:20
+ * @LastEditTime: 2020-09-18 17:07:33
 -->
 <template>
   <div class="wrap-index">
     <NavBar current="order" />
     <div class="content">
+      <div class="title">
+        订单详情
+      </div>
       <el-row class="row-line">
         <el-col :span="8">
           <div class="item">
@@ -47,7 +50,7 @@
         <el-col :span="8">
           <div class="item">
             <div class="label">订单时间: </div>
-            <div class="value">{{detail.orderdt}}</div>
+            <div class="value">{{data(detail.orderdt)}}</div>
           </div>
         </el-col>
       </el-row>
@@ -61,14 +64,14 @@
         </el-col>
         <el-col :span="8">
           <div class="item">
-            <div class="label">联系电话: </div>
-            <div class="value">{{detail.tel}}</div>
+            <div class="label">公司英文名称: </div>
+            <div class="value">{{detail.ecorpname}}</div>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="item">
-            <div class="label">客户订阅号: </div>
-            <div class="value">{{detail.custid}}</div>
+            <div class="label">维保到期时间: </div>
+            <div class="value">{{data(detail.enddt)}}</div>
           </div>
         </el-col>
       </el-row>
@@ -76,20 +79,29 @@
       <el-row class="row-line">
         <el-col :span="8">
           <div class="item">
-            <div class="label">客户订阅号: </div>
-            <div class="value">{{detail.custid}}</div>
+            <div class="label">客户联系人: </div>
+            <div class="value">{{detail.contact}}</div>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="item">
-            <div class="label">客户订阅号: </div>
-            <div class="value">{{detail.custid}}</div>
+            <div class="label">联系电话: </div>
+            <div class="value">{{detail.tel}}</div>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="item">
-            <div class="label">客户订阅号: </div>
-            <div class="value">{{detail.custid}}</div>
+            <div class="label">邮箱: </div>
+            <div class="value">{{detail.email}}</div>
+          </div>
+        </el-col>
+      </el-row>
+
+      <el-row class="row-line">
+        <el-col :span="8">
+          <div class="item">
+            <div class="label">最终用户社会统一信用代码: </div>
+            <div class="value">{{detail.shtyxydm}}</div>
           </div>
         </el-col>
       </el-row>
@@ -99,6 +111,7 @@
 
 <script>
 import NavBar from '@components/NavBar'
+import { getDate } from '@/utils/tools'
 
 export default {
   components: {
@@ -127,6 +140,10 @@ export default {
     this.getDetail()
   },
   methods: {
+    data(value) {
+      if(!value) return
+      return getDate(value, true)
+    },
     getDetail() {
       this.loading = true
       this.$axios.get('originorder.detail', { id: this.$route.params.id }).then((res) => {
@@ -142,13 +159,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '~@/scss/utils/theme.scss';
+
 .content{
   background: #fff;
   color: #606266;
   font-size: 16px;
   padding: 150px 30px;
   box-sizing: border-box;
-
+  .title{
+    font-size: 18px;
+    color: $color-green;
+    // border-left: 5px solid $color-green;
+    border-bottom: 2px solid $color-green;
+    padding: 0 15px 15px 0;
+    margin-bottom: 20px;
+    background: #ffffff;
+  }
   .item{
     display: flex;
     align-items: center;
@@ -170,10 +197,10 @@ export default {
   }
 
   .row-line{
-    // margin-bottom: 20px;
-    margin-top: 20px;
-    height: 80px;
-    border-bottom: 1px solid #999;
+    height: 90px;
+    // border-bottom: 1px solid #e0dbdb;
+    display: flex;
+    align-items: center;
   }
 }
 </style>

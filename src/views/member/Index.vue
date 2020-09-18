@@ -56,7 +56,7 @@
           align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.level <= userLevel">
-              <el-button @click="uploadVoucher(scope.row)" type="primary" size="small">下载</el-button>
+              <el-button @click="download(scope.row.id)" type="primary" size="small">下载</el-button>
             </template>
           </template>
         </el-table-column>
@@ -103,9 +103,6 @@ export default {
     }
   },
   methods: {
-    uploadVoucher(resurl){
-      this.resurl = resurl
-    },
     // 跳转升级会员页面
     goMember() {
       this.$router.push('selectMember')
