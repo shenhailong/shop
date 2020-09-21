@@ -46,7 +46,6 @@
           <Product v-for="(item, itemIndex) in count(index)" :key="productItem(line, itemIndex).id" :item="productItem(line, itemIndex)" />
         </el-row>
       </div>
-      <div class="footer"></div>
     </div>
     <div class="about">
       <div class="internal-content">
@@ -65,6 +64,10 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="footer">
+      北京磐安云创科技有限公司<span class="center-text">版权所有</span>京ICP备20003511号-1
     </div>
   </div>
 </template>
@@ -201,7 +204,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~@/scss/utils/theme.scss';
 
 .search-wrap{
@@ -342,6 +345,18 @@ export default {
     width: 80%;
     margin: 0 auto;
     margin-top: 50px;
+  }
+}
+
+.footer{
+  background: #000;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center;
+  line-height: 100px;
+
+  .center-text{
+    margin: 0 30px;
   }
 }
 </style>

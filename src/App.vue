@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-24 10:01:11
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-13 18:30:45
+ * @LastEditTime: 2020-09-21 16:35:34
 -->
 <template>
   <div id="app">
@@ -34,6 +34,9 @@ export default {
       dialogTableVisible: false,
       hide: true
     }
+  },
+  mounted() {
+    this.hide = HIDE_CHAT_LIST.includes(this.$route)
   },
   watch: {
     $route(value) {

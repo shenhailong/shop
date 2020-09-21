@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-16 13:23:59
+ * @LastEditTime: 2020-09-21 17:10:07
 -->
 <template>
   <div class="member-select">
@@ -26,8 +26,8 @@
         </el-form-item>
 
         <div v-if="type === 'buy'" class="">
-          <el-form-item label="会员等级" prop="upgrade">
-            <el-radio-group @change="radioBuyChange" v-model="ruleForm.upgrade">
+          <el-form-item label="会员等级" prop="buy">
+            <el-radio-group @change="radioBuyChange" v-model="ruleForm.buy">
               <el-radio v-for="item in memberList" :key="item.id" :label="item.level" border>
                 {{item.membername}}
               </el-radio>
@@ -35,8 +35,8 @@
           </el-form-item>
         </div>
         <div v-else class="">
-          <el-form-item label="会员等级" prop="buy">
-            <el-radio-group @change="radioUpgradeChange" v-model="ruleForm.buy">
+          <el-form-item label="会员等级" prop="upgrade">
+            <el-radio-group @change="radioUpgradeChange" v-model="ruleForm.upgrade">
               <el-radio v-for="item in upgradeList" :key="item.id" :label="item.level" border>
                 {{item.membername}}
               </el-radio>
@@ -123,8 +123,6 @@ export default {
         this.getMemberlast()
       }
     }
-    this.getMemberlast()
-
   },
   methods: {
     resetForm(formName) {
