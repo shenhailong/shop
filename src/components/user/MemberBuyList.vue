@@ -17,7 +17,7 @@
         width="150"
         align="center">
         <template slot-scope="scope">
-          {{data(scope.row.hyksrq)}}
+          {{date(scope.row.hyksrq)}}
         </template>
       </el-table-column>
       <el-table-column
@@ -26,7 +26,7 @@
         width="140"
         align="center">
         <template slot-scope="scope">
-          {{data(scope.row.hyjsrq)}}
+          {{date(scope.row.hyjsrq)}}
         </template>
       </el-table-column>
       <el-table-column
@@ -126,7 +126,7 @@ export default {
     this.token = window.localStorage.getItem(TOKEN)
   },
   methods: {
-    data(value) {
+    date(value) {
       return getDate(value, true)
     },
     getList() {

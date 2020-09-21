@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-07 13:36:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-18 12:50:19
+ * @LastEditTime: 2020-09-21 14:26:43
 -->
 <template>
   <div class="pay-confirm">
@@ -17,53 +17,42 @@
         <el-step title="支付"></el-step>
         <el-step title="支付成功"></el-step>
       </el-steps>
-
       <div class="table-wrap">
         <el-table
           :data="list"
-          size="mini"
           border
           row-class-name="success-row"
           style="width: 100%">
           <el-table-column
-            type="index"
-            align="center"
-            width="50">
-          </el-table-column>
-          <el-table-column
-            prop="pprodname"
-            label="产品名称"
+            label="购买的会员等级"
             align="center">
-          </el-table-column>
-          <el-table-column
-            prop="prodname"
-            label="产品明细"
-            align="center">
-          </el-table-column>
-          <el-table-column
-            prop="unit"
-            label="时间单位"
-            align="center">
-            <template slot-scope="props">
-              <div v-if="props.row.unit === 'Y'">年</div>
-              <div v-if="props.row.unit === 'M'">月</div>
-              <div v-if="props.row.unit === 'D'">日</div>
+            <template slot-scope="scope">
+              {{USER_LEVEL[scope.row.mid]}}
             </template>
           </el-table-column>
           <el-table-column
-            prop="tamount"
-            label="购买时长"
+            prop="createdt"
+            label="开始日期"
             align="center">
+            <template slot-scope="scope">
+              {{date(scope.row.hyksrq)}}
+            </template>
           </el-table-column>
           <el-table-column
-            prop="amount"
-            label="购买数量"
+            prop="createdt"
+            label="结束日期"
             align="center">
+            <template slot-scope="scope">
+              {{date(scope.row.hyjsrq)}}
+            </template>
           </el-table-column>
           <el-table-column
-            prop="totalprice"
-            label="价格"
+            label="金额"
+            prop="curprice"
             align="center">
+            <template slot-scope="scope">
+              {{scope.row.paynum}} 元
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -71,11 +60,10 @@
       <div class="footer">
         <div class="footer-content">
           <div class="left">
-
           </div>
           <div class="right">
             <div class="footer-item">
-              合计:  <span class="money">{{detail.curprice}}</span> 元
+              合计:  <span class="money">{{detail.paynum}}</span> 元
             </div>
             <div class="footer-item btn-wrap">
               <el-button @click="getPayType()" type="primary" size="large">获取支付方式</el-button>
@@ -89,6 +77,7 @@
 
 <script>
 import { getDate } from '@/utils/tools'
+import { USER_LEVEL } from '@/constants/status'
 
 export default {
   components: {
@@ -96,7 +85,8 @@ export default {
   },
   data() {
     return {
-      payType: 'wx',
+      USER_LEVEL,
+      list: [],
       detail: {},
       rate: 100
     }
@@ -105,10 +95,8 @@ export default {
     this.getDetail()
   },
   methods: {
-    date() {
-      if(this.detail.createdt){
-        return getDate(this.detail.createdt)
-      }
+    date(value) {
+      return getDate(value, true)
     },
     getDetail() {
       this.loading = true
@@ -116,8 +104,8 @@ export default {
         id: this.$route.params.id
       }).then((res) => {
         if (res.code === 0) {
-          this.list = res.data.ldetails
           this.detail = res.data
+          this.$set(this.list, 0, this.detail)
         }
       }).finally(() => {
         this.loading = false
