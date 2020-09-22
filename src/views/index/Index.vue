@@ -20,21 +20,6 @@
           <el-button type="primary" @click="search">检索</el-button>
         </div>
       </div>
-      <!-- Swiper -->
-      <!-- <div v-loading="loadingBanner" class="swiper-container">
-        <div class="swiper-wrapper ">
-          <div class="swiper-slide slider" v-for="(item) in swiperList" :key="item.id">
-            <div @click="newPage(item.navurl)" :href="item.navurl">
-              <img :src="item.navpic" />
-            </div>
-          </div>
-        </div>
-        
-        <div class="swiper-pagination swiper-pagination-white" id="swiper-spit"></div>
-
-        <div class="swiper-button-next swiper-button-white"></div>
-        <div class="swiper-button-prev swiper-button-white"></div>
-      </div> -->
 
       <el-carousel class="swiper-container">
         <el-carousel-item class="swiper-slide slider" v-for="(item) in swiperList" :key="item.id">
@@ -81,9 +66,7 @@
 </template>
 
 <script>
-import Swiper from 'swiper';
-import 'swiper/dist/css/swiper.min.css'
-import 'swiper/dist/js/swiper.min.js'
+
 import NavBar from '@components/NavBar'
 import Product from '@components/Product'
 import { ABOUT } from '@/constants/about'
@@ -121,9 +104,6 @@ export default {
       this.$axios.get('home.nav').then((res) => {
         if (res.code === 0) {
           this.swiperList = res.data
-          this.$nextTick(() => {
-            this.initSwiper()
-          })
         }
       }).finally(() => {
         this.loadingBanner = false
@@ -141,29 +121,6 @@ export default {
       }).finally(() => {
         this.loading = false
       })
-    },
-    initSwiper () {
-      var swiper = new Swiper('.swiper-container', {
-        spaceBetween: 30,
-        effect: 'fade',
-        fadeEffect: {
-          crossFade: true,
-        },
-        autoplay: {
-          delay: 3000,
-          disableOnInteraction: false, // 取消鼠标操作后的轮播暂停【无操作轮播继续】【参考链接1】
-        },
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-
-      });
-      this.swiper = swiper
     },
     // 每行需要循环商品的个数
     count(index) {
