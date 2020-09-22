@@ -21,7 +21,7 @@
         </div>
       </div>
       <!-- Swiper -->
-      <div v-loading="loadingBanner" class="swiper-container">
+      <!-- <div v-loading="loadingBanner" class="swiper-container">
         <div class="swiper-wrapper ">
           <div class="swiper-slide slider" v-for="(item) in swiperList" :key="item.id">
             <div @click="newPage(item.navurl)" :href="item.navurl">
@@ -29,12 +29,20 @@
             </div>
           </div>
         </div>
-        <!-- Add Pagination -->
+        
         <div class="swiper-pagination swiper-pagination-white" id="swiper-spit"></div>
-        <!-- Add Arrows -->
+
         <div class="swiper-button-next swiper-button-white"></div>
         <div class="swiper-button-prev swiper-button-white"></div>
-      </div>
+      </div> -->
+
+      <el-carousel class="swiper-container">
+        <el-carousel-item class="swiper-slide slider" v-for="(item) in swiperList" :key="item.id">
+          <div @click="newPage(item.navurl)" :href="item.navurl">
+            <img :src="item.navpic" />
+          </div>
+        </el-carousel-item>
+      </el-carousel>
 
       <div class="card">
         <div class="text">明星产品</div>
