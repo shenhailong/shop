@@ -45,7 +45,7 @@
         width="150"
         align="center">
         <template slot-scope="scope">
-          <el-link @click="goDetail(scope.row.id)" type="primary">{{ scope.row.orderno }}</el-link>
+          <div class="link" @click="goDetail(scope.row.id)" type="primary">{{ scope.row.orderno }}</div>
         </template>
       </el-table-column>
       <el-table-column

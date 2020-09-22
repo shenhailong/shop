@@ -34,3 +34,11 @@
 .color-green{
   color: $color-green;
 }
+
+.link{
+  cursor: pointer;
+  color: $color-primary;
+  &:hover{
+    text-decoration: underline;
+  }
+}
