@@ -205,8 +205,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/scss/utils/theme.scss';
-
 .search-wrap{
   display: flex;
   align-items: center;

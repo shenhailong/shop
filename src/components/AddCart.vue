@@ -216,7 +216,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~@/scss/utils/theme.scss';
   .table-header, .table-body{
     display: flex;
     line-height: 30px;
@@ -234,7 +233,7 @@ export default {
       flex: 1;
     }
   }
-  
+
   .table-header{
       border-bottom: none;
   }

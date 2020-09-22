@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 1.0.0
+ * @Author: Dragon
+ * @Date: 2020-08-05 17:56:27
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-09-22 13:54:52
+-->
 <template>
   <div class="content-score">
     <div class="title">您的当前积分: <span class="text">{{score}}</span></div>
@@ -70,7 +78,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/scss/utils/theme.scss';
+
 .content-score{
   width: 90%;
   margin: 0 auto;

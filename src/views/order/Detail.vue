@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-27 16:08:54
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-18 17:07:33
+ * @LastEditTime: 2020-09-22 13:52:32
 -->
 <template>
   <div class="wrap-index">
@@ -159,8 +159,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~@/scss/utils/theme.scss';
-
 .content{
   background: #fff;
   color: #606266;

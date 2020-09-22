@@ -303,7 +303,6 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '~@/scss/utils/theme.scss';
 .wrap-cart{
   position: relative;
 }

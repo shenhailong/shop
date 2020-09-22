@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-07 13:36:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-08 15:16:55
+ * @LastEditTime: 2020-09-22 13:52:40
 -->
 <template>
   <div class="pay-confirm">
@@ -198,8 +198,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '~@/scss/utils/theme.scss';
-
   .content{
     padding-top: 20px;
   }

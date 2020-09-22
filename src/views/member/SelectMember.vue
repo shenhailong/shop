@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-21 17:10:07
+ * @LastEditTime: 2020-09-22 13:52:25
 -->
 <template>
   <div class="member-select">
@@ -246,8 +246,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '~@/scss/utils/theme.scss';
-
 .member-select{
   .content{
     background: #ffffff;

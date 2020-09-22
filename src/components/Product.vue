@@ -52,8 +52,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/scss/utils/theme.scss';
-
 .product{
   // width: 100px;
   border-radius: 10px;

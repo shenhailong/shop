@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-03 18:21:15
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-21 14:16:24
+ * @LastEditTime: 2020-09-22 13:56:11
 -->
 <template>
   <div>
@@ -85,7 +85,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/scss/utils/theme.scss';
 
 .input-num-wrap{
   position: relative;
