@@ -1,5 +1,14 @@
+/*
+ * @Description:
+ * @Version: 1.0.0
+ * @Author: Dragon
+ * @Date: 2020-09-14 09:47:28
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-09-23 14:11:21
+ */
 import NavBar from '@components/NavBar'
 import VideoPlayer from '@components/VideoPlayer'
+import { getUser } from '@/utils/common'
 
 const MaterialMethod = {
   components: {
@@ -24,37 +33,65 @@ const MaterialMethod = {
       this.curPage = value
       this.getList()
     },
-    preview(id) {
-      this.getDetail(id)
+    preview(id, level) {
+      if(level !== undefined){
+        this.needLogin(id, level)
+      }else{
+        this.getDetail(id)
+      }
     },
-    play(id) {
-      this.getDetail(id, 'play')
+    play(id, level) {
+      if(level !== undefined){
+        this.needLogin(id, level, 'play')
+      }else{
+        this.getDetail(id, 'play')
+      }
+    },
+    // 下载
+    download(id, level) {
+      if(level !== undefined){
+        this.needLogin(id, level, 'download')
+      }else{
+        this.getDetail(id, 'download')
+      }
+    },
+    // 需要登录
+    needLogin(id, level, type) {
+      let user = getUser()
+      if(user){
+        if(user.corp.level < level) {
+          this.$confirm('查看等级不够', '是否升级会员', {
+            confirmButtonText: '升级会员',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(async () => {
+            this.$router.push('selectMember')
+          }).catch(() => {})
+        }else{
+          this.getDetail(id, type)
+        }
+      }else{
+        this.loginDialogVisible = true
+      }
     },
     // 获取资料信息
     getDetail(id, type) {
       this.$axios.get('resource.detail', { id }).then((res) => {
         if (res.code === 0) {
-          let { resurl, poster } = res.data
+          let { resurl, poster, resname } = res.data
           if(type === 'play'){
             this.player = true
             this.poster = poster
             this.resurl = resurl
+          }else if(type === 'download'){
+            // 下载需要同一个域名
+            const link = document.createElement('a')
+            link.setAttribute('download', resname) //下载的文件名
+            link.href = resurl   //文件url
+            link.click()
           }else{
             window.open(resurl)
           }
-        }
-      })
-    },
-    // 获取资料信息
-    download(id) {
-      this.$axios.get('resource.detail', { id }).then((res) => {
-        if (res.code === 0) {
-          // 下载需要同一个域名
-          let { resurl, resname } = res.data
-          const link = document.createElement('a')
-          link.setAttribute('download', resname) //下载的文件名
-          link.href = resurl   //文件url
-          link.click()
         }
       })
     }

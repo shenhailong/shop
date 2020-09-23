@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-18 11:06:39
+ * @LastEditTime: 2020-09-23 13:12:06
 -->
 <template>
   <div class="user-wrap">
@@ -16,6 +16,7 @@
       <template v-else>
         <div class="value">{{item.value}}</div>
         <el-button v-if="item.type === 'score'" type="primary" @click="goScore">查看积分</el-button>
+        <el-button v-if="item.type === 'member'" type="primary" @click="goSelectMember">购买会员</el-button>
       </template>
     </div>
     <el-button class="cancel-btn" type="danger" @click="cancelUser">注销用户</el-button>
@@ -25,6 +26,7 @@
 <script>
 import { STATUS_REGISTER, USER_LEVEL } from '@/constants/status'
 import { getUser } from '@/utils/common'
+import { getDate } from '@/utils/tools'
 
 export default {
   data() {
@@ -55,10 +57,11 @@ export default {
         value: user.corp.shtyxydm
       }, {
         label: '会员级别:',
-        value: USER_LEVEL[user.corp.mid]
+        value: USER_LEVEL[user.corp.mid],
+        type: 'member'
       }, {
         label: '会员有效期:',
-        value: user.corp.hyjsrq,
+        value: this.date(user.corp.hyjsrq),
         hide: !user.corp.hyjsrq
       }, {
         label: '我的邀请码:',
@@ -82,9 +85,16 @@ export default {
         type: 'img'
       }]
     },
+    date(value) {
+      return getDate(value, true)
+    },
     // 跳转积分页面
     goScore() {
       this.$emit('changeTab', '4')
+    },
+    // 跳转选择会员
+    goSelectMember() {
+      this.$router.push('selectMember')
     },
     // 注销用户
     cancelUser() {
@@ -125,6 +135,7 @@ export default {
   }
   .value{
     margin-right: 30px;
+    min-width: 100px;
   }
 
   .img{

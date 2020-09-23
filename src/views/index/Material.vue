@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-29 09:40:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-18 13:57:29
+ * @LastEditTime: 2020-09-23 13:46:46
 -->
 <template>
   <div class="wrap-index">
@@ -38,15 +38,15 @@
           label="预览"
           align="center">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.restype === 'PDF'" @click="preview(scope.row.id)" type="primary" size="small">预览</el-button>
-            <el-button v-else @click="play(scope.row.id)" type="success" size="small">播放</el-button>
+            <el-button v-if="scope.row.restype === 'PDF'" @click="preview(scope.row.id, scope.row.level)" type="primary" size="small">预览</el-button>
+            <el-button v-else @click="play(scope.row.id, scope.row.level)" type="success" size="small">播放</el-button>
           </template>
         </el-table-column>
         <el-table-column
           label="下载"
           align="center">
           <template slot-scope="scope">
-            <el-button @click="download(scope.row.id)" type="primary" size="small">下载</el-button>
+            <el-button @click="download(scope.row.id, scope.row.level)" type="primary" size="small">下载</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -62,13 +62,30 @@
     <el-dialog top="50px" height="50%" title="视频" :visible.sync="player">
       <VideoPlayer :sources="resurl" v-if="player" :poster="poster" />
     </el-dialog>
+    <el-dialog
+      title="欢迎登录"
+      :visible.sync="loginDialogVisible"
+      width="30%"
+      center>
+      <Login />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import MaterialMethod from '@mixin/MaterialMethod'
+import Login from '@/components/Login'
+
 export default {
+  components: {
+    Login
+  },
   mixins: [ MaterialMethod ],
+  data() {
+    return {
+      loginDialogVisible: false
+    }
+  },
   mounted() {
     this.searchString = this.$route.query.keyword
     this.getList()
