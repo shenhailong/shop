@@ -4,74 +4,30 @@
  * @return:
  * @author: Dragon
  */
-import { CART_LIST, TOKEN } from '@/constants/key'
+import { TOKEN } from '@/constants/key'
+import vm from '@/main'
 
-// 获取本地存储购物车
-const getLocalCart = function() {
-  let cartList = window.localStorage.getItem(CART_LIST)
-  return cartList ? JSON.parse(cartList) : []
-}
-
-// 加入购物车
-const addLocalCart = function(list) {
-  let cartList = getLocalCart()
-  let newList = []
-  let newIdList = []
-  let currentIdList = [] // 新传入的数据的id列表
-  // 找出新传入的数据的id列表
-  list.forEach(item => {
-    currentIdList.push(item.id)
-  })
-
-  if(cartList.length){
-    // 分2种情况
-    // 1、传入的含有本地存储的(新覆旧盖)
-    // 2、传入的没有含有存储的,直接存储本地的
-    cartList.forEach(carItem => {
-      list.forEach(currentItem => {
-        // 传入的含有本地存储的(存入新的产品)
-        if(currentIdList.includes(carItem.id)){
-          if(!newIdList.includes(currentItem.id)){
-            newList.push(currentItem)
-            newIdList.push(currentItem.id)
-          }
-        }else{
-          // 传入的没有含有存储的
-          if(!newIdList.includes(carItem.id)){
-            newList.push(carItem)
-            newIdList.push(carItem.id)
-          }
-        }
-      })
-    })
-    window.localStorage.setItem(CART_LIST, JSON.stringify(newList))
-  }else{
-    window.localStorage.setItem(CART_LIST, JSON.stringify(list))
+// 更新购物车的数量
+const updateCartNum = function() {
+  let token = window.localStorage.getItem(TOKEN)
+  if(token){
+    vm.$store.dispatch('UPDATE_CART_NUM')
   }
 }
 
 // 获取购物车的数量
-const getCartNum = function() {
-  let token = window.localStorage.getItem(TOKEN)
-  let num = 0
-  if(token){
-    // this.getServerCart()
-  }else{
-    let list = getLocalCart()
-    list.forEach(item => {
-      num += Number(item.num)
-    })
+const getCartNum = async function() {
+  const res = await vm.$axios.post('shopcar.list')
+  if (res.code === 0){
+    let num = 0
+    res.data.forEach(item => {
+      num += item.amount
+    });
+    return num
   }
-  return num
 }
 
-// 设置购物车(删除,数量操作,时间长度设置,时间模式设置)
-const setLocalCart = function (list) {
-  window.localStorage.setItem(CART_LIST, JSON.stringify(list))
-}
 export {
-  getLocalCart,
-  addLocalCart,
-  setLocalCart,
+  updateCartNum,
   getCartNum
 }

@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-10 14:51:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-22 13:55:53
+ * @LastEditTime: 2020-09-23 17:54:50
 -->
 <template>
   <div class="chat-wrap">
@@ -79,8 +79,6 @@ export default {
       }
       this.userid = userid
       this.websock = new WebSocket(`ws://39.106.115.196:8080/admin/webchat/${this.userid}/${this.userid}`)
-      console.log(this.userid)
-      console.log(`ws://39.106.115.196:8080/admin/webchat/${this.userid}/${this.userid}`)
       this.websock.onmessage = this.websocketonmessage
       this.websock.onerror = this.websocketonerror
       this.websock.onopen = this.websocketonopen

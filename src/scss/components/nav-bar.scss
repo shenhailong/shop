@@ -62,9 +62,12 @@
         height: 18px;
         line-height: 18px;
         font-size: 12px;
+        font-weight: 500;
       }
       &.active{
         color: $color-primary;
+        font-weight: 500;
+
       }
       &.active:before {
         width: 100%;

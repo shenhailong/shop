@@ -8,7 +8,7 @@
         <ul class="bar">
           <li v-for="(items, index) in list" :key="index" @click="changePage(items)" :class="{active: current === items.value }" class="item">
             {{items.name}}
-            <div v-if="items.value === 'cart' && cartNum !== 0" class="badge">{{cartNum}}</div>
+            <div v-if="items.value === 'cart' && cartCount !== 0" class="badge">{{cartCount > 99 ? '99+' : cartCount}}</div>
             <div v-if="items.children" class="child">
               <div v-for="(item, index) in items.children" :key="index" @click.stop="childChangePage(item)" :class="{active: current === item.value && item.query && ($route.query.type === item.query.type)}" class="child-item">
                 {{item.name}}
@@ -41,10 +41,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import { getToken } from '@/utils/common'
 import * as CART from '@store/types/cart'
 import { TOKEN, USER_INFO } from '@/constants/key'
+import { updateCartNum } from '@/utils/cart'
 
 export default {
   props: {
@@ -135,11 +136,15 @@ export default {
     }
   },
   created() {
-    console.log(this.$store)
     this.token = getToken()
     if(window.localStorage.getItem(USER_INFO)){
       this.userInfo = JSON.parse(window.localStorage.getItem(USER_INFO))
     }
+    if(this.token){
+      updateCartNum()
+    }
+  },
+  mounted() {
   },
   methods: {
     childChangePage(item) {
@@ -174,17 +179,13 @@ export default {
       this.dialogVisible = false
       window.localStorage.removeItem(TOKEN)
       window.localStorage.removeItem(USER_INFO)
-      this.$router.push('login')
+      this.$store.commit(CART.UPDATE_CART_NUM, 0)
+      this.$router.push('/login')
     }
   },
   computed: {
     ...mapGetters({
-      cartNum: CART.GET_CART_NUM
-    }),
-    ...mapState({
-      // cartNum: state => {
-      //   return state.cart.num
-      // }
+      cartCount: CART.GET_CART_NUM
     })
   }
 }

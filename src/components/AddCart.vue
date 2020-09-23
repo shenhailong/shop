@@ -80,6 +80,7 @@
 </template>
 <script>
 import NumInput from '@components/NumInput'
+import { updateCartNum } from '@/utils/cart'
 
 export default {
   components: {
@@ -204,9 +205,10 @@ export default {
         this.$message({
           message: '添加成功,请前往购物车页面查看',
           type: 'success',
-          duration: 1500
+          duration: 1000
         })
         this.loading = false
+        updateCartNum()
         this.hideDialog()
       }else if(res.code === 200){
         this.innerVisible = true

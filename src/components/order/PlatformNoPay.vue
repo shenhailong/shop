@@ -228,8 +228,7 @@ export default {
       this.uploadData.clurl = ''
       this.fileList = fileList
     },
-    handleBeforeUpload(file) {
-      console.log(file)
+    handleBeforeUpload() {
       // this.uploading = true
       // // 限制图片大小
       // const isLt1M = file.size / 1024 / 1024 < 1

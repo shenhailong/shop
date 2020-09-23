@@ -95,7 +95,7 @@
 import NavBar from '@components/NavBar'
 import Empty from '@components/Empty'
 import NumInput from '@components/NumInput'
-
+import { updateCartNum } from '@/utils/cart'
 export default {
   components: {
     NavBar,
@@ -204,8 +204,6 @@ export default {
     },
     // 初始化选中状态
     initToggleSelection(){
-      console.log(this.$refs)
-      
       let arr = []
       this.list.forEach(item => {
         if(item.checked === 'Y'){
@@ -231,6 +229,7 @@ export default {
         if (res.code === 0) {
           this.list.splice(index, 1)
           this.calculateTotal()
+          updateCartNum()
         }else{
           this.reload()
         }
@@ -245,11 +244,12 @@ export default {
         this.reload()
       }
     },
-    // 数量切换
+    // 数量修改
     async amountChange(row, index) {
       const res = await this.$axios.post('shopcar.amount', this.list[index])
       if (res.code === 0) {
         this.resetData(index, res.data)
+        updateCartNum()
       }else{
         this.reload()
       }
@@ -258,7 +258,6 @@ export default {
     async radioChange(row, index) {
       const res = await this.$axios.post('shopcar.unit', this.list[index])
       if (res.code === 0) {
-        console.log(1)
         this.resetData(index, res.data)
       }else{
         this.reload()
@@ -286,12 +285,10 @@ export default {
       let checked = this.list.some(item => {
         return item.checked === 'Y'
       })
-      console.log(checked)
       if(!checked){
         this.$message.error('请选择产品');
         return
       }
-
       const res = await this.$axios.post('order.add')
       if (res.code === 0) {
         this.$router.push(`confirmOrder/${res.data.id}`)

@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-22 13:15:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-22 15:57:05
+ * @LastEditTime: 2020-09-23 16:48:12
  */
 import Vue from 'vue';
 import App from './App.vue';
@@ -95,8 +95,10 @@ Vue.use(install)
 
 Vue.config.productionTip = false;
 
-new Vue({
+let vm = new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app');
+
+export default vm
