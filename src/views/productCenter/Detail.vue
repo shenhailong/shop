@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 13:45:15
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-18 17:18:34
+ * @LastEditTime: 2020-09-23 14:59:47
 -->
 <template>
   <div class="wrap-index">
@@ -26,6 +26,13 @@
       </div>
     </div>
     <AddCart v-if="visible" :visible.sync="visible" :item="detail" @hide="visible = false" />
+    <el-dialog
+      title="欢迎登录"
+      :visible.sync="loginDialogVisible"
+      width="30%"
+      center>
+      <Login />
+    </el-dialog>
   </div>
 </template>
 
@@ -33,15 +40,18 @@
 import NavBar from '@components/NavBar'
 import AddCart from '@components/AddCart'
 import { getToken } from '@/utils/common'
+import Login from '@/components/Login'
 
 export default {
   components: {
     NavBar,
-    AddCart
+    AddCart,
+    Login
   },
   data() {
     return {
       visible: false,
+      loginDialogVisible: false,
       item: [],
       detail: {}
     }
@@ -55,7 +65,7 @@ export default {
       if(token){
         this.visible = true
       }else{
-        this.$router.push('/login')
+        this.loginDialogVisible = true
       }
     },
     geDetail() {

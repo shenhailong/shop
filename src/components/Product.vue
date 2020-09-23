@@ -14,6 +14,13 @@
       </div>
     </el-col>
     <AddCart v-if="visible" :visible.sync="visible" :item=item @hide="visible = false" />
+    <el-dialog
+      title="欢迎登录"
+      :visible.sync="loginDialogVisible"
+      width="30%"
+      center>
+      <Login />
+    </el-dialog>
   </div>
 </template>
 
@@ -21,10 +28,12 @@
 import AddCart from '@components/AddCart'
 import { getToken } from '@/utils/common'
 import { BASE_URL } from '@/constants/common'
+import Login from '@/components/Login'
 
 export default {
   components: {
-    AddCart
+    AddCart,
+    Login
   },
   props: {
     item: {}
@@ -32,6 +41,7 @@ export default {
   data() {
     return {
       visible: false,
+      loginDialogVisible: false,
       BASE_URL
     }
   },
@@ -44,7 +54,7 @@ export default {
       if(token){
         this.visible = true
       }else{
-        this.$router.push('/login')
+        this.loginDialogVisible = true
       }
     }
   }

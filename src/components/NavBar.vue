@@ -23,7 +23,7 @@
             <div class="text">退出</div>
           </div>
         </div>
-        <div v-else @click="$router.push('login')" class="login-text">请登录</div>
+        <div v-else @click="$router.push('/login')" class="login-text">请登录</div>
       </div>
     </header>
     <el-dialog

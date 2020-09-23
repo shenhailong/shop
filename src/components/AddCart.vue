@@ -31,6 +31,7 @@
         @select="select"
         style="width: 100%"
         border
+        ref="multipleTable"
         size="mini">
         <el-table-column
           type="selection"
@@ -137,13 +138,26 @@ export default {
       })
     }
     this.list = arr
+    this.$nextTick(() => {
+      this.initToggleSelection()
+    })
   },
   methods: {
+    // 初始化选中状态(如果只有一个默认选中)
+    initToggleSelection(){
+      this.list.forEach(row => {
+        this.$refs.multipleTable.toggleRowSelection(row);
+      });
+      this.selectList = this.list
+    },
     hideDialog() {
       this.$emit('hide')
     },
     async add() {
-      if(this.selectList.length === 0){ return }
+      if(this.selectList.length === 0){
+        this.$message.error('请选择产品');
+        return
+      }
       let tip = ''
       let buyByMonth = false // 时长按天大于等于30,提示按月买
       let buyByYear = false // 时长按月大于等于12,提示按年购买
@@ -203,12 +217,9 @@ export default {
       }
     },
     selectAll(selection) {
-      console.log(selection)
       this.selectList = selection
     },
-    select(selection, row){
-      console.log(selection)
-      console.log(row)
+    select(selection){
       this.selectList = selection
     }
   }

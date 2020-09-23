@@ -204,6 +204,8 @@ export default {
     },
     // 初始化选中状态
     initToggleSelection(){
+      console.log(this.$refs)
+      
       let arr = []
       this.list.forEach(item => {
         if(item.checked === 'Y'){
