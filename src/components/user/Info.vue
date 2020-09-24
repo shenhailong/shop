@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-23 13:12:06
+ * @LastEditTime: 2020-09-24 14:04:20
 -->
 <template>
   <div class="user-wrap">
@@ -27,6 +27,8 @@
 import { STATUS_REGISTER, USER_LEVEL } from '@/constants/status'
 import { getUser } from '@/utils/common'
 import { getDate } from '@/utils/tools'
+import { TOKEN, USER_INFO } from '@/constants/key'
+import * as CART from '@store/types/cart'
 
 export default {
   data() {
@@ -103,9 +105,12 @@ export default {
         cancelButtonText: '取消',
         type: 'error'
       }).then(() => {
-        this.$axios.get('user.cancel').then((res) => {
+        this.$axios.post('user.cancel').then((res) => {
           if (res.code === 0) {
-            this.$router.replace('index')
+            window.localStorage.removeItem(TOKEN)
+            window.localStorage.removeItem(USER_INFO)
+            this.$store.commit(CART.UPDATE_CART_NUM, 0)
+            this.$router.replace('/index')
           }
         })
       })

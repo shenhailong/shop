@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-08-03 15:56:12
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-10 17:42:21
+ * @LastEditTime: 2020-09-24 13:41:55
 -->
 <template>
   <div class="login-card">
@@ -22,7 +22,7 @@
       <el-form-item>
         <div class="footer">
           <el-button @click="$router.back()" :style="{width:'100px'}" size="large">返回</el-button>
-          <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">确认</el-button>
+          <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">下一步</el-button>
         </div>
       </el-form-item>
     </el-form>
@@ -30,16 +30,13 @@
 </template>
 
 <script>
-import { Notification } from 'element-ui'
-import axios from 'axios'
 export default {
   data() {
     return {
       submitting: false,
       form: {
         userName: '',
-        email: '',
-        captcha: ''
+        email: '819062373@qq.com'
       },
       // 校验规则
       rules: {
@@ -62,23 +59,16 @@ export default {
         if (valid) {
           let data = {
             username: this.form.userName,
-            password: this.form.password
-            // captcha: this.form.captcha
+            email: this.form.email
           }
-          axios.post('/api/adm/account/login', data).then((res) => {
-            if (res.data.code === 1) {
-              // const loginInfo = res.data.data
-              // const TOKEN_KEY = process.env.TOKEN_KEY
-              // window.localStorage.setItem(TOKEN_KEY, loginInfo.accessToken.accessToken)
-              window.location = `index.html?_=${new Date().getTime()}/#/dashboard`
-            } else if (res.data.code === '2') {
-              Notification({
-                type: 'error',
-                title: '错误',
-                message: res.data.message
-              })
-              this.needCaptcha = true
-              this.rules.captcha[0].required = true
+          this.$axios.post('user.validcode', data).then((res) => {
+            if (res.code === 0) {
+              this.$message({
+                message: res.msg,
+                type: 'success',
+                duration: 5000
+              });
+              this.$emit('next', this.form.userName)
             }
           }).finally(() => {
             this.submitting = false

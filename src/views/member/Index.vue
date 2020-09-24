@@ -71,8 +71,8 @@
         </div>
       </div>
       <el-dialog top="50px" height="50%" title="视频" :visible.sync="player">
-      <VideoPlayer :sources="resurl" v-if="player" :poster="poster" />
-    </el-dialog>
+        <VideoPlayer :sources="resurl" v-if="player" :poster="poster" />
+      </el-dialog>
     </div>
   </div>
 </template>

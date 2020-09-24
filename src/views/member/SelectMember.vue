@@ -4,13 +4,19 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-22 13:52:25
+ * @LastEditTime: 2020-09-24 13:25:37
 -->
 <template>
   <div class="member-select">
     <NavBar current="user" />
     <div class="content">
-      <h2 v-if="isMember" class="title">{{tip}}</h2>
+      <h2 v-if="isMember" class="title">
+        您最新购买的 <span class="color-primary">{{currentLevel.level}}</span> 将于 <span class="color-primary">{{currentLevel.end}}</span>到期
+      </h2>
+      <h2 v-if="hasBuyRecord" class="title">
+        您最新购买的 <span class="color-primary">{{buyRecord.level}}</span> 开始日期: <span class="color-primary">{{buyRecord.start}}</span> 结束日期: <span class="color-primary">{{buyRecord.end}}</span>,如未支付请及时支付
+      </h2>
+
       <div class="member-item">
         <div v-for="item in memberList" :key="item.id" class="item">{{item.membername}}年费:
           <span class="text">{{item.nianfei}} <span class="unit">元</span></span>
@@ -84,9 +90,14 @@ export default {
       upgradeList: [], // 升级会员列表
       loading: false,
       total: 0, // 缴费金额
-      tip: '',
       userhyjsrq: '',
       isMember: false, // 是否是会员
+      hasBuyRecord: false, // 是否有购买记录
+      buyRecord: {
+        start: '',
+        end: '',
+        level: ''
+      }, // 购买记录提示信息
       pickerOptions: {
         disabledDate: (time) => {
           let date = (new Date).getTime() - 24 * 60 * 60 * 1000;
@@ -120,9 +131,13 @@ export default {
       if(user.corp.level > 2) {
         this.isMember = true
         this.userLevel = user.corp.level
-        this.getMemberlast()
+        this.currentLevel = {
+          level: USER_LEVEL[user.corp.level],
+          end: getDate(user.corp.hyjsrq, true)
+        }
       }
     }
+    this.getMemberlast()
   },
   methods: {
     resetForm(formName) {
@@ -139,10 +154,17 @@ export default {
     // 最后购买的会员信息
     getMemberlast() {
       this.$axios.get('member.last').then((res) => {
-        if (res.code === 0) {
-          let { mid, hyjsrq } = res.data
+        if (res.code === 0 && res.data) {
+          this.hasBuyRecord = true
+          let { mid, hyjsrq, hyksrq } = res.data
           this.userhyjsrq = hyjsrq
-          this.tip = `您的${USER_LEVEL[mid]}将于${getDate(hyjsrq, true)}到期`
+          this.buyRecord = {
+            level: USER_LEVEL[mid],
+            start: getDate(hyksrq, true),
+            end: getDate(hyjsrq, true)
+          }
+        }else{
+          this.hasBuyRecord = false
         }
       })
     },
@@ -193,7 +215,7 @@ export default {
       if(this.isMember){
         let hyksrq = new Date(this.ruleForm.hyksrq.replace(/\-/g, '\/')).getTime()
         if(this.type === 'buy' && hyksrq <= this.userhyjsrq){
-          this.$message.error('开始日期必须是会员结束日期之后')
+          this.$message.error('开始日期必须是最新购买会员的结束日期之后', 4)
           return
         }
       }

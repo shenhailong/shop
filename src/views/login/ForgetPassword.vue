@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-08-03 15:25:04
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-18 18:03:24
+ * @LastEditTime: 2020-09-24 13:45:09
 -->
 <template>
   <div class="wrap-login">
@@ -13,8 +13,8 @@
       <el-step title=忘记密码 ></el-step>
       <el-step title="重置密码" ></el-step>
     </el-steps>
-    <Forget v-if="active === 0" />
-    <Reset v-if="active === 1" />
+    <Forget v-if="active === 0" @next="next" />
+    <Reset v-if="active === 1" @back="back" :username="username" />
     </el-card>
   </div>
 </template>
@@ -29,14 +29,17 @@ export default {
   },
   data() {
     return {
-      active: 0
+      active: 0,
+      username: ''
     }
   },
-  created() {
-    console.log(this.$route.query.step)
-    
-    if(this.$route.query.step === 'reset'){
+  methods: {
+    next(username){
+      this.username = username
       this.active = 1
+    },
+    back() {
+      this.active = 0
     }
   }
 }

@@ -63,7 +63,7 @@
         width="280"
         align="center">
         <template slot-scope="scope">
-          <el-button @click="deleteOrder(scope.row)" type="danger" size="small">删除</el-button>
+          <el-button v-if="scope.row.clurl !== ''" @click="deleteOrder(scope.row)" type="danger" size="small">删除</el-button>
           <el-button v-if="scope.row.paystatus !== 'Y'" @click="pay(scope.row)" type="primary" size="small">获取支付方式</el-button>
           <el-button v-if="scope.row.paystatus !== 'Y'" @click="upload(scope.row.id)" type="success" size="small">上传凭证</el-button>
         </template>

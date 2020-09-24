@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-08-03 15:56:12
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-03 16:31:35
+ * @LastEditTime: 2020-09-24 13:52:05
 -->
 <template>
   <div class="login-card">
@@ -19,8 +19,14 @@
           <template slot="prepend" ><div style="width:40px">确认密码</div></template>
         </el-input>
       </el-form-item>
+      <el-form-item prop="confirmPassword">
+        <el-input type="password" v-model="form.confirmPassword">
+          <template slot="prepend" ><div style="width:40px">确认密码</div></template>
+        </el-input>
+      </el-form-item>
       <el-form-item>
         <div class="footer">
+          <el-button @click="$emit('back')" plain :style="{width:'100px'}" size="large">上一步</el-button>
           <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">确认</el-button>
         </div>
       </el-form-item>
@@ -29,10 +35,32 @@
 </template>
 
 <script>
-import { Notification } from 'element-ui'
-import axios from 'axios'
+import md5 from 'md5'
+
 export default {
+  props: {
+    username: {}
+  },
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.ruleForm.confirmPassword !== '') {
+          this.$refs.ruleForm.validateField('confirmPassword');
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.ruleForm.passwd) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    }
     return {
       submitting: false,
       form: {
@@ -42,11 +70,17 @@ export default {
       },
       // 校验规则
       rules: {
-        password: [
-          { required: true, message: '密码不能为空哦', trigger: 'blur' }
+        passwd: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { pattern: /^[0-9a-zA-Z]{6,20}$/, message: '6 ~ 20位数字或者字母(区分大小写)', trigger: 'blur' },
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        confirmPassword: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { validator: validatePass2, trigger: 'change' }
         ],
         email: [
-          { required: true, message: '邮箱不能为空', trigger: 'blur' }
+          { required: true, message: '验证码不能为空', trigger: 'blur' }
         ]
       }
     }
@@ -59,24 +93,13 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           let data = {
-            username: this.form.userName,
-            password: this.form.password
-            // captcha: this.form.captcha
+            username: this.username,
+            passwd: md5(this.ruleForm.passwd),
+            captcha: this.form.captcha
           }
-          axios.post('/api/adm/account/login', data).then((res) => {
+          this.$axios.post('user.validcode', data).then((res) => {
             if (res.data.code === 1) {
-              // const loginInfo = res.data.data
-              // const TOKEN_KEY = process.env.TOKEN_KEY
-              // window.localStorage.setItem(TOKEN_KEY, loginInfo.accessToken.accessToken)
-              window.location = `index.html?_=${new Date().getTime()}/#/dashboard`
-            } else if (res.data.code === '2') {
-              Notification({
-                type: 'error',
-                title: '错误',
-                message: res.data.message
-              })
-              this.needCaptcha = true
-              this.rules.captcha[0].required = true
+              this.$router.replace('/login')
             }
           }).finally(() => {
             this.submitting = false
