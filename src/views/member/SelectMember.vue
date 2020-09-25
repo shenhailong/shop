@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 17:00:24
+ * @LastEditTime: 2020-09-25 20:57:11
 -->
 <template>
   <div class="member-select">
@@ -128,11 +128,11 @@ export default {
     this.getMemberlist()
     if(getUser()){
       let user = getUser()
-      if(user.corp.level > 2) {
+      if(user.member.level > 2) {
         this.isMember = true
-        this.userLevel = user.corp.level
+        this.userLevel = user.member.level
         this.currentLevel = {
-          level: USER_LEVEL[user.corp.level],
+          level: USER_LEVEL[user.member.level],
           end: getDate(user.corp.hyjsrq, true)
         }
         this.getUpgradeList()

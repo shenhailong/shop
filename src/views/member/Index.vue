@@ -98,8 +98,8 @@ export default {
     this.type = this.$route.query.type
     if(getUser()){
       let user = getUser()
-      this.userLevel = user.corp.level
-      if(user.corp.level > 2) {
+      this.userLevel = user.member.level
+      if(user.member.level > 2) {
         this.isMember = true
         this.getList()
       }

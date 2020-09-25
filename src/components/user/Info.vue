@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 20:08:38
+ * @LastEditTime: 2020-09-25 20:43:32
 -->
 <template>
   <div v-if="userInfo" class="user-wrap">
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { STATUS_REGISTER, USER_LEVEL } from '@/constants/status'
+import { STATUS_REGISTER } from '@/constants/status'
 import { setUser } from '@/utils/common'
 import { getDate } from '@/utils/tools'
 import { TOKEN, USER_INFO } from '@/constants/key'
@@ -65,7 +65,7 @@ export default {
         value: user.corp.shtyxydm
       }, {
         label: '会员级别:',
-        value: USER_LEVEL[user.corp.mid],
+        value: user.member.membername,
         type: 'member'
       }, {
         label: '会员有效期:',
