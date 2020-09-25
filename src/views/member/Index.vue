@@ -3,8 +3,11 @@
     <NavBar current="member" />
     <div class="content">
       <div v-if="!isMember" class="tip">
-        您还不是会员,请及时缴费,成为会员方可使用
-        <el-button type="primary" @click="$router.push('selectMember')">成为会员</el-button>
+        <template v-if="userLevel > 1">
+          您还不是会员,请及时缴费,成为会员方可使用
+          <el-button type="primary" @click="$router.push('selectMember')">成为会员</el-button>
+        </template>
+        <template v-else>当前登录用户正在审核当中,请耐心等待审核</template>
       </div>
       <div v-else>
         <div class="search-wrap">

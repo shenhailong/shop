@@ -101,6 +101,7 @@
 </template>
 <script>
 import { getDate } from '@/utils/tools'
+import { getUser } from '@/utils/common'
 
 export default {
   data() {
@@ -115,11 +116,20 @@ export default {
       list: [],
       date: [],
       total: 0,
-      loading: false
+      loading: false,
+      canSearch: false
     }
   },
   mounted() {
-    this.getList()
+    if(getUser()){
+      let user = getUser()
+      if(user.corp.level > 2) {
+        this.getList()
+        this.canSearch = true
+      }else{
+        this.canSearch = false
+      }
+    }
   },
   methods: {
     data(value) {
@@ -137,7 +147,11 @@ export default {
     },
     // 查询
     search() {
-      this.getList()
+      if(this.canSearch){
+        this.getList()
+      }else{
+        this.$message.error('该功能仅对会员开放查询')
+      }
     },
     // 页数切换
     currentChange(value) {

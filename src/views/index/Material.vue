@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-29 09:40:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-23 13:46:46
+ * @LastEditTime: 2020-09-24 15:40:06
 -->
 <template>
   <div class="wrap-index">
@@ -32,6 +32,15 @@
           align="center">
           <template slot-scope="scope">
             {{scope.row.restype === 'PDF' ? 'pdf文件' : '视频'}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="resname"
+          label="资料所属"
+          width="180"
+          align="center">
+          <template slot-scope="scope">
+            {{scope.row.level > 2 ? '会员资料' : '公共资料'}}
           </template>
         </el-table-column>
         <el-table-column

@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-24 14:04:20
+ * @LastEditTime: 2020-09-24 15:28:42
 -->
 <template>
   <div class="user-wrap">
@@ -16,7 +16,7 @@
       <template v-else>
         <div class="value">{{item.value}}</div>
         <el-button v-if="item.type === 'score'" type="primary" @click="goScore">查看积分</el-button>
-        <el-button v-if="item.type === 'member'" type="primary" @click="goSelectMember">购买会员</el-button>
+        <el-button v-if="item.type === 'member' && userInfo.corp.level > 1" type="primary" @click="goSelectMember">购买会员</el-button>
       </template>
     </div>
     <el-button class="cancel-btn" type="danger" @click="cancelUser">注销用户</el-button>

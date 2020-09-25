@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-24 10:01:11
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-23 10:58:44
+ * @LastEditTime: 2020-09-24 14:33:42
  */
 const path = require('path')
 const resolve = (dir) => path.join(__dirname, dir)
@@ -32,6 +32,8 @@ module.exports = {
     proxy: 'http://39.100.227.252:888/'
   },
   chainWebpack: config => {
+    config.plugins.delete('prefetch')
+
     // 添加别名
     config.resolve.alias
       .set('@', resolve('src'))
