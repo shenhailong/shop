@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-25 18:47:25
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 22:38:31
+ * @LastEditTime: 2020-09-25 23:10:36
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -23,11 +23,6 @@
         transform: translateY(-50%) translateX(-50%);
         z-index: 100;
         text-align: center;
-      }
-      .loading-text{
-        font-size: 16px;
-        font-weight: 400;
-        color: #409EFF;
       }
       @-webkit-keyframes ball-beat {
         50% {
@@ -76,14 +71,13 @@
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <div id="loading">
+    <!-- <div id="loading">
       <div class="loading-inner ball-beat">
         <div></div>
         <div></div>
         <div></div>
       </div>
-      <!-- <div class="loading-text">首次加载较慢请稍等</div> -->
-    </div>
+    </div> -->
     <!-- built files will be auto injected -->
   </body>
 </html>

@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-24 10:01:11
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-24 14:33:42
+ * @LastEditTime: 2020-09-25 22:54:42
  */
 const path = require('path')
 const resolve = (dir) => path.join(__dirname, dir)
@@ -44,9 +44,9 @@ module.exports = {
       .set('@config', resolve('src/config'))
       .set('@store', resolve('src/store'))
       .set('@mixin', resolve('src/mixin'))
-    config
-      .plugin('webpack-bundle-analyzer')
-      .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+    // config
+    //   .plugin('webpack-bundle-analyzer')
+    //   .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
     return config
   }
 }
