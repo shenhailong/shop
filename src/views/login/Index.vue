@@ -45,7 +45,7 @@
 
 <script>
 import md5 from 'md5'
-import { TOKEN, USER_INFO } from '@/constants/key'
+import { setUser, setToken } from '@/utils/common'
 import { BASE_URL } from '@/constants/common'
 
 export default {
@@ -75,8 +75,7 @@ export default {
         vcode: [
           { required: true, message: '验证码不能为空', trigger: 'blur' }
         ]
-      },
-      activeName: 'first'
+      }
     }
   },
   methods: {
@@ -94,8 +93,8 @@ export default {
           }
           this.$axios.post('user.login', data).then((res) => {
             if (res.code === 0) {
-              window.localStorage.setItem(TOKEN, res.data.token)
-              window.localStorage.setItem(USER_INFO, JSON.stringify(res.data))
+              setToken(res.data.token)
+              setUser(res.data)
               this.$notify({
                 type: 'success',
                 title: '登录成功',

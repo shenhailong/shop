@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-24 13:25:37
+ * @LastEditTime: 2020-09-25 17:00:24
 -->
 <template>
   <div class="member-select">
@@ -14,7 +14,7 @@
         您最新购买的 <span class="color-primary">{{currentLevel.level}}</span> 将于 <span class="color-primary">{{currentLevel.end}}</span>到期
       </h2>
       <h2 v-if="hasBuyRecord" class="title">
-        您最新购买的 <span class="color-primary">{{buyRecord.level}}</span> 开始日期: <span class="color-primary">{{buyRecord.start}}</span> 结束日期: <span class="color-primary">{{buyRecord.end}}</span>,如未支付请及时支付
+        您最新购买的 <span class="color-primary">{{buyRecord.level}}</span> 开始日期: <span class="color-primary">{{buyRecord.start}}</span> 结束日期: <span class="color-primary">{{buyRecord.end}}</span><span v-if="buyRecord.paystatus !== 'Y'">,如未支付请及时支付</span>
       </h2>
 
       <div class="member-item">
@@ -27,7 +27,7 @@
         <el-form-item label="购买方式">
           <div class="tab">
             <div @click="type = 'buy'" :class="{ active : type == 'buy'}" class="item">购买会员</div>
-            <div @click="type = 'upgrade'" :class="{ active : type == 'upgrade'}" class="item">升级会员</div>
+            <div v-if="isMember" @click="type = 'upgrade'" :class="{ active : type == 'upgrade'}" class="item">升级会员</div>
           </div>
         </el-form-item>
 
@@ -96,7 +96,8 @@ export default {
       buyRecord: {
         start: '',
         end: '',
-        level: ''
+        level: '',
+        paystatus: 'N'
       }, // 购买记录提示信息
       pickerOptions: {
         disabledDate: (time) => {
@@ -125,7 +126,6 @@ export default {
   },
   mounted() {
     this.getMemberlist()
-    this.getUpgradeList()
     if(getUser()){
       let user = getUser()
       if(user.corp.level > 2) {
@@ -135,6 +135,7 @@ export default {
           level: USER_LEVEL[user.corp.level],
           end: getDate(user.corp.hyjsrq, true)
         }
+        this.getUpgradeList()
       }
     }
     this.getMemberlast()
@@ -156,12 +157,13 @@ export default {
       this.$axios.get('member.last').then((res) => {
         if (res.code === 0 && res.data) {
           this.hasBuyRecord = true
-          let { mid, hyjsrq, hyksrq } = res.data
+          let { mid, hyjsrq, hyksrq, paystatus } = res.data
           this.userhyjsrq = hyjsrq
           this.buyRecord = {
             level: USER_LEVEL[mid],
             start: getDate(hyksrq, true),
-            end: getDate(hyjsrq, true)
+            end: getDate(hyjsrq, true),
+            paystatus
           }
         }else{
           this.hasBuyRecord = false
@@ -210,14 +212,12 @@ export default {
       });
     },
     submit() {
-      // 是会员: 购买只能选择到期之后的日期,升级不受影响
-      // 不是会员: 购买或升级都可以
-      if(this.isMember){
-        let hyksrq = new Date(this.ruleForm.hyksrq.replace(/\-/g, '\/')).getTime()
-        if(this.type === 'buy' && hyksrq <= this.userhyjsrq){
-          this.$message.error('开始日期必须是最新购买会员的结束日期之后', 4)
-          return
-        }
+      // 购买: 如果有购买记录只能选择到期之后的日期,
+      // 升级不受影响
+      let hyksrq = new Date(this.ruleForm.hyksrq.replace(/\-/g, '\/')).getTime()
+      if(this.type === 'buy' && this.userhyjsrq && hyksrq <= this.userhyjsrq ){
+        this.$message.error('开始日期必须是最新购买会员的结束日期之后', 4)
+        return
       }
       this.loading = true
       if(this.type === 'buy'){

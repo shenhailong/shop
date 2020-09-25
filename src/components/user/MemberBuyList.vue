@@ -31,12 +31,14 @@
       </el-table-column>
       <el-table-column
         prop="paystatus"
-        label="支付状态"
+        label="审核状态"
         width="140"
         align="center">
         <template slot-scope="scope">
-          <div v-if="scope.row.paystatus === 'Y'" class="color-green">已支付</div>
-          <div v-else class="color-red">待支付</div>
+          <div v-if="scope.row.auditstatus == '0'" class="color-red">审核拒绝</div>
+          <div v-if="scope.row.auditstatus == '1'" class="color-green">审核通过</div>
+          <div v-if="scope.row.auditstatus == '2'" class="color-primary">审核中</div>
+          <div v-if="scope.row.auditstatus == '3'" class="color-green">补充材料</div>
         </template>
       </el-table-column>
       <el-table-column

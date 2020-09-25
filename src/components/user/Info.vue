@@ -4,10 +4,10 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-24 15:28:42
+ * @LastEditTime: 2020-09-25 20:08:38
 -->
 <template>
-  <div class="user-wrap">
+  <div v-if="userInfo" class="user-wrap">
     <div v-for="item in infoList" :key="item.label" v-show="!item.hide" class="item">
       <div class="label">{{item.label}}</div>
       <template v-if="item.type === 'img'">
@@ -25,7 +25,7 @@
 
 <script>
 import { STATUS_REGISTER, USER_LEVEL } from '@/constants/status'
-import { getUser } from '@/utils/common'
+import { setUser } from '@/utils/common'
 import { getDate } from '@/utils/tools'
 import { TOKEN, USER_INFO } from '@/constants/key'
 import * as CART from '@store/types/cart'
@@ -38,12 +38,18 @@ export default {
     }
   },
   mounted() {
-    if(getUser()){
-      this.userInfo = getUser()
-      this.initData(this.userInfo)
-    }
+    this.getInfo()
   },
   methods: {
+    getInfo() {
+      this.$axios.post('user.detail').then((res) => {
+        if (res.code === 0) {
+          this.userInfo = res.data
+          this.initData(res.data)
+          setUser(res.data)
+        }
+      })
+    },
     initData(user) {
       this.infoList = [{
         label: '用户名:',
