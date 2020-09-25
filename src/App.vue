@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-24 10:01:11
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-21 16:35:34
+ * @LastEditTime: 2020-09-25 22:38:38
 -->
 <template>
   <div id="app">
@@ -33,6 +33,12 @@ export default {
     return {
       dialogTableVisible: false,
       hide: true
+    }
+  },
+  created() {
+    let loading = document.getElementById('loading')
+    if(loading != null){
+      document.body.removeChild(loading)
     }
   },
   mounted() {

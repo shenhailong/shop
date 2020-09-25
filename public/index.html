@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 1.0.0
+ * @Author: Dragon
+ * @Date: 2020-09-25 18:47:25
+ * @LastEditors: Dragon
+ * @LastEditTime: 2020-09-25 22:38:31
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,12 +14,76 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+      #loading{
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        -webkit-transform: translateY(-50%) translateX(-50%);
+        transform: translateY(-50%) translateX(-50%);
+        z-index: 100;
+        text-align: center;
+      }
+      .loading-text{
+        font-size: 16px;
+        font-weight: 400;
+        color: #409EFF;
+      }
+      @-webkit-keyframes ball-beat {
+        50% {
+          opacity: 0.2;
+          -webkit-transform: scale(0.75);
+          transform: scale(0.75);
+        }
+        100% {
+          opacity: 1;
+          -webkit-transform: scale(1);
+          transform: scale(1);
+        }
+      }
+      @keyframes ball-beat {
+        50% {
+          opacity: 0.2;
+          -webkit-transform: scale(0.75);
+          transform: scale(0.75);
+        }
+        100% {
+          opacity: 1;
+          -webkit-transform: scale(1);
+          transform: scale(1);
+        }
+      }
+      .ball-beat > div{
+        background-color: #409EFF;
+        width: 20px;
+        height: 20px;
+        border-radius: 100%!important;
+        margin: 2px;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        display: inline-block;
+        animation: ball-beat 0.7s 0s infinite linear;
+        -webkit-animation: ball-beat 0.7s 0s infinite linear;
+      }
+      .ball-beat > div:nth-child(2n-1){
+        animation-delay: 0.35s !important;
+        -webkit-animation-delay: 0.35s !important;
+      }
+    </style>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
+    <div id="loading">
+      <div class="loading-inner ball-beat">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <!-- <div class="loading-text">首次加载较慢请稍等</div> -->
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>
