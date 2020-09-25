@@ -4,24 +4,24 @@
  * @Autor: Dragon
  * @Date: 2020-08-03 15:56:12
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-24 13:52:05
+ * @LastEditTime: 2020-09-25 13:50:51
 -->
 <template>
   <div class="login-card">
-    <el-form @submit.native.prevent="submitHandler" ref="loginForm" :rules="rules" :model="form">
-      <el-form-item prop="password">
-        <el-input type="password" v-model="form.password">
+    <el-form @submit.native.prevent="submitHandler" ref="resetForm" :rules="rules" :model="ruleForm">
+      <el-form-item prop="passwd">
+        <el-input type="password" v-model="ruleForm.passwd">
           <template slot="prepend" ><div style="width:40px">密&nbsp;&nbsp;码</div></template>
         </el-input>
       </el-form-item>
       <el-form-item prop="confirmPassword">
-        <el-input type="password" v-model="form.confirmPassword">
+        <el-input type="password" v-model="ruleForm.confirmPassword">
           <template slot="prepend" ><div style="width:40px">确认密码</div></template>
         </el-input>
       </el-form-item>
-      <el-form-item prop="confirmPassword">
-        <el-input type="password" v-model="form.confirmPassword">
-          <template slot="prepend" ><div style="width:40px">确认密码</div></template>
+      <el-form-item prop="validcode">
+        <el-input type="text" v-model="ruleForm.validcode">
+          <template slot="prepend" ><div style="width:40px">验证码</div></template>
         </el-input>
       </el-form-item>
       <el-form-item>
@@ -47,7 +47,7 @@ export default {
         callback(new Error('请输入密码'));
       } else {
         if (this.ruleForm.confirmPassword !== '') {
-          this.$refs.ruleForm.validateField('confirmPassword');
+          this.$refs.resetForm.validateField('confirmPassword');
         }
         callback();
       }
@@ -63,10 +63,10 @@ export default {
     }
     return {
       submitting: false,
-      form: {
+      ruleForm: {
         password: '',
-        email: '',
-        captcha: ''
+        confirmPassword: '',
+        validcode: ''
       },
       // 校验规则
       rules: {
@@ -79,8 +79,8 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' },
           { validator: validatePass2, trigger: 'change' }
         ],
-        email: [
-          { required: true, message: '验证码不能为空', trigger: 'blur' }
+        validcode: [
+          { required: true, message: '验证码不能为空, 请查看注册邮箱获取验证码', trigger: 'blur' }
         ]
       }
     }
@@ -90,15 +90,21 @@ export default {
       if (this.submitting === true) {
         return false
       }
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.resetForm.validate((valid) => {
         if (valid) {
           let data = {
             username: this.username,
-            passwd: md5(this.ruleForm.passwd),
-            captcha: this.form.captcha
+            newPasswd: md5(this.ruleForm.passwd),
+            validcode: this.ruleForm.validcode
           }
-          this.$axios.post('user.validcode', data).then((res) => {
-            if (res.data.code === 1) {
+          this.submitting = true
+          this.$axios.post('user.resetPasswd', data).then((res) => {
+            if (res.code === 0) {
+              this.$message({
+                message: '重置成功,请重新登录',
+                type: 'success',
+                duration: 2000
+              });
               this.$router.replace('/login')
             }
           }).finally(() => {

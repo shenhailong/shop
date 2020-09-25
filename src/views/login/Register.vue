@@ -77,7 +77,6 @@
 </template>
 
 <script>
-import { Notification } from 'element-ui'
 import md5 from 'md5'
 
 export default {
@@ -184,19 +183,11 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           if(this.ruleForm.yyzz === ''){
-            Notification({
-              type: 'error',
-              title: '错误',
-              message: '请上传营业执照'
-            })
+            this.$message.error('请上传营业执照')
             return
           }
           if(this.ruleForm.idcardurl === ''){
-            Notification({
-              type: 'error',
-              title: '错误',
-              message: '请上传申请人身份证'
-            })
+            this.$message.error('请上传申请人身份证')
             return
           }
           this.submitting = true

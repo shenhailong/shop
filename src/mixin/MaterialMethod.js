@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-14 09:47:28
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-24 16:33:27
+ * @LastEditTime: 2020-09-25 10:06:37
  */
 import NavBar from '@components/NavBar'
 import VideoPlayer from '@components/VideoPlayer'
@@ -67,7 +67,7 @@ const MaterialMethod = {
           }).then(async () => {
             this.$router.push('selectMember')
           }).catch(() => {})
-        }else if(user.corp.level === 1){
+        }else if(user.corp.level === 1 && level > 2){
           this.$message.error('当前登录用户正在审核当中,请耐心等待审核')
         }else{
           this.getDetail(id, type)

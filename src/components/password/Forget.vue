@@ -4,19 +4,14 @@
  * @Autor: Dragon
  * @Date: 2020-08-03 15:56:12
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-24 13:41:55
+ * @LastEditTime: 2020-09-25 13:41:24
 -->
 <template>
   <div class="login-card">
     <el-form @submit.native.prevent="submitHandler" ref="loginForm" :rules="rules" :model="form">
-      <el-form-item prop="userName">
-        <el-input v-model="form.userName">
+      <el-form-item prop="username">
+        <el-input v-model="form.username">
           <template slot="prepend"><div style="width:40px">用户名</div></template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="email">
-        <el-input type="text" v-model="form.email">
-          <template slot="prepend" ><div style="width:40px">邮&nbsp;&nbsp;箱</div></template>
         </el-input>
       </el-form-item>
       <el-form-item>
@@ -35,18 +30,11 @@ export default {
     return {
       submitting: false,
       form: {
-        userName: '',
-        email: '819062373@qq.com'
+        username: ''
       },
       // 校验规则
       rules: {
-        userName: [
-          { required: true, message: '账号不能为空哦', trigger: 'blur' }
-        ],
-        email: [
-          { required: true, message: '邮箱不能为空', trigger: 'blur' },
-          { pattern: /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/, message: '请输入正确的邮箱', trigger: 'blur' },
-        ]
+        username: [{ required: true, message: '用户名不能为空哦', trigger: 'blur' }]
       }
     }
   },
@@ -57,18 +45,15 @@ export default {
       }
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          let data = {
-            username: this.form.userName,
-            email: this.form.email
-          }
-          this.$axios.post('user.validcode', data).then((res) => {
+          this.submitting = true
+          this.$axios.post('user.validcode',  this.form).then((res) => {
             if (res.code === 0) {
               this.$message({
                 message: res.msg,
                 type: 'success',
                 duration: 5000
               });
-              this.$emit('next', this.form.userName)
+              this.$emit('next', this.form.username)
             }
           }).finally(() => {
             this.submitting = false

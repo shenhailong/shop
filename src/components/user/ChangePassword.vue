@@ -1,41 +1,55 @@
 <template>
   <div class="wrap-login">
-    <div class="login-card">
-      <el-card>
-        <div class="login-view-box form-con">
-          <el-form @submit.native.prevent="submitHandler" ref="loginForm" :rules="rules" :model="form">
-              <el-form-item prop="originPassword">
-                <el-input type="password" v-model="form.originPassword">
-                  <template slot="prepend"><div style="width:40px">原密码</div></template>
-                </el-input>
-              </el-form-item>
-              <el-form-item prop="password">
-                <el-input type="password" v-model="form.password">
-                  <template slot="prepend" ><div style="width:40px">密&nbsp;&nbsp;码</div></template>
-                </el-input>
-              </el-form-item>
-              <el-form-item prop="confirmPassword">
-                <el-input type="password" v-model="form.confirmPassword">
-                  <template slot="prepend" ><div style="width:40px">确认密码</div></template>
-                </el-input>
-              </el-form-item>
-              <el-form-item>
-                <div class="footer">
-                  <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">确认</el-button>
-                </div>
-              </el-form-item>
-            </el-form>
-        </div>
-      </el-card>
-    </div>
+    <el-card class="login-card">
+      <el-form @submit.native.prevent="submitHandler" ref="loginForm" :rules="rules" :model="form">
+          <el-form-item prop="originPassword">
+            <el-input type="password" v-model="form.originPassword">
+              <template slot="prepend"><div style="width:40px">原密码</div></template>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input type="password" v-model="form.password">
+              <template slot="prepend" ><div style="width:40px">密&nbsp;&nbsp;码</div></template>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="confirmPassword">
+            <el-input type="password" v-model="form.confirmPassword">
+              <template slot="prepend" ><div style="width:40px">确认密码</div></template>
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <div class="footer">
+              <el-button :loading="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">确认</el-button>
+            </div>
+          </el-form-item>
+        </el-form>
+    </el-card>
   </div>
 </template>
-
 <script>
-import { Notification } from 'element-ui'
-import axios from 'axios'
+import md5 from 'md5'
+
 export default {
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.ruleForm.confirmPassword !== '') {
+          this.$refs.resetForm.validateField('confirmPassword');
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.ruleForm.passwd) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    }
     return {
       submitting: false,
       form: {
@@ -48,12 +62,15 @@ export default {
         originPassword: [
           { required: true, message: '原密码不能为空', trigger: 'blur' }
         ],
-        password: [
-          { required: true, message: '密码不能为空', trigger: 'blur' }
+        passwd: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { pattern: /^[0-9a-zA-Z]{6,20}$/, message: '6 ~ 20位数字或者字母(区分大小写)', trigger: 'blur' },
+          { validator: validatePass, trigger: 'blur' }
         ],
         confirmPassword: [
-          { required: true, message: '必须新密码一致', trigger: 'blur' }
-        ]
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { validator: validatePass2, trigger: 'change' }
+        ],
       }
     }
   },
@@ -65,30 +82,19 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           let data = {
-            originPassword: this.form.originPassword,
-            password: this.form.password
+            originPassword: md5(this.form.originPassword),
+            password: md5(this.form.password)
           }
-          axios.post('/api/adm/account/login', data).then((res) => {
-            if (res.data.code === 1) {
-              // const loginInfo = res.data.data
-              // const TOKEN_KEY = process.env.TOKEN_KEY
-              // window.localStorage.setItem(TOKEN_KEY, loginInfo.accessToken.accessToken)
-              window.location = `index.html?_=${new Date().getTime()}/#/dashboard`
-            } else if (res.data.code === '2') {
-              Notification({
-                type: 'error',
-                title: '错误',
-                message: res.data.message
-              })
+          this.submitting = true
+          this.$axios.post('user.validcode', data).then((res) => {
+            if (res.code === 0) {
+              this.$message.success('密码修改成功')
             }
           }).finally(() => {
             this.submitting = false
           })
         }
       })
-    },
-    back() {
-      this.$router.push('user')
     }
   }
 }
@@ -96,75 +102,12 @@ export default {
 
 <style lang="scss" scoped>
 .wrap-login {
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   padding-top: 50px;
   box-sizing: border-box;
   .login-card{
     width: 340px;
-   .header {
-      font-size: 16px;
-      font-weight: 300;
-      text-align: center;
-      padding: 30px 0;
-    }
-  }
-  .logo{
-    width: 203px;
-    height: 30px;
-    margin-bottom: 22px;
-    img{
-      width: 203px;
-      height: 30px;
-    }
-  }
-
-  .login-view-box{
-    .title{
-      font-size: 16px;
-      color: #333333;
-      font-weight: normal;
-      margin-bottom: 22px;
-      text-align: left;
-    }
-    .text{
-      font-size: 12px;
-      color: #333333;
-      margin-top: 10px;
-      text-align: center;
-    }
-    &.form-con{
-      .el-input__icon{
-        color: #ffffff;
-      }
-      .text{
-        margin-top: -6px;
-      }
-    }
-    &.qr{
-       text-align: center;
-       img{
-         border: 1px solid #ffffff;
-         padding: 10px;
-       }
-    }
-  }
-  .login-tip {
-    font-size: 10px;
-    text-align: center;
-    color: #c3c3c3;
-  }
-  .el-input-group__append,
-  .el-input-group__prepend{
-    background: #cccccc;
-    padding: 0 10px;
-  }
-  .ion-person,
-  .ion-locked{
-    color: #ffffff;
-    font-size: 22px;
   }
 
   .footer{

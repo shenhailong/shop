@@ -141,7 +141,9 @@ export default {
       this.userInfo = JSON.parse(window.localStorage.getItem(USER_INFO))
     }
     if(this.token){
-      updateCartNum()
+      this.$nextTick(() => {
+        updateCartNum()
+      })
     }
   },
   mounted() {

@@ -1,16 +1,16 @@
 <!--
- * @Description: 
+ * @Description: 积分页面
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-08-05 17:56:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-22 13:54:52
+ * @LastEditTime: 2020-09-25 14:06:37
 -->
 <template>
   <div class="content-score">
     <div class="title">您的当前积分: <span class="text">{{score}}</span></div>
     <el-table
-      :data="tableData"
+      :data="list"
       stripe
       border
       style="width: 100%">
@@ -48,31 +48,15 @@
 export default {
   data() {
     return {
-      tableData: [{
-        date: '2020-8-20',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2020-8-20',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2020-8-20',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2020-8-20',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
-      score: 10
+      list: [],
+      score: 0
     }
   },
   mounted() {
 
   },
   methods: {
-    uploadVoucher(){}
+
   }
 }
 </script>
