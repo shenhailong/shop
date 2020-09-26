@@ -1,9 +1,9 @@
 <template>
   <div class="wrap-login">
     <el-card class="login-card">
-      <el-form @submit.native.prevent="submitHandler" ref="loginForm" :rules="rules" :model="form">
-          <el-form-item prop="originPassword">
-            <el-input type="password" v-model="form.originPassword">
+      <el-form @submit.native.prevent="submitHandler" ref="ruleForm" :rules="rules" :model="form">
+          <el-form-item prop="oldPasswd">
+            <el-input type="password" v-model="form.oldPasswd">
               <template slot="prepend"><div style="width:40px">原密码</div></template>
             </el-input>
           </el-form-item>
@@ -35,8 +35,8 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'));
       } else {
-        if (this.ruleForm.confirmPassword !== '') {
-          this.$refs.resetForm.validateField('confirmPassword');
+        if (this.form.confirmPassword !== '') {
+          this.$refs.ruleForm.validateField('confirmPassword');
         }
         callback();
       }
@@ -44,7 +44,7 @@ export default {
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
-      } else if (value !== this.ruleForm.passwd) {
+      } else if (value !== this.form.password) {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
@@ -53,16 +53,16 @@ export default {
     return {
       submitting: false,
       form: {
-        originPassword: '',
+        oldPasswd: '',
         password: '',
         confirmPassword: ''
       },
       // 校验规则
       rules: {
-        originPassword: [
+        oldPasswd: [
           { required: true, message: '原密码不能为空', trigger: 'blur' }
         ],
-        passwd: [
+        password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { pattern: /^[0-9a-zA-Z]{6,20}$/, message: '6 ~ 20位数字或者字母(区分大小写)', trigger: 'blur' },
           { validator: validatePass, trigger: 'blur' }
@@ -79,14 +79,14 @@ export default {
       if (this.submitting === true) {
         return false
       }
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           let data = {
-            originPassword: md5(this.form.originPassword),
-            password: md5(this.form.password)
+            oldPasswd: md5(this.form.oldPasswd),
+            newPasswd: md5(this.form.password)
           }
           this.submitting = true
-          this.$axios.post('user.validcode', data).then((res) => {
+          this.$axios.post('user.modify', data).then((res) => {
             if (res.code === 0) {
               this.$message.success('密码修改成功')
             }

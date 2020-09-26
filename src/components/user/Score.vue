@@ -53,10 +53,20 @@ export default {
     }
   },
   mounted() {
-
+    this.getList()
   },
   methods: {
-
+    getList() {
+      this.loading = true
+      this.$axios.get('user.searchJf', this.ruleForm).then((res) => {
+        if (res.code === 0) {
+          this.list = res.data.list
+          this.total = res.data.total
+        }
+      }).finally(() => {
+        this.loading = false
+      })
+    },
   }
 }
 </script>

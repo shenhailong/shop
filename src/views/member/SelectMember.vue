@@ -11,7 +11,7 @@
     <NavBar current="user" />
     <div class="content">
       <h2 v-if="isMember" class="title">
-        您最新购买的 <span class="color-primary">{{currentLevel.level}}</span> 将于 <span class="color-primary">{{currentLevel.end}}</span>到期
+        您当前的 <span class="color-primary">{{currentLevel.level}}</span> 将于 <span class="color-primary">{{currentLevel.end}}</span>到期
       </h2>
       <h2 v-if="hasBuyRecord" class="title">
         您最新购买的 <span class="color-primary">{{buyRecord.level}}</span> 开始日期: <span class="color-primary">{{buyRecord.start}}</span> 结束日期: <span class="color-primary">{{buyRecord.end}}</span><span v-if="buyRecord.paystatus !== 'Y'">,如未支付请及时支付</span>

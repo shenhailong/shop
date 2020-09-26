@@ -38,10 +38,8 @@ export default {
   created() {
     let loading = document.getElementById('loading')
     console.log(loading)
-    
     if(loading != null){
       console.log(11)
-      
       // document.body.removeChild(loading)
     }
   },

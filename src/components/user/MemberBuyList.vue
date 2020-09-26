@@ -35,10 +35,9 @@
         width="140"
         align="center">
         <template slot-scope="scope">
-          <div v-if="scope.row.auditstatus == '0'" class="color-red">审核拒绝</div>
-          <div v-if="scope.row.auditstatus == '1'" class="color-green">审核通过</div>
-          <div v-if="scope.row.auditstatus == '2'" class="color-primary">审核中</div>
-          <div v-if="scope.row.auditstatus == '3'" class="color-green">补充材料</div>
+          <div v-if="scope.row.auditstatus == '1'" class="color-primary">审核中</div>
+          <div v-if="scope.row.auditstatus == '2'" class="color-green">审核通过</div>
+          <div v-if="scope.row.auditstatus == '3'" class="color-red">审核拒绝</div>
         </template>
       </el-table-column>
       <el-table-column

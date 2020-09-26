@@ -161,7 +161,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let token = getToken()
-  if (from.name !== 'Login' && !token && to.meta.authentication) {
+  if (to.name !== 'Login' && !token && to.meta.authentication) {
     next({ name: 'Login' })
   } else {
     next()
