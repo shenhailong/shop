@@ -11,7 +11,7 @@
     <NavBar current="user" />
     <div class="content">
       <el-tabs type="card" @tab-click="tabClick" :value="current" tab-position="right">
-        <el-tab-pane label="用户信息"><Info @changeTab="changeTab" /></el-tab-pane>
+        <el-tab-pane label="用户信息"><Info v-if="current == 0" @changeTab="changeTab" /></el-tab-pane>
         <el-tab-pane label="修改密码"><ChangePassword /></el-tab-pane>
         <el-tab-pane label="补充材料"><SupplyMaterial /></el-tab-pane>
         <el-tab-pane label="修改核心资料"><ChangeMaterial /></el-tab-pane>

@@ -24,19 +24,22 @@
         label="时间"
         width="180"
         align="center">
-      </el-table-column>
-      <el-table-column
-        label="积分明细"
-        align="center">
         <template slot-scope="scope">
-          {{scope.row.name}}
+          {{date(scope.row.createdt)}}
         </template>
       </el-table-column>
       <el-table-column
         label="增减情况"
         align="center">
         <template slot-scope="scope">
-          {{scope.row.name}}
+          {{scope.row.amount}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="备注"
+        align="center">
+        <template slot-scope="scope">
+          {{scope.row.typName}}
         </template>
       </el-table-column>
     </el-table>
@@ -44,6 +47,7 @@
 </template>
 
 <script>
+import { getDate } from '@/utils/tools'
 
 export default {
   data() {
@@ -57,6 +61,9 @@ export default {
     this.getList()
   },
   methods: {
+    date(value) {
+      return getDate(value)
+    },
     getList() {
       this.loading = true
       this.$axios.post('user.searchJf', this.ruleForm).then((res) => {
