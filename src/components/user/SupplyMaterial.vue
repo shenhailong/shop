@@ -3,32 +3,11 @@
     <div class="login-card">
       <div class="login-view-box form-con">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="公司全称" prop="company">
-            <el-input v-model="ruleForm.company" maxlength="20" placeholder="请填写公司全称"></el-input>
-          </el-form-item>
-          <el-form-item label="社会统一信用代码" prop="shtyxydm">
-            <el-input v-model="ruleForm.shtyxydm" maxlength="30" placeholder="请填写社会统一信用代码"></el-input>
-          </el-form-item>
-          <el-form-item label="通讯地址" prop="address">
-            <el-input v-model="ruleForm.address" maxlength="30" placeholder="请填写通讯地址"></el-input>
-          </el-form-item>
-          <el-form-item label="联系人" prop="contact">
-            <el-input v-model="ruleForm.contact" maxlength="25" placeholder="请填写联系人"></el-input>
-          </el-form-item>
-          <el-form-item label="联系电话" prop="conphone">
-            <el-input v-model="ruleForm.conphone" maxlength="20" placeholder="请填写联系电话"></el-input>
-          </el-form-item>
-          <el-form-item label="电子邮箱" prop="email">
-            <el-input v-model="ruleForm.email" maxlength="25" placeholder="请填写电子邮箱"></el-input>
-          </el-form-item>
           <el-form-item label="营业执照" prop="imgPath">
             <el-upload :headers="{'api-action': 'user.upload'}" action="/cnas/v1" name="yyzzFile" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
               <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
               <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">只能上传jpg/png文件，且不超过1M</span>
               </el-upload>
-          </el-form-item>
-          <el-form-item label="身份证" prop="idcard">
-            <el-input v-model="ruleForm.idcard" maxlength="18" placeholder="请填写身份证"></el-input>
           </el-form-item>
           <el-form-item label="申请人身份证" prop="imgPath">
             <el-upload :headers="{'api-action': 'user.upload'}" action="/cnas/v1"
@@ -36,9 +15,6 @@
               <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
               <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">营业执照副本扫描件（加盖公章）</span>
               </el-upload>
-          </el-form-item>
-          <el-form-item label="邀请码" prop="invitedcode">
-            <el-input v-model="ruleForm.invitedcode" maxlength="30" placeholder="请填写邀请码"></el-input>
           </el-form-item>
           <div class="footer">
             <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -57,38 +33,11 @@ export default {
       fileList: [],
       idCardFileList: [],
       ruleForm: {
-        company: '', // 公司全称
-        shtyxydm: '', // 社会
-        txdz: '', // 通讯地址
-        contact: '',
-        conphone: '',
-        email: '',
         yyzz: '',
-        idcard: '',
-        idcardurl: '',
-        invitedcode: '' // 邀请码
+        idcardurl: ''
       },
       uploading: false,
       rules: {
-        company: [
-          { required: true, message: '请填写公司全称', trigger: 'change' }
-        ],
-        idcard: [
-          { required: true, message: '请填写身份证', trigger: 'change' }
-        ],
-        shtyxydm: [
-          { required: true, message: '请填写社会统一信用代码', trigger: 'change' }
-        ],
-        contact: [
-          { required: true, message: '请填写联系人', trigger: 'change' }
-        ],
-        conphone: [
-          { required: true, message: '请填写联系电话', trigger: 'change' }
-        ],
-        email: [
-          { required: true, message: '请填写电子邮箱', trigger: 'blur' },
-          { pattern: /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/, message: '请输入正确的邮箱', trigger: 'blur' },
-        ]
       }
     }
   },
@@ -109,13 +58,6 @@ export default {
           }
           this.submitting = true
           let data = {
-            company: this.ruleForm.company,
-            shtyxydm: this.ruleForm.shtyxydm,
-            txdz: this.ruleForm.txdz,
-            idcard: this.ruleForm.idcard,
-            contact: this.ruleForm.contact,
-            conphone: this.ruleForm.conphone,
-            email: this.ruleForm.email,
             yyzz: this.ruleForm.yyzz,
             idcardurl: this.ruleForm.idcardurl
           }
@@ -126,19 +68,22 @@ export default {
                 title: '更新成功',
                 duration: 1000
               })
-            }else{
-              this.submitting = false
             }
+          }).finally(() => {
+            this.submitting = false
           })
         }
       })
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm() {
+      this.ruleForm.idcardurl = ''
+      this.ruleForm.yyzz = ''
+      this.fileList = []
+      this.idCardFileList = []
     },
     // 上传图片操作
     handleRemove(file, fileList) {
-      this.ruleForm.imgPath = ''
+      this.ruleForm.yyzz = ''
       this.fileList = fileList
     },
     handleBeforeUpload(file) {

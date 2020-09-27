@@ -228,7 +228,7 @@ export default {
     },
     // 上传图片操作
     handleRemove(file, fileList) {
-      this.ruleForm.imgPath = ''
+      this.ruleForm.yyzz = ''
       this.fileList = fileList
     },
     handleBeforeUpload(file) {

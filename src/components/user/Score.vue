@@ -48,6 +48,7 @@
 export default {
   data() {
     return {
+      ruleForm: {},
       list: [],
       score: 0
     }
@@ -58,7 +59,7 @@ export default {
   methods: {
     getList() {
       this.loading = true
-      this.$axios.get('user.searchJf', this.ruleForm).then((res) => {
+      this.$axios.post('user.searchJf', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
           this.total = res.data.total
