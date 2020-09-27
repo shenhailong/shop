@@ -48,6 +48,7 @@
 
 <script>
 import { getDate } from '@/utils/tools'
+import { getUser } from '@/utils/common'
 
 export default {
   data() {
@@ -59,6 +60,10 @@ export default {
   },
   mounted() {
     this.getList()
+    if(getUser()){
+      let user = getUser()
+      this.score = user.corp.jfye
+    }
   },
   methods: {
     date(value) {
