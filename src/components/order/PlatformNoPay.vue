@@ -66,8 +66,20 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop="paystatus"
+        label="审核状态"
+        width="140"
+        align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.auditstatus == '1'" class="color-primary">审核中</div>
+          <div v-if="scope.row.auditstatus == '2'" class="color-green">审核通过</div>
+          <div v-if="scope.row.auditstatus == '3'" class="color-red">审核拒绝</div>
+        </template>
+      </el-table-column>
+      <el-table-column
         label="总价"
         prop="curprice"
+        width="140"
         align="center">
         <template slot-scope="props">
           合计: {{props.row.curprice}} 元

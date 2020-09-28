@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-05 17:56:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-28 13:25:31
+ * @LastEditTime: 2020-09-28 14:20:44
 -->
 <template>
   <div class="content-score">
@@ -66,7 +66,8 @@ export default {
         pageSize: 10
       },
       list: [],
-      score: 0
+      score: 0,
+      total: 0
     }
   },
   mounted() {
