@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 20:57:11
+ * @LastEditTime: 2020-09-28 17:47:36
 -->
 <template>
   <div class="member-select">
@@ -14,7 +14,7 @@
         您当前的 <span class="color-primary">{{currentLevel.level}}</span> 将于 <span class="color-primary">{{currentLevel.end}}</span>到期
       </h2>
       <h2 v-if="hasBuyRecord" class="title">
-        您最新购买的 <span class="color-primary">{{buyRecord.level}}</span> 开始日期: <span class="color-primary">{{buyRecord.start}}</span> 结束日期: <span class="color-primary">{{buyRecord.end}}</span><span v-if="buyRecord.paystatus !== 'Y'">,如未支付请及时支付</span>
+        您最新购买的 <span class="color-primary">{{buyRecord.level}}</span> 开始日期: <span class="color-primary">{{buyRecord.start}}</span> 结束日期: <span class="color-primary">{{buyRecord.end}}</span><span v-if="buyRecord.auditstatus !== '2'">,如未支付请及时支付</span>
       </h2>
 
       <div class="member-item">
@@ -157,13 +157,13 @@ export default {
       this.$axios.get('member.last').then((res) => {
         if (res.code === 0 && res.data) {
           this.hasBuyRecord = true
-          let { mid, hyjsrq, hyksrq, paystatus } = res.data
+          let { mid, hyjsrq, hyksrq, auditstatus } = res.data
           this.userhyjsrq = hyjsrq
           this.buyRecord = {
             level: USER_LEVEL[mid],
             start: getDate(hyksrq, true),
             end: getDate(hyjsrq, true),
-            paystatus
+            auditstatus
           }
         }else{
           this.hasBuyRecord = false
