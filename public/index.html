@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-25 18:47:25
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 23:10:36
+ * @LastEditTime: 2020-09-28 15:07:00
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +15,7 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style>
-      #loading{
+      #init-loading{
         top: 50%;
         left: 50%;
         position: absolute;
@@ -67,17 +67,17 @@
     </style>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- <div id="loading">
+    <div id="init-loading">
       <div class="loading-inner ball-beat">
         <div></div>
         <div></div>
         <div></div>
       </div>
-    </div> -->
+    </div>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
 </html>

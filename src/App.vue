@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-24 10:01:11
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 23:56:45
+ * @LastEditTime: 2020-09-28 15:00:57
 -->
 <template>
   <div id="app">
@@ -36,11 +36,9 @@ export default {
     }
   },
   created() {
-    let loading = document.getElementById('loading')
-    console.log(loading)
+    let loading = document.getElementById('init-loading')
     if(loading != null){
-      console.log(11)
-      // document.body.removeChild(loading)
+      loading.remove()
     }
   },
   mounted() {
