@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-30 09:35:35
  * @LastEditors: Dragon
- * @LastEditTime: 2020-08-14 12:49:06
+ * @LastEditTime: 2020-09-28 15:37:11
 -->
 <template>
   <div class="empty">
@@ -65,7 +65,6 @@ export default {
     color: #3686DC;
     margin: 0 5px;
     cursor: pointer;
-
     &:hover{
       font-size: 18px;
     }

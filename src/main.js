@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-22 13:15:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-23 16:48:12
+ * @LastEditTime: 2020-09-28 15:47:10
  */
 import Vue from 'vue';
 import App from './App.vue';
@@ -87,13 +87,22 @@ Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
-Vue.prototype.$message = Message;
+Vue.prototype.$message = function(msg) {
+  Message({ ...msg, duration: 3000 })
+}
+
+Vue.prototype.$message.error = function(msg) {
+  return Message.error({
+    message: msg,
+    duration: 3000,
+    offset: 300
+  })
+}
+
 const install = function (Vue) {
   Object.defineProperty(Vue.prototype, '$axios', { value: axios })
 }
 Vue.use(install)
-
-Vue.config.productionTip = false;
 
 let vm = new Vue({
   router,
