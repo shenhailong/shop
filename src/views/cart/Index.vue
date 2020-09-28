@@ -80,7 +80,7 @@
                   合计:  <span class="money">{{total}}</span> 元
                 </div>
                 <div class="footer-item btn-wrap">
-                  <el-button @click="submit()" type="primary" size="large">去结算</el-button>
+                  <el-button :loading="submitting" :disabled="submitting" @click="submit()" type="primary" size="large">去结算</el-button>
                 </div>
               </div>
             </div>
@@ -109,7 +109,7 @@ export default {
       allChecked: false, // 自定义的全选
       total: 0, // 总价
       select: [], // 选择的产品
-      submiting: false // 正在提交
+      submitting: false // 正在提交
     }
   },
   mounted() {
@@ -289,12 +289,14 @@ export default {
         this.$message.error('请选择产品');
         return
       }
+      this.submitting = true
       const res = await this.$axios.post('order.add')
       if (res.code === 0) {
         this.$router.push(`confirmOrder/${res.data.id}`)
       }else{
         this.reload()
       }
+      this.submitting = false
     }
   }
 }

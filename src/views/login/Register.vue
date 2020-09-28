@@ -157,7 +157,8 @@ export default {
           { required: true, message: '请填写公司全称', trigger: 'change' }
         ],
         idcard: [
-          { required: true, message: '请填写身份证', trigger: 'change' }
+          { required: true, message: '请填写身份证', trigger: 'change' },
+          { pattern: /(^\d{15}$)|(^\d{17}(\d|X|x)$)/, message: '请输入正确的身份证', trigger: 'blur' },
         ],
         shtyxydm: [
           { required: true, message: '请填写社会统一信用代码', trigger: 'change' }
@@ -166,7 +167,8 @@ export default {
           { required: true, message: '请填写联系人', trigger: 'change' }
         ],
         conphone: [
-          { required: true, message: '请填写联系电话', trigger: 'change' }
+          { required: true, message: '请填写联系电话', trigger: 'change' },
+          { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
         ],
         email: [
           { required: true, message: '请填写电子邮箱', trigger: 'blur' },
