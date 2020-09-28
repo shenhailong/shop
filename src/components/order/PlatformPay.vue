@@ -4,12 +4,13 @@
  * @Author: Dragon
  * @Date: 2020-09-04 09:43:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-08 16:36:25
+ * @LastEditTime: 2020-09-28 15:56:53
 -->
 <template>
   <div class="wrap-index">
     <el-table
       :data="list"
+      v-loading="loading"
       style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">

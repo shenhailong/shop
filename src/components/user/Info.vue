@@ -4,10 +4,10 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 20:43:32
+ * @LastEditTime: 2020-09-28 15:59:40
 -->
 <template>
-  <div v-if="userInfo" class="user-wrap">
+  <div v-if="userInfo" class="user-wrap" v-loading="loading">
     <div v-for="item in infoList" :key="item.label" v-show="!item.hide" class="item">
       <div class="label">{{item.label}}</div>
       <template v-if="item.type === 'img'">
@@ -34,7 +34,8 @@ export default {
   data() {
     return {
       infoList: [],
-      userInfo: null
+      userInfo: null,
+      loading: false
     }
   },
   mounted() {
@@ -42,12 +43,15 @@ export default {
   },
   methods: {
     getInfo() {
+      this.loading = true
       this.$axios.post('user.detail').then((res) => {
         if (res.code === 0) {
           this.userInfo = res.data
           this.initData(res.data)
           setUser(res.data)
         }
+      }).finally(() => {
+        this.loading = false
       })
     },
     initData(user) {

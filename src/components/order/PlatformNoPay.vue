@@ -36,6 +36,7 @@
 
     <el-table
       :data="list"
+      v-loading="loading"
       style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">

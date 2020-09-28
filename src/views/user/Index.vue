@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:22:49
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-15 12:57:11
+ * @LastEditTime: 2020-09-28 16:01:08
 -->
 <template>
   <div class="wrap-index">
@@ -15,8 +15,8 @@
         <el-tab-pane label="修改密码"><ChangePassword /></el-tab-pane>
         <el-tab-pane label="补充材料"><SupplyMaterial /></el-tab-pane>
         <el-tab-pane label="修改核心资料"><ChangeMaterial /></el-tab-pane>
-        <el-tab-pane label="积分详情"><Score /></el-tab-pane>
-        <el-tab-pane label="会员购买记录"><MemberBuyList /></el-tab-pane>
+        <el-tab-pane label="积分详情"><Score v-if="current == 4" /></el-tab-pane>
+        <el-tab-pane label="会员购买记录"><MemberBuyList v-if="current == 5" /></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -46,9 +46,6 @@ export default {
     return {
       current: '0'
     }
-  },
-  mounted() {
-
   },
   methods: {
     changeTab(value) {
