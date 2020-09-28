@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-05 17:56:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 14:06:37
+ * @LastEditTime: 2020-09-28 13:25:31
 -->
 <template>
   <div class="content-score">
@@ -43,6 +43,14 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        @current-change="currentChange"
+        :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -53,7 +61,10 @@ import { getUser } from '@/utils/common'
 export default {
   data() {
     return {
-      ruleForm: {},
+      ruleForm: {
+        curPage: 1, // 当前页
+        pageSize: 10
+      },
       list: [],
       score: 0
     }
@@ -80,6 +91,11 @@ export default {
         this.loading = false
       })
     },
+    // 页数切换
+    currentChange(value) {
+      this.ruleForm.curPage = value
+      this.getList()
+    }
   }
 }
 </script>
