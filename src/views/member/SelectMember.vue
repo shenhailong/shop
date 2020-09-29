@@ -4,17 +4,17 @@
  * @Author: Dragon
  * @Date: 2020-07-27 17:27:10
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-28 17:47:36
+ * @LastEditTime: 2020-09-29 10:45:34
 -->
 <template>
   <div class="member-select">
     <NavBar current="user" />
     <div class="content">
       <h2 v-if="isMember" class="title">
-        您当前的 <span class="color-primary">{{currentLevel.level}}</span> 将于 <span class="color-primary">{{currentLevel.end}}</span>到期
+        您当前的 <span class="color-primary">{{currentLevel.mid}}</span> 将于 <span class="color-primary">{{currentLevel.end}}</span>到期
       </h2>
       <h2 v-if="hasBuyRecord" class="title">
-        您最新购买的 <span class="color-primary">{{buyRecord.level}}</span> 开始日期: <span class="color-primary">{{buyRecord.start}}</span> 结束日期: <span class="color-primary">{{buyRecord.end}}</span><span v-if="buyRecord.auditstatus !== '2'">,如未支付请及时支付</span>
+        您最新购买的 <span class="color-primary">{{buyRecord.mid}}</span> 开始日期: <span class="color-primary">{{buyRecord.start}}</span> 结束日期: <span class="color-primary">{{buyRecord.end}}</span><span v-if="buyRecord.auditstatus !== '2'">,如未支付请及时支付</span>
       </h2>
 
       <div class="member-item">
@@ -34,7 +34,7 @@
         <div v-if="type === 'buy'" class="">
           <el-form-item label="会员等级" prop="buy">
             <el-radio-group @change="radioBuyChange" v-model="ruleForm.buy">
-              <el-radio v-for="item in memberList" :key="item.id" :label="item.level" border>
+              <el-radio v-for="item in memberList" :key="item.id" :label="item.id" border>
                 {{item.membername}}
               </el-radio>
             </el-radio-group>
@@ -43,7 +43,7 @@
         <div v-else class="">
           <el-form-item label="会员等级" prop="upgrade">
             <el-radio-group @change="radioUpgradeChange" v-model="ruleForm.upgrade">
-              <el-radio v-for="item in upgradeList" :key="item.id" :label="item.level" border>
+              <el-radio v-for="item in upgradeList" :key="item.id" :label="item.id" border>
                 {{item.membername}}
               </el-radio>
             </el-radio-group>
@@ -96,7 +96,7 @@ export default {
       buyRecord: {
         start: '',
         end: '',
-        level: '',
+        mid: '',
         paystatus: 'N'
       }, // 购买记录提示信息
       pickerOptions: {
@@ -128,11 +128,11 @@ export default {
     this.getMemberlist()
     if(getUser()){
       let user = getUser()
-      if(user.member.level > 2) {
+      if(user.member.id > 2) {
         this.isMember = true
-        this.userLevel = user.member.level
+        this.userLevel = user.member.id
         this.currentLevel = {
-          level: USER_LEVEL[user.member.level],
+          mid: USER_LEVEL[user.member.id],
           end: getDate(user.corp.hyjsrq, true)
         }
         this.getUpgradeList()
@@ -160,7 +160,7 @@ export default {
           let { mid, hyjsrq, hyksrq, auditstatus } = res.data
           this.userhyjsrq = hyjsrq
           this.buyRecord = {
-            level: USER_LEVEL[mid],
+            mid: USER_LEVEL[mid],
             start: getDate(hyksrq, true),
             end: getDate(hyjsrq, true),
             auditstatus
@@ -191,13 +191,13 @@ export default {
       let total = 0
       if(type === 'buy'){
         this.memberList.forEach(item => {
-          if(item.level === value){
+          if(item.id === value){
             total = item.nianfei
           }
         })
       }else{
         this.upgradeList.forEach(item => {
-          if(item.level === value){
+          if(item.id === value){
             total = item.nianfei
           }
         })

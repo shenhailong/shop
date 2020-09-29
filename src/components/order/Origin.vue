@@ -123,7 +123,7 @@ export default {
   mounted() {
     if(getUser()){
       let user = getUser()
-      if(user.member.level > 2) {
+      if(user.member.id > 2) {
         this.getList()
         this.canSearch = true
       }else{

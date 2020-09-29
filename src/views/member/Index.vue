@@ -99,7 +99,7 @@ export default {
     if(getUser()){
       let user = getUser()
       this.userLevel = user.member.level
-      if(user.member.level > 2) {
+      if(user.member.id > 2) {
         this.isMember = true
         this.getList()
       }

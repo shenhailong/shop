@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-14 09:47:28
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 20:56:48
+ * @LastEditTime: 2020-09-29 10:57:30
  */
 import NavBar from '@components/NavBar'
 import VideoPlayer from '@components/VideoPlayer'
@@ -59,7 +59,7 @@ const MaterialMethod = {
     needLogin(id, level, type) {
       let user = getUser()
       if(user){
-        if(user.member.level < level && user.member.level > 1) {
+        if(user.member.id < level && user.member.id > 1) {
           this.$confirm('查看等级不够', '是否升级会员', {
             confirmButtonText: '升级会员',
             cancelButtonText: '取消',
@@ -67,7 +67,7 @@ const MaterialMethod = {
           }).then(async () => {
             this.$router.push('selectMember')
           }).catch(() => {})
-        }else if(user.member.level === 1 && level > 2){
+        }else if(user.member.id === 1 && level > 2){
           this.$message.error('当前登录用户正在审核当中,请耐心等待审核')
         }else{
           this.getDetail(id, type)
