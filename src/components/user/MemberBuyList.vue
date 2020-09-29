@@ -217,6 +217,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wrap-index{
+  width: 100%;
+  min-height: 400px;
+  padding: 30px;
+  box-sizing: border-box;
+}
 .tip{
   color: #333333;
   font-size: 20px;

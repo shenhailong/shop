@@ -130,14 +130,11 @@ export default {
 <style lang="scss" scoped>
 .wrap-login {
   width: 100%;
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
+  min-height: 400px;
   position: relative;
   display: flex;
   justify-content: center;
-  overflow: scroll;
-  padding-top: 10px;
+  padding-top: 50px;
   box-sizing: border-box;
   .login-card{
     width: 600px;

@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-05 17:56:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-28 14:20:44
+ * @LastEditTime: 2020-09-29 14:26:43
 -->
 <template>
   <div class="content-score">
@@ -105,6 +105,7 @@ export default {
 
 .content-score{
   width: 90%;
+  min-height: 400px;
   margin: 0 auto;
   padding-top: 50px;
 }

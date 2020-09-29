@@ -4,7 +4,7 @@
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-29 10:56:42
+ * @LastEditTime: 2020-09-29 14:25:12
 -->
 <template>
   <div v-if="userInfo" class="user-wrap" v-loading="loading">
@@ -134,6 +134,7 @@ export default {
 .user-wrap{
   width: 60%;
   margin: 0 auto;
+  min-height: 400px;
 }
 .item{
   font-size: 16px;
