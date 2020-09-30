@@ -66,7 +66,7 @@
           待支付
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="paystatus"
         label="审核状态"
         width="140"
@@ -76,7 +76,7 @@
           <div v-if="scope.row.auditstatus == '2'" class="color-green">审核通过</div>
           <div v-if="scope.row.auditstatus == '3'" class="color-red">审核拒绝</div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         label="总价"
         prop="curprice"
