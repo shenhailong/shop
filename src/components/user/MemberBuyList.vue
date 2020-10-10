@@ -100,6 +100,7 @@
 import { getDate } from '@/utils/tools'
 import { USER_LEVEL } from '@/constants/status'
 import { TOKEN } from '@/constants/key'
+import { BASE_URL } from '@/constants/common'
 
 export default {
   data() {
@@ -161,7 +162,7 @@ export default {
     },
     pay(){
       // this.$router.push(`confirmMember/${row.id}`)
-      window.open('http://39.100.227.252:888/cnas/order/topay.jsp')
+      window.open(`${BASE_URL}/cnas/order/topay.jsp`)
     },
     upload(id) {
       this.uploadData.id = id

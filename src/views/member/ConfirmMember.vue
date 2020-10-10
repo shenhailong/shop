@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-07 13:36:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-22 13:52:14
+ * @LastEditTime: 2020-10-10 12:03:57
 -->
 <template>
   <div class="pay-confirm">
@@ -78,6 +78,7 @@
 <script>
 import { getDate } from '@/utils/tools'
 import { USER_LEVEL } from '@/constants/status'
+import { BASE_URL } from '@/constants/common'
 
 export default {
   components: {
@@ -112,7 +113,7 @@ export default {
       })
     },
     getPayType() {
-      window.open('http://39.100.227.252:888/cnas/order/topay.jsp')
+      window.open(`${BASE_URL}/cnas/order/topay.jsp`)
     }
   }
 }
