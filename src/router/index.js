@@ -153,6 +153,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "About" */ '../views/about/Index.vue')
   },
+  // 新闻详情
+  {
+    path: '/news/:id',
+    name: 'News',
+    component: () =>
+      import(/* webpackChunkName: "About" */ '../views/index/News.vue')
+  },
 ];
 
 const router = new VueRouter({

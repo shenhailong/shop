@@ -29,15 +29,28 @@
         </el-carousel-item>
       </el-carousel>
 
-      <div class="card">
+      <!-- <div class="card">
         <div class="text">明星产品</div>
         <el-button @click="goProductCenter()" type="primary">查看更多 >></el-button>
-      </div>
+      </div> -->
       <!-- 产品列表 -->
-      <div class="product-list" v-loading="loading">
+      <!-- <div class="product-list" v-loading="loading">
         <el-row v-for="(line, index) in Math.ceil(list.length / 4)" :key="line" :gutter="20">
           <Product v-for="(item, itemIndex) in count(index)" :key="productItem(line, itemIndex).id" :item="productItem(line, itemIndex)" />
         </el-row>
+      </div> -->
+      <div class="news">
+        <div class="left">
+          <div class="title">{{news.title}}</div>
+          <div class="content">{{news.brief}}</div>
+        </div>
+        <div class="rigth">
+          <div class="title">最新动态</div>
+          <div v-for="item in newsList" :key="item.id" class="news-list">
+            <div class="title">{{item.articledt}}</div>
+            <div class="title">{{item.title}}</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="about">
@@ -68,12 +81,10 @@
 <script>
 
 import NavBar from '@components/NavBar'
-import Product from '@components/Product'
 import { ABOUT } from '@/constants/about'
 export default {
   components: {
     NavBar,
-    Product
   },
   data() {
     return {
@@ -91,12 +102,16 @@ export default {
       value: '',
       keyword: '',
       loading: false,
-      loadingBanner: false
+      loadingBanner: false,
+      newsList: [],
+      news: {}
     }
   },
   mounted() {
-    this.getList()
+    // this.getList()
     this.getBanner()
+    this.getXw()
+    this.getXwDt()
   },
   methods: {
     getBanner() {
@@ -107,6 +122,22 @@ export default {
         }
       }).finally(() => {
         this.loadingBanner = false
+      })
+    },
+    // 动态新闻
+    getXwDt() {
+      this.$axios.get('introduce.xwdt').then((res) => {
+        if (res.code === 0) {
+          this.newsList = res.data
+        }
+      })
+    },
+    // 新闻
+    getXw() {
+      this.$axios.get('introduce.styw').then((res) => {
+        if (res.code === 0) {
+          this.news = res.data
+        }
       })
     },
     getList() {
@@ -229,6 +260,24 @@ export default {
 
 .product-list{
   min-height: 500px;
+}
+
+.news{
+  display: flex;
+
+  .left, .right{
+    width: 50%;
+  }
+
+  .title{
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .news-list{
+    display: flex;
+  }
 }
 
 .about{
