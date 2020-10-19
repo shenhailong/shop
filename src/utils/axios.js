@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Notification } from 'element-ui'
-import { TOKEN } from '@/constants/key'
+import { TOKEN, USER_INFO } from '@/constants/key'
 
 let cancel = null;
 let promiseMap = {};
@@ -32,6 +32,8 @@ axios.interceptors.request.use(
   }
 );
 
+// 防止重复的错误提示
+let showError = true
 axios.interceptors.response.use(
   function(response) {
     if (response.data.code !== 0 && response.data.code !== 9900) {
@@ -41,11 +43,19 @@ axios.interceptors.response.use(
         message: response.data.msg
       })
     } else if (response.data.code === 9900) {
-      Notification({
-        type: 'error',
-        title: '错误',
-        message: response.data.msg
-      })
+      if(showError){
+        showError = false
+        window.localStorage.removeItem(TOKEN)
+        window.localStorage.removeItem(USER_INFO)
+        Notification({
+          type: 'error',
+          title: '请重新登录',
+          message: response.data.msg,
+          onClose: () => {
+            showError = true
+          }
+        })
+      }
       window.location.href = '#/login'
     }
     return response;

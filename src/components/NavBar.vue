@@ -8,7 +8,7 @@
         <ul class="bar">
           <li v-for="(items, index) in list" :key="index" @click="changePage(items)" :class="{active: current === items.value }" class="item">
             {{items.name}}
-            <div v-if="items.value === 'cart' && cartCount !== 0" class="badge">{{cartCount > 99 ? '99+' : cartCount}}</div>
+            <div v-if="items.value === 'cart' && cartCount && cartCount !== 0" class="badge">{{cartCount > 99 ? '99+' : cartCount}}</div>
             <div v-if="items.children" class="child">
               <div v-for="(item, index) in items.children" :key="index" @click.stop="childChangePage(item)" :class="{active: current === item.value && item.query && ($route.query.type === item.query.type)}" class="child-item">
                 {{item.name}}
@@ -63,11 +63,6 @@ export default {
           value: 'index'
         },
         {
-          url: '/productCenter',
-          name: '产品中心',
-          value: 'productCenter'
-        },
-        {
           url: '/public',
           name: '公共资料',
           value: 'public'
@@ -98,6 +93,11 @@ export default {
               type: '3'
             }
           }]
+        },
+        {
+          url: '/productCenter',
+          name: '产品中心',
+          value: 'productCenter'
         },
         {
           url: '/cart',
@@ -135,7 +135,7 @@ export default {
       userInfo: null
     }
   },
-  created() {
+  mounted() {
     this.token = getToken()
     if(window.localStorage.getItem(USER_INFO)){
       this.userInfo = JSON.parse(window.localStorage.getItem(USER_INFO))
@@ -145,8 +145,6 @@ export default {
         updateCartNum()
       })
     }
-  },
-  mounted() {
   },
   methods: {
     childChangePage(item) {

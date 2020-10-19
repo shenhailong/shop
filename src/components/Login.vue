@@ -2,35 +2,35 @@
   <div class="wrap-login">
     <div class="login-view-box form-con">
       <el-form @submit.native.prevent="submitHandler" ref="loginForm" :rules="rules" :model="form">
-          <el-form-item prop="username">
-            <el-input @blur="inputBlur"  v-model.trim="form.username" maxlength="20">
-              <template slot="prepend"><div style="width:40px">用户名</div></template>
+        <el-form-item prop="username">
+          <el-input @blur="inputBlur"  v-model.trim="form.username" maxlength="20">
+            <template slot="prepend"><div style="width:40px">用户名</div></template>
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input type="password" v-model="form.password" maxlength="20">
+            <template slot="prepend" ><div style="width:40px">密&nbsp;&nbsp;码</div></template>
+          </el-input>
+        </el-form-item>
+        <el-form-item v-if="needCaptcha" prop="vcode">
+          <div style="clear:both;">
+            <el-input type="text" v-model="form.vcode" maxlength="4" style="float:left;width:185px;margin-right:10px;">
+              <template slot="prepend"><div style="width:40px">验证码</div></template>
             </el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input type="password" v-model="form.password" maxlength="20">
-              <template slot="prepend" ><div style="width:40px">密&nbsp;&nbsp;码</div></template>
-            </el-input>
-          </el-form-item>
-          <el-form-item v-if="needCaptcha" prop="vcode">
-            <div style="clear:both;">
-              <el-input type="text" v-model="form.vcode" maxlength="4" style="float:left;width:185px;margin-right:10px;">
-                <template slot="prepend"><div style="width:40px">验证码</div></template>
-              </el-input>
-              <div style="display:inline-block;">
-                <img @click="getImg" :src="codeUrl"
-                  width="100" height="40" alt="captcha" style="float:left;">
-              </div>
+            <div style="display:inline-block;">
+              <img @click="getImg" :src="codeUrl"
+                width="100" height="40" alt="captcha" style="float:left;">
             </div>
-          </el-form-item>
-          <el-form-item>
-            <div class="footer">
-              <el-button @click="goRegister" :style="{width:'100px'}" size="large">注册</el-button>
-              <el-button :loading="submitting" :disabled="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">登录</el-button>
-            </div>
-            <div @click="$router.push('forgetPassword')" class="forget">忘记密码?</div>
-          </el-form-item>
-        </el-form>
+          </div>
+        </el-form-item>
+        <el-form-item>
+          <div class="footer">
+            <el-button @click="goRegister" :style="{width:'100px'}" size="large">注册</el-button>
+            <el-button :loading="submitting" :disabled="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">登录</el-button>
+          </div>
+          <div @click="$router.push('forgetPassword')" class="forget">忘记密码?</div>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>

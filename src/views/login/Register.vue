@@ -78,6 +78,7 @@
 
 <script>
 import md5 from 'md5'
+import { emailReg } from '@/utils/regular'
 
 export default {
   data() {
@@ -172,7 +173,7 @@ export default {
         ],
         email: [
           { required: true, message: '请填写电子邮箱', trigger: 'blur' },
-          { pattern: /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/, message: '请输入正确的邮箱', trigger: 'blur' },
+          { pattern: emailReg, message: '请输入正确的邮箱', trigger: 'blur' },
         ]
       }
     }

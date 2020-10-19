@@ -1,11 +1,10 @@
 <template>
   <div class="wrap-index">
     <NavBar current="index" />
-
     <div class="content">
       <div class="search-wrap">
         <div class="search-left">
-          <div class="label">资料检索</div>
+          <div class="label">原厂订单</div>
           <!-- <el-select v-model="value" clearable placeholder="请选择">
             <el-option
               v-for="item in options"
@@ -14,10 +13,10 @@
               :value="item.value">
             </el-option>
           </el-select> -->
-          <el-input class="serach-input" v-model.trim="keyword" placeholder="请输入资料名称"></el-input>
+          <el-input class="serach-input" v-model.trim="keyword" placeholder="请输入订单编号 / 产品编号"></el-input>
         </div>
         <div class="search-right">
-          <el-button type="primary" @click="search">检索</el-button>
+          <el-button type="primary" @click="search">查询</el-button>
         </div>
       </div>
 
@@ -40,15 +39,15 @@
         </el-row>
       </div> -->
       <div class="news">
-        <div class="left">
+        <div class="left" @click="$router.push(`news/${news.id}`)">
           <div class="title">{{news.title}}</div>
-          <div class="content">{{news.brief}}</div>
+          <div class="introduction">{{news.brief}}</div>
         </div>
-        <div class="rigth">
+        <div class="right">
           <div class="title">最新动态</div>
-          <div v-for="item in newsList" :key="item.id" class="news-list">
-            <div class="title">{{item.articledt}}</div>
-            <div class="title">{{item.title}}</div>
+          <div @click="$router.push(`news/${item.id}`)" v-for="item in newsList" :key="item.id" class="news-list">
+            <div class="time">{{date(item.articledt)}}</div>
+            <div class="introduction">{{item.title}}</div>
           </div>
         </div>
       </div>
@@ -82,6 +81,8 @@
 
 import NavBar from '@components/NavBar'
 import { ABOUT } from '@/constants/about'
+import { getDate } from '@/utils/tools'
+
 export default {
   components: {
     NavBar,
@@ -114,6 +115,9 @@ export default {
     this.getXwDt()
   },
   methods: {
+    date(value) {
+      return getDate(value, true)
+    },
     getBanner() {
       this.loadingBanner = true
       this.$axios.get('home.nav').then((res) => {
@@ -181,8 +185,9 @@ export default {
     search() {
       if(this.keyword === '') return
       this.$router.push({
-        path: 'material',
+        path: 'order',
         query: {
+          type: 'original',
           keyword: this.keyword
         }
       })
@@ -264,19 +269,51 @@ export default {
 
 .news{
   display: flex;
-
+  padding: 20px 20px;
+  background: #ffffff;
+  margin: 20px 0;
   .left, .right{
     width: 50%;
   }
 
+  .left{
+    cursor: pointer;
+    .introduction{
+      line-height: 24px;
+      font-size: 16px;
+      max-width: 90%;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+    }
+  }
+
   .title{
-    font-size: 16px;
+    font-size: 18px;
     color: #333;
     font-weight: 600;
+    margin-bottom: 20px;
   }
 
   .news-list{
     display: flex;
+    align-items: center;
+    line-height: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    .time{
+      margin-right: 20px;
+      width: 15%;
+    }
+    .introduction{
+      white-space: nowrap;
+      overflow: hidden;
+      width: 80%;
+      text-overflow: ellipsis;
+    }
   }
 }
 
@@ -285,7 +322,7 @@ export default {
   height: 600px;
 	background: #e6e6e6 url(~@/assets/bg03.jpg) no-repeat 50% 50%;
   background-size: cover;
-  
+
   .about-title{
     font-size: 30px;
     font-weight: 300;

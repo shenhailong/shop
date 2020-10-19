@@ -4,10 +4,11 @@
  * @Author: Dragon
  * @Date: 2020-08-07 13:36:27
  * @LastEditors: Dragon
- * @LastEditTime: 2020-10-10 12:04:21
+ * @LastEditTime: 2020-10-19 09:38:39
 -->
 <template>
   <div class="pay-confirm">
+    <NavBar current="order" />
     <div class="content">
       <div class="title">
         订单详情
@@ -109,12 +110,13 @@
 </template>
 
 <script>
+import NavBar from '@components/NavBar'
 import { getDate } from '@/utils/tools'
 import { BASE_URL } from '@/constants/common'
 
 export default {
   components: {
-
+    NavBar
   },
   data() {
     return {

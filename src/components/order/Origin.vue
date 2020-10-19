@@ -107,7 +107,7 @@ export default {
   data() {
     return {
       ruleForm: {
-        searchString: '',
+        searchString: this.$route.query.keyword || '',
         sstartdate: '',
         senddate: '',
         curPage: 1, // 当前页
@@ -158,11 +158,11 @@ export default {
       this.curPage = value
       this.getList()
     },
-    resetForm(formName) {
+    resetForm() {
       this.date = []
+      this.ruleForm.searchString = ''
       this.ruleForm.sstartdate = ''
       this.ruleForm.senddate = ''
-      this.$refs[formName].resetFields();
     },
     dateChange(value) {
       this.ruleForm.sstartdate = value ? value[0] : ''

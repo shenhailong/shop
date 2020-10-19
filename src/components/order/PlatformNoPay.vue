@@ -96,14 +96,33 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="联系人"
+        prop="contact"
+        width="140"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        label="联系电话"
+        prop="tel"
+        width="140"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        label="邮箱"
+        prop="email"
+        width="140"
+        align="center">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         label="操作"
-        width="300"
+        width="350"
         align="center">
         <template slot-scope="scope">
           <el-button @click="deleteOrder(scope.row)" type="danger" size="small">删除</el-button>
           <el-button @click="pay(scope.row)" type="primary" size="small">支付</el-button>
           <el-button @click="upload(scope.row.id)" type="success" size="small">上传凭证</el-button>
+          <el-button v-if="!scope.row.email" @click="deliver(scope.row.id)" type="primary" size="small">交付信息</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -131,16 +150,19 @@
         <el-button type="primary" @click="uploadOk">确 定</el-button>
       </span>
     </el-dialog>
+    <DeliverInfo :visible.sync="deliverDialog" @closeDeliver="closeDeliver" />
   </div>
 </template>
 <script>
 import Child from './PlatformChild'
 import { getDate } from '@/utils/tools'
 import { TOKEN } from '@/constants/key'
+import DeliverInfo from '@/components/order/DeliverInfo'
 
 export default {
   components: {
-    Child
+    Child,
+    DeliverInfo
   },
   data() {
     return {
@@ -163,7 +185,8 @@ export default {
       uploadData: {
         orderid: '',
         clurl: ''
-      }
+      },
+      deliverDialog: false
     }
   },
   mounted() {
@@ -231,6 +254,16 @@ export default {
     },
     pay(row){
       this.$router.push(`confirmOrder/${row.id}`)
+    },
+    deliver(id) {
+      this.deliverDialog = true
+      this.deliverId = id
+    },
+    closeDeliver(reload = false) {
+      this.deliverDialog = false
+      if(reload){
+        this.getList()
+      }
     },
     upload(id) {
       this.uploadData.orderid = id

@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-04 09:31:02
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-15 15:53:10
+ * @LastEditTime: 2020-10-19 09:56:33
  */
 function getDate(value, date = false) {
   var now = new Date(value),

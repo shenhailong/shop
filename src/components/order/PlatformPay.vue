@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-04 09:43:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-28 15:56:53
+ * @LastEditTime: 2020-10-19 16:38:28
 -->
 <template>
   <div class="wrap-index">
@@ -56,11 +56,31 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="联系人"
+        prop="contact"
+        width="140"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        label="联系电话"
+        prop="tel"
+        width="140"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        label="邮箱"
+        prop="email"
+        width="140"
+        align="center">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         label="操作"
+        width="200"
         align="center">
         <template slot-scope="scope">
           <el-button @click="deleteOrder(scope.row)" type="danger" size="small">删除</el-button>
+          <el-button v-if="!scope.row.email" @click="deliver(scope.row.id)" type="primary" size="small">交付信息</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -72,15 +92,18 @@
         :total="total">
       </el-pagination>
     </div>
+    <DeliverInfo :visible.sync="deliverDialog" @closeDeliver="closeDeliver" />
   </div>
 </template>
 <script>
 import Child from './PlatformChild'
 import { getDate } from '@/utils/tools'
+import DeliverInfo from '@/components/order/DeliverInfo'
 
 export default {
   components: {
-    Child
+    Child,
+    DeliverInfo
   },
   data() {
     return {
@@ -91,7 +114,8 @@ export default {
       },
       list: [],
       total: 0,
-      loading: false
+      loading: false,
+      deliverDialog: false
     }
   },
   mounted() {
@@ -142,7 +166,16 @@ export default {
         }
       }).catch(() => {})
     },
-    uploadVoucher(){}
+    deliver(id) {
+      this.deliverDialog = true
+      this.deliverId = id
+    },
+    closeDeliver(reload = false) {
+      this.deliverDialog = false
+      if(reload){
+        this.getList()
+      }
+    }
   }
 }
 </script>
