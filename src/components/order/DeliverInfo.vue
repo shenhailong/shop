@@ -2,7 +2,7 @@
   <el-dialog
     title="请填写交付信息"
     :visible.sync="visible"
-    width="30%"
+    width="400px"
     :close-on-click-modal="false"
     :show-close="false"
     center>
