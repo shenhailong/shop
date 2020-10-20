@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-07-29 09:40:44
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-24 15:40:06
+ * @LastEditTime: 2020-10-20 08:53:08
 -->
 <template>
   <div class="wrap-index">
@@ -74,7 +74,7 @@
     <el-dialog
       title="欢迎登录"
       :visible.sync="loginDialogVisible"
-      width="30%"
+      width="400px"
       center>
       <Login />
     </el-dialog>

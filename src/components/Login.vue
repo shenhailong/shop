@@ -153,7 +153,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border-top: 1px solid #999999;
+    // border-top: 1px solid #999999;
     padding-top: 20px;
   }
 

@@ -40,7 +40,7 @@
 import { emailReg, telReg } from '@/utils/regular'
 
 export default {
-  props: [ 'visible' ],
+  props: [ 'visible', 'orderId' ],
   data() {
     return {
       submitting: false,
@@ -78,11 +78,12 @@ export default {
         if (valid) {
           this.submitting = true
           let data = {
-            contact: this.form.username,
+            contact: this.form.contact,
             tel: this.form.tel,
-            email: this.form.email
+            email: this.form.email,
+            orderId: this.orderId
           }
-          this.$axios.post('user.login', data).then((res) => {
+          this.$axios.post('order.savecontact', data).then((res) => {
             if (res.code === 0) {
               this.close(true)
             } else {

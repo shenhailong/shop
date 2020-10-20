@@ -29,7 +29,7 @@
     <el-dialog
       title="欢迎登录"
       :visible.sync="loginDialogVisible"
-      width="30%"
+      width="400px"
       center>
       <Login />
     </el-dialog>

@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-04 09:43:56
  * @LastEditors: Dragon
- * @LastEditTime: 2020-10-19 16:38:28
+ * @LastEditTime: 2020-10-20 08:58:06
 -->
 <template>
   <div class="wrap-index">
@@ -92,7 +92,7 @@
         :total="total">
       </el-pagination>
     </div>
-    <DeliverInfo :visible.sync="deliverDialog" @closeDeliver="closeDeliver" />
+    <DeliverInfo :visible.sync="deliverDialog" :orderId="orderId" @closeDeliver="closeDeliver" />
   </div>
 </template>
 <script>
@@ -115,7 +115,8 @@ export default {
       list: [],
       total: 0,
       loading: false,
-      deliverDialog: false
+      deliverDialog: false,
+      orderId: null
     }
   },
   mounted() {
@@ -168,7 +169,7 @@ export default {
     },
     deliver(id) {
       this.deliverDialog = true
-      this.deliverId = id
+      this.orderId = id
     },
     closeDeliver(reload = false) {
       this.deliverDialog = false

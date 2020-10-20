@@ -150,7 +150,7 @@
         <el-button type="primary" @click="uploadOk">确 定</el-button>
       </span>
     </el-dialog>
-    <DeliverInfo :visible.sync="deliverDialog" @closeDeliver="closeDeliver" />
+    <DeliverInfo :visible.sync="deliverDialog" :orderId="orderId" @closeDeliver="closeDeliver" />
   </div>
 </template>
 <script>
@@ -186,7 +186,8 @@ export default {
         orderid: '',
         clurl: ''
       },
-      deliverDialog: false
+      deliverDialog: false,
+      orderId: null
     }
   },
   mounted() {
@@ -257,7 +258,7 @@ export default {
     },
     deliver(id) {
       this.deliverDialog = true
-      this.deliverId = id
+      this.orderId = id
     },
     closeDeliver(reload = false) {
       this.deliverDialog = false
