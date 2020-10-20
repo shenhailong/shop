@@ -81,7 +81,7 @@ export default {
             contact: this.form.contact,
             tel: this.form.tel,
             email: this.form.email,
-            orderId: this.orderId
+            orderid: this.orderId
           }
           this.$axios.post('order.savecontact', data).then((res) => {
             if (res.code === 0) {
