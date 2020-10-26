@@ -45,7 +45,7 @@
             <el-form-item label="电子邮箱" prop="email">
               <el-input v-model="ruleForm.email" maxlength="25" placeholder="请填写电子邮箱"></el-input>
             </el-form-item>
-            <el-form-item label="营业执照" prop="imgPath">
+            <el-form-item label="营业执照" prop="yyzz">
               <el-upload :headers="{'api-action': 'user.upload'}" action="/cnas/v1" name="yyzzFile" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
                 <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
                 <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">只能上传jpg/png文件，且不超过1M</span>
@@ -54,7 +54,7 @@
             <el-form-item label="身份证" prop="idcard">
               <el-input v-model="ruleForm.idcard" maxlength="18" placeholder="请填写身份证"></el-input>
             </el-form-item>
-            <el-form-item label="申请人身份证" prop="imgPath">
+            <el-form-item label="申请人身份证" prop="idcardurl">
               <el-upload :headers="{'api-action': 'user.upload'}" action="/cnas/v1"
               list-type="picture" name="idCardFile" accept="image/png,image/jpg,image/jpeg" :file-list="idCardFileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="idCardHandleSuccess" :on-remove="idCardHandleRemove" :disabled="uploading">
                 <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
@@ -133,9 +133,9 @@ export default {
         contact: '',
         conphone: '',
         email: '',
-        yyzz: '',
+        yyzz: '', // 营业执照
         idcard: '',
-        idcardurl: '',
+        idcardurl: '', // 申请人身份证图片
         invitedcode: '' // 邀请码
       },
       uploading: false,
@@ -174,6 +174,12 @@ export default {
         email: [
           { required: true, message: '请填写电子邮箱', trigger: 'blur' },
           { pattern: emailReg, message: '请输入正确的邮箱', trigger: 'blur' },
+        ],
+        yyzz: [
+          { required: true, message: '请上传营业执照', trigger: 'change' }
+        ],
+        idcardurl: [
+          { required: true, message: '请上传申请人身份证', trigger: 'change' }
         ]
       }
     }
