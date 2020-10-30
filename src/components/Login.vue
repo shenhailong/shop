@@ -106,7 +106,11 @@ export default {
       this.codeUrl = `${this.imgUrl}?username=${this.form.username}&random=${Math.random()}`
     },
     goRegister() {
-      this.$router.push('register')
+      console.log(22)
+      
+      this.$router.push({
+        path: '/register'
+      })
     }
   }
 }
