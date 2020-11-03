@@ -45,12 +45,12 @@
             </el-table-column>
             <el-table-column align="center" label="购买时长" width="160">
               <template slot-scope="scope" align="center" >
-                <NumInput v-model="scope.row.tamount" @change="tamountChange(scope.row, scope.$index)"  size="mini" />
+                <NumInput :disabled='disabled' v-model="scope.row.tamount"  @change="tamountChange(scope.row, scope.$index)"  size="mini" />
               </template>
             </el-table-column>
             <el-table-column align="center" label="购买数量" width="160">
               <template slot-scope="scope">
-                <NumInput v-model="scope.row.amount" :step="scope.row.product.step" @change="amountChange(scope.row, scope.$index)" size="mini" />
+                <NumInput :disabled='disabled' v-model="scope.row.amount" :step="scope.row.product.step" @change="amountChange(scope.row, scope.$index)" size="mini" />
               </template>
             </el-table-column>
             <el-table-column align="center" label="价格" width="120">
@@ -109,7 +109,8 @@ export default {
       allChecked: false, // 自定义的全选
       total: 0, // 总价
       select: [], // 选择的产品
-      submitting: false // 正在提交
+      submitting: false, // 正在提交
+      disabled: false // 防止连击
     }
   },
   mounted() {
@@ -237,21 +238,27 @@ export default {
     },
     // 时长切换
     async tamountChange(row, index) {
+      this.disabled = true
       const res = await this.$axios.post('shopcar.tamount', this.list[index])
       if (res.code === 0) {
         this.resetData(index, res.data)
+        this.disabled = false
       }else{
         this.reload()
+        this.disabled = false
       }
     },
     // 数量修改
     async amountChange(row, index) {
+      this.disabled = true
       const res = await this.$axios.post('shopcar.amount', this.list[index])
       if (res.code === 0) {
         this.resetData(index, res.data)
+        this.disabled = false
         updateCartNum()
       }else{
         this.reload()
+        this.disabled = false
       }
     },
     // 时间单位切换

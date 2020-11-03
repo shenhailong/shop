@@ -28,7 +28,7 @@
             <el-button @click="goRegister" :style="{width:'100px'}" size="large">注册</el-button>
             <el-button :loading="submitting" :disabled="submitting" native-type="submit" :style="{width:'100px'}" type="primary" size="large">登录</el-button>
           </div>
-          <div @click="$router.push('forgetPassword')" class="forget">忘记密码?</div>
+          <div @click="$router.push('/forgetPassword')" class="forget">忘记密码?</div>
         </el-form-item>
       </el-form>
     </div>
@@ -106,8 +106,6 @@ export default {
       this.codeUrl = `${this.imgUrl}?username=${this.form.username}&random=${Math.random()}`
     },
     goRegister() {
-      console.log(22)
-      
       this.$router.push({
         path: '/register'
       })

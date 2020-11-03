@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-03 18:21:15
  * @LastEditors: Dragon
- * @LastEditTime: 2020-09-22 13:56:11
+ * @LastEditTime: 2020-11-03 13:50:24
 -->
 <template>
   <div>
@@ -47,6 +47,12 @@ export default {
     value: {},
     step: {
       default: 1
+    },
+    disabled: {
+      type: Boolean,
+      default: function() {
+        return false
+      }
     }
   },
   data() {
@@ -61,10 +67,12 @@ export default {
       this.dialogVisible = true
     },
     minus() {
+      if(this.disabled) return
       if(Number(this.value) <= this.step) return
       this.$emit('change', Number(this.value) - this.step)
     },
     plus() {
+      if(this.disabled) return
       this.$emit('change', Number(this.value) + this.step)
     },
     ok() {
