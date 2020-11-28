@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-08-10 14:51:44
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-23 17:54:50
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-11-14 20:47:14
 -->
 <template>
   <div class="chat-wrap">
@@ -78,7 +78,7 @@ export default {
         sessionStorage.setItem(TOURIST, userid)
       }
       this.userid = userid
-      this.websock = new WebSocket(`ws://39.106.115.196:8080/admin/webchat/${this.userid}/${this.userid}`)
+      this.websock = new WebSocket(`ws://www.pansec.com.cn/cnas/webchat/${this.userid}/${this.userid}`)
       this.websock.onmessage = this.websocketonmessage
       this.websock.onerror = this.websocketonerror
       this.websock.onopen = this.websocketonopen
