@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-10 14:51:44
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-11-14 20:47:14
+ * @LastEditTime: 2020-11-29 20:24:14
 -->
 <template>
   <div class="chat-wrap">
@@ -78,7 +78,7 @@ export default {
         sessionStorage.setItem(TOURIST, userid)
       }
       this.userid = userid
-      this.websock = new WebSocket(`ws://www.pansec.com.cn/cnas/webchat/${this.userid}/${this.userid}`)
+      this.websock = new WebSocket(`ws://www.pansec.com.cn/admin/webchat/${this.userid}/${this.userid}`)
       this.websock.onmessage = this.websocketonmessage
       this.websock.onerror = this.websocketonerror
       this.websock.onopen = this.websocketonopen
