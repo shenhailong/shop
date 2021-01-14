@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-07-24 10:01:11
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-28 15:00:57
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-01-14 17:04:35
 -->
 <template>
   <div id="app">
@@ -74,13 +74,20 @@ export default {
   }
 }
 
+@media screen and (max-width:1400px){
+ .chat-router{
+    right: 10px!important;
+    bottom: 120px!important;
+  }
+}
+
 .chat-router{
   text-align: center;
   // width: 64px;
   cursor: pointer;
   position: fixed;
   right: 100px;
-  bottom: 300px;
+  bottom: 250px;
   z-index: 999;
   box-shadow: 0 6px 12px 0 rgba(0,0,0,.15);
   padding: 5px;
