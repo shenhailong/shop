@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Autor: Dragon
  * @Date: 2020-07-27 13:32:56
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-29 14:25:12
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-28 16:02:28
 -->
 <template>
   <div v-if="userInfo" class="user-wrap" v-loading="loading">
@@ -25,9 +25,8 @@
 
 <script>
 import { STATUS_REGISTER } from '@/constants/status'
-import { setUser } from '@/utils/common'
+import { setUser, removeToken, removeUser } from '@/utils/common'
 import { getDate } from '@/utils/tools'
-import { TOKEN, USER_INFO } from '@/constants/key'
 import * as CART from '@store/types/cart'
 
 export default {
@@ -117,8 +116,8 @@ export default {
       }).then(() => {
         this.$axios.post('user.cancel').then((res) => {
           if (res.code === 0) {
-            window.localStorage.removeItem(TOKEN)
-            window.localStorage.removeItem(USER_INFO)
+            removeToken()
+            removeUser()
             this.$store.commit(CART.UPDATE_CART_NUM, 0)
             this.$router.replace('/index')
           }

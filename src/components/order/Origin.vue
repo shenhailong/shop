@@ -38,6 +38,7 @@
       :data="list"
       v-loading="loading"
       border
+      empty-text="无符合记录的数据"
       style="width: 100%">
       <el-table-column
         prop="orderno"

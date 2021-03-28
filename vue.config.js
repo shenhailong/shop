@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-07-24 10:01:11
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 22:54:42
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-28 13:10:05
  */
 const path = require('path')
 const resolve = (dir) => path.join(__dirname, dir)
@@ -29,7 +29,7 @@ module.exports = {
     ? '/'
     : '/',
   devServer: {
-    proxy: 'http://39.100.227.252:888/'
+    proxy: 'http://47.95.209.168:80/'
   },
   chainWebpack: config => {
     config.plugins.delete('prefetch')

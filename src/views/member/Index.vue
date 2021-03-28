@@ -18,6 +18,7 @@
         :data="list"
         v-loading="loading"
         stripe
+        empty-text="无符合记录的数据"
         style="width: 100%">
         <el-table-column
           prop="resname"

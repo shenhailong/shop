@@ -37,8 +37,8 @@
 
 <script>
 import md5 from 'md5'
-import { TOKEN, USER_INFO } from '@/constants/key'
 import { BASE_URL } from '@/constants/common'
+import { setUser, setToken } from '@/utils/common'
 
 export default {
   data() {
@@ -85,8 +85,8 @@ export default {
           }
           this.$axios.post('user.login', data).then((res) => {
             if (res.code === 0) {
-              window.localStorage.setItem(TOKEN, res.data.token)
-              window.localStorage.setItem(USER_INFO, JSON.stringify(res.data))
+              setToken(res.data.token)
+              setUser(res.data)
               window.location.reload()
             } else {
               this.submitting = false

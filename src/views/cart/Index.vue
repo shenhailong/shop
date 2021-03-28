@@ -16,6 +16,7 @@
             style="width: 100%"
             ref="multipleTable"
             border
+            empty-text="无符合记录的数据"
             size="mini">
             <el-table-column
               type="selection"

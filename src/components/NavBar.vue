@@ -42,9 +42,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getToken } from '@/utils/common'
+import { getToken, getUser, removeUser, removeToken } from '@/utils/common'
 import * as CART from '@store/types/cart'
-import { TOKEN, USER_INFO } from '@/constants/key'
 import { updateCartNum } from '@/utils/cart'
 
 export default {
@@ -137,8 +136,8 @@ export default {
   },
   mounted() {
     this.token = getToken()
-    if(window.localStorage.getItem(USER_INFO)){
-      this.userInfo = JSON.parse(window.localStorage.getItem(USER_INFO))
+    if(getUser()){
+      this.userInfo = getUser()
     }
     if(this.token){
       this.$nextTick(() => {
@@ -177,8 +176,8 @@ export default {
     // 退出
     signOut() {
       this.dialogVisible = false
-      window.localStorage.removeItem(TOKEN)
-      window.localStorage.removeItem(USER_INFO)
+      removeUser()
+      removeToken()
       this.$store.commit(CART.UPDATE_CART_NUM, 0)
       this.$router.push('/login')
     }

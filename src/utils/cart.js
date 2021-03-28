@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-07-30 14:28:59
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 10:47:11
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-28 15:56:06
  */
 /**
  * @description: 未登录的时候操作本地存储购物车
@@ -12,12 +12,13 @@
  * @return:
  * @author: Dragon
  */
-import { TOKEN } from '@/constants/key'
+import { getToken } from '@/utils/common'
+
 import vm from '@/main'
 
 // 更新购物车的数量
 const updateCartNum = function() {
-  let token = window.localStorage.getItem(TOKEN)
+  let token = getToken()
   if(token){
     vm.$store.dispatch('UPDATE_CART_NUM')
   }

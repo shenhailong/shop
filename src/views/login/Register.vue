@@ -48,17 +48,17 @@
             <el-form-item label="营业执照" prop="yyzz">
               <el-upload :headers="{'api-action': 'user.upload'}" action="/cnas/v1" name="yyzzFile" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
                 <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
-                <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">只能上传jpg/png文件，且不超过1M</span>
+                <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">营业执照副本扫描件（加盖公章）只能上传jpg/png文件，且不超过5M</span>
                 </el-upload>
             </el-form-item>
-            <el-form-item label="身份证" prop="idcard">
+            <el-form-item label="身份证号码" prop="idcard">
               <el-input v-model="ruleForm.idcard" maxlength="18" placeholder="请填写身份证"></el-input>
             </el-form-item>
-            <el-form-item label="申请人身份证" prop="idcardurl">
+            <el-form-item label="申请人身份证照片" prop="idcardurl">
               <el-upload :headers="{'api-action': 'user.upload'}" action="/cnas/v1"
               list-type="picture" name="idCardFile" accept="image/png,image/jpg,image/jpeg" :file-list="idCardFileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="idCardHandleSuccess" :on-remove="idCardHandleRemove" :disabled="uploading">
                 <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
-                <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">营业执照副本扫描件（加盖公章）</span>
+                <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">身份证正面照片</span>
                 </el-upload>
             </el-form-item>
             <el-form-item label="邀请码" prop="invitedcode">
@@ -158,7 +158,7 @@ export default {
           { required: true, message: '请填写公司全称', trigger: 'change' }
         ],
         idcard: [
-          { required: true, message: '请填写身份证', trigger: 'change' },
+          { required: true, message: '请填写身份证号码', trigger: 'change' },
           { pattern: /(^\d{15}$)|(^\d{17}(\d|X|x)$)/, message: '请输入正确的身份证', trigger: 'blur' },
         ],
         shtyxydm: [
@@ -242,14 +242,14 @@ export default {
     },
     handleBeforeUpload(file) {
       console.log(file)
-      // this.uploading = true
-      // // 限制图片大小
-      // const isLt1M = file.size / 1024 / 1024 < 1
-      // if (!isLt1M) {
-      //   this.$message.error('上传头像图片大小不能超过 1MB!')
-      //   this.uploading = false
-      // }
-      // return isLt1M
+      this.uploading = true
+      // 限制图片大小
+      const isLt1M = file.size / 1024 / 1024 < 5
+      if (!isLt1M) {
+        this.$message.error('上传头像图片大小不能超过 5MB!')
+        this.uploading = false
+      }
+      return isLt1M
     },
     handleSuccess(response, file, fileList) {
       if (response.code === 0) {
@@ -261,7 +261,7 @@ export default {
       }
     },
     handleExceed() {
-      this.$message.warning('请先删除后再上传')
+      this.$message.error('请先删除后再上传')
     },
     // 上传图片操作
     idCardHandleRemove(file, fileList) {

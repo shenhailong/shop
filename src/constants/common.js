@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-08-14 09:14:09
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-11-29 20:03:58
+ * @LastEditTime: 2021-03-28 14:10:28
  */
 const HIDE_CHAT_LIST = [
   'Login',
@@ -15,7 +15,7 @@ console.log(window.location.host)
 console.log(process.env.NODE_ENV)
 function env() {
   if(process.env.NODE_ENV === 'development' || (window.location.host === '121.89.171.172')){
-    return 'http://39.100.227.252:888'
+    return 'http://47.95.209.168:80'
   }
   return `http://${window.location.host}`
 }

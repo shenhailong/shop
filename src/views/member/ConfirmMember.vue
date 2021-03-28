@@ -21,6 +21,7 @@
         <el-table
           :data="list"
           border
+          empty-text="无符合记录的数据"
           row-class-name="success-row"
           style="width: 100%">
           <el-table-column

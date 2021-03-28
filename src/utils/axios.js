@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Notification } from 'element-ui'
-import { TOKEN, USER_INFO } from '@/constants/key'
+import { TOKEN } from '@/constants/key'
+import { getToken, removeUser, removeToken } from '@/utils/common'
 
 let cancel = null;
 let promiseMap = {};
@@ -45,8 +46,8 @@ axios.interceptors.response.use(
     } else if (response.data.code === 9900) {
       if(showError){
         showError = false
-        window.localStorage.removeItem(TOKEN)
-        window.localStorage.removeItem(USER_INFO)
+        removeToken()
+        removeUser()
         Notification({
           type: 'error',
           title: '请重新登录',
@@ -98,7 +99,7 @@ axios.interceptors.response.use(
 // 默认导出这个对象
 export default {
   get(url, params) {
-    let token = window.localStorage.getItem(TOKEN)
+    let token = getToken()
     return new Promise((resolve) => {
       axios({
         method: 'get',
@@ -117,7 +118,7 @@ export default {
     });
   },
   post(url, data) {
-    let token = window.localStorage.getItem(TOKEN)
+    let token = getToken()
     return new Promise((resolve) => {
       axios({
         method: 'post',

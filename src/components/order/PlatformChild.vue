@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-09-04 09:31:02
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-08 15:09:32
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-28 15:21:45
 -->
 <template>
   <div>
@@ -12,6 +12,7 @@
       :data="list"
       size="mini"
       border
+      empty-text="无符合记录的数据"
       row-class-name="success-row"
       style="width: 100%">
       <el-table-column

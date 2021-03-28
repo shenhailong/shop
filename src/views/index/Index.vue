@@ -402,7 +402,7 @@ export default {
   color: #ffffff;
   font-size: 14px;
   text-align: center;
-  line-height: 100px;
+  line-height: 70px;
 
   .center-text{
     margin: 0 30px;

@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-08-05 17:56:27
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-29 14:26:43
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-28 15:22:48
 -->
 <template>
   <div class="content-score">
@@ -13,6 +13,7 @@
       :data="list"
       stripe
       border
+      empty-text="无符合记录的数据"
       style="width: 100%">
       <el-table-column
         type="index"

@@ -2,6 +2,7 @@
   <div class="wrap-index">
     <el-table
       :data="list"
+      empty-text="无符合记录的数据"
       style="width: 100%">
       <el-table-column
         label="购买的会员等级"
@@ -99,8 +100,8 @@
 <script>
 import { getDate } from '@/utils/tools'
 import { USER_LEVEL } from '@/constants/status'
-import { TOKEN } from '@/constants/key'
 import { BASE_URL } from '@/constants/common'
+import { getToken } from '@/utils/common'
 
 export default {
   data() {
@@ -125,7 +126,7 @@ export default {
   },
   mounted() {
     this.getList()
-    this.token = window.localStorage.getItem(TOKEN)
+    this.token = getToken()
   },
   methods: {
     date(value) {

@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-07-29 09:40:44
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-18 16:35:41
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-28 15:23:43
 -->
 <template>
   <div class="wrap-index">
@@ -18,6 +18,7 @@
         :data="list"
         v-loading="loading"
         stripe
+        empty-text="无符合记录的数据"
         style="width: 100%">
         <el-table-column
           prop="resname"

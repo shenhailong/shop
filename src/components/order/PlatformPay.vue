@@ -3,14 +3,15 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-09-04 09:43:56
- * @LastEditors: Dragon
- * @LastEditTime: 2020-10-20 08:58:06
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-28 15:22:02
 -->
 <template>
   <div class="wrap-index">
     <el-table
       :data="list"
       v-loading="loading"
+      empty-text="无符合记录的数据"
       style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -56,7 +57,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="联系人"
+        label="交付联系人"
         prop="contact"
         width="140"
         align="center">
@@ -68,7 +69,7 @@
         align="center">
       </el-table-column>
       <el-table-column
-        label="邮箱"
+        label="交付邮箱"
         prop="email"
         width="140"
         align="center">

@@ -37,6 +37,7 @@
     <el-table
       :data="list"
       v-loading="loading"
+      empty-text="无符合记录的数据"
       style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -96,7 +97,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="联系人"
+        label="交付联系人"
         prop="contact"
         width="140"
         align="center">
@@ -108,7 +109,7 @@
         align="center">
       </el-table-column>
       <el-table-column
-        label="邮箱"
+        label="交付邮箱"
         prop="email"
         width="140"
         align="center">
@@ -156,8 +157,8 @@
 <script>
 import Child from './PlatformChild'
 import { getDate } from '@/utils/tools'
-import { TOKEN } from '@/constants/key'
 import DeliverInfo from '@/components/order/DeliverInfo'
+import { getToken } from '@/utils/common'
 
 export default {
   components: {
@@ -192,7 +193,7 @@ export default {
   },
   mounted() {
     this.getList()
-    this.token = window.localStorage.getItem(TOKEN)
+    this.token = getToken()
   },
   methods: {
     data(value) {
