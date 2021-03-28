@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Autor: Dragon
  * @Date: 2020-08-03 15:56:12
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-25 13:50:51
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-28 16:20:13
 -->
 <template>
   <div class="login-card">
@@ -72,7 +72,7 @@ export default {
       rules: {
         passwd: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { pattern: /^[0-9a-zA-Z]{6,20}$/, message: '6 ~ 20位数字或者字母(区分大小写)', trigger: 'blur' },
+          { pattern: /^.*[^\s]{6,20}$/, message: '6 ~ 20位非空格字符', trigger: 'blur' },
           { validator: validatePass, trigger: 'blur' }
         ],
         confirmPassword: [

@@ -146,8 +146,9 @@ export default {
           { validator: validateUsername, trigger: 'blur' }
         ],
         passwd: [
+          // /^[0-9a-zA-Z]{6,20}$/
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { pattern: /^[0-9a-zA-Z]{6,20}$/, message: '6 ~ 20位数字或者字母(区分大小写)', trigger: 'blur' },
+          { pattern: /^.*[^\s]{6,20}$/, message: '6 ~ 20位非空格字符', trigger: 'blur' },
           { validator: validatePass, trigger: 'blur' }
         ],
         confirmPassword: [
