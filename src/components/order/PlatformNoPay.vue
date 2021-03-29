@@ -63,8 +63,8 @@
         prop="paystatus"
         label="订单状态"
         align="center">
-        <template>
-          待支付
+        <template slot-scope="props">
+          {{filterStatus(props.row.auditstatus)}}
         </template>
       </el-table-column>
       <!-- <el-table-column
@@ -159,17 +159,21 @@ import Child from './PlatformChild'
 import { getDate } from '@/utils/tools'
 import DeliverInfo from '@/components/order/DeliverInfo'
 import { getToken } from '@/utils/common'
+import { AUDIT_STATUS } from '@/constants/status'
 
 export default {
   components: {
     Child,
     DeliverInfo
   },
+  props: {
+    status: [ String, Number ]
+  },
   data() {
     return {
       token: '',
       ruleForm: {
-        paystatus: 'N',
+        auditstatus: status,
         orderno: '',
         sstartdate: '',
         senddate: '',
@@ -199,6 +203,9 @@ export default {
     data(value) {
       return getDate(value)
     },
+    filterStatus(value) {
+      return AUDIT_STATUS[value]
+    },
     // 总价
     totalPrice(children) {
       let price = 0
@@ -209,7 +216,7 @@ export default {
     },
     getList() {
       this.loading = true
-      this.$axios.get('order.search', this.ruleForm).then((res) => {
+      this.$axios.get('order.searchPay', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
           this.total = res.data.total
@@ -311,6 +318,17 @@ export default {
         this.loading = false
       })
     },
+  },
+  watch: {
+    status(value) {
+      this.ruleForm.auditstatus = value
+      this.date = []
+      this.ruleForm.curPage = 1
+      this.ruleForm.sstartdate = ''
+      this.ruleForm.senddate = ''
+      this.$refs.ruleForm.resetFields()
+      this.getList()
+    }
   }
 }
 </script>

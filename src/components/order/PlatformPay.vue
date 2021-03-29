@@ -4,7 +4,7 @@
  * @Author: Dragon
  * @Date: 2020-09-04 09:43:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-28 15:22:02
+ * @LastEditTime: 2021-03-29 09:08:00
 -->
 <template>
   <div class="wrap-index">
@@ -37,7 +37,7 @@
         label="订单状态"
         align="center">
         <template slot-scope="props">
-          {{props.row.paystatus === 'Y' ? '已支付' : '未支付'}}
+          {{filterStatus(props.row.auditstatus)}}
         </template>
       </el-table-column>
       <el-table-column
@@ -100,6 +100,7 @@
 import Child from './PlatformChild'
 import { getDate } from '@/utils/tools'
 import DeliverInfo from '@/components/order/DeliverInfo'
+import { AUDIT_STATUS } from '@/constants/status'
 
 export default {
   components: {
@@ -109,7 +110,7 @@ export default {
   data() {
     return {
       ruleForm: {
-        paystatus: 'Y',
+        auditstatus: '2',
         curPage: 1, // 当前页
         pageSize: 10
       },
@@ -127,6 +128,9 @@ export default {
     data(value) {
       return getDate(value)
     },
+    filterStatus(value) {
+      return AUDIT_STATUS[value]
+    },
     // 总价
     totalPrice(children) {
       let price = 0
@@ -137,7 +141,7 @@ export default {
     },
     getList() {
       this.loading = true
-      this.$axios.get('order.listpaypage', this.ruleForm).then((res) => {
+      this.$axios.get('order.searchPay', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
           this.total = res.data.total

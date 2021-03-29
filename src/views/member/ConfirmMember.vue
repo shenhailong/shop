@@ -3,11 +3,12 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-08-07 13:36:27
- * @LastEditors: Dragon
- * @LastEditTime: 2020-10-10 12:03:57
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-29 09:59:07
 -->
 <template>
   <div class="pay-confirm">
+    <NavBar current="user" />
     <div class="content">
       <div class="title">
         购买会员详情
@@ -80,10 +81,11 @@
 import { getDate } from '@/utils/tools'
 import { USER_LEVEL } from '@/constants/status'
 import { BASE_URL } from '@/constants/common'
+import NavBar from '@components/NavBar'
 
 export default {
   components: {
-
+    NavBar
   },
   data() {
     return {

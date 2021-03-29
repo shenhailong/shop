@@ -3,8 +3,8 @@
  * @Version: 1.0.0
  * @Author: Dragon
  * @Date: 2020-09-25 14:40:29
- * @LastEditors: Dragon
- * @LastEditTime: 2020-09-29 11:02:28
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-29 09:00:27
  */
 // 注册状态
 const STATUS_REGISTER = {
@@ -23,4 +23,12 @@ const USER_LEVEL = {
   6: '终身会员'
 }
 
-export { STATUS_REGISTER, USER_LEVEL }
+const AUDIT_STATUS = {
+  1: '待审核',
+  2: '已支付',
+  3: '审核拒绝',
+  4: '待支付'
+
+}
+
+export { STATUS_REGISTER, USER_LEVEL, AUDIT_STATUS }
