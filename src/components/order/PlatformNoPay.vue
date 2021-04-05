@@ -120,10 +120,11 @@
         width="350"
         align="center">
         <template slot-scope="scope">
-          <el-button @click="deleteOrder(scope.row)" type="danger" size="small">删除</el-button>
-          <el-button @click="pay(scope.row)" type="primary" size="small">支付</el-button>
-          <el-button @click="upload(scope.row.id)" type="success" size="small">上传凭证</el-button>
-          <el-button v-if="!scope.row.email" @click="deliver(scope.row.id)" type="primary" size="small">交付信息</el-button>
+          <el-button v-if="scope.row.auditstatus == 4" @click="deleteOrder(scope.row)" type="danger" size="small">删除</el-button>
+          <el-button v-if="scope.row.auditstatus == 4 
+          || scope.row.auditstatus == 3" @click="pay(scope.row)" type="primary" size="small">支付</el-button>
+          <el-button v-if="scope.row.auditstatus != 2" @click="upload(scope.row.id)" type="success" size="small">上传凭证</el-button>
+          <el-button @click="deliver(scope.row.id)" type="primary" size="small">交付信息</el-button>
         </template>
       </el-table-column>
     </el-table>
