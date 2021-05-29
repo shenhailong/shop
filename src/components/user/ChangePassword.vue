@@ -88,7 +88,10 @@ export default {
           this.submitting = true
           this.$axios.post('user.modify', data).then((res) => {
             if (res.code === 0) {
-              this.$message.success('密码修改成功')
+              this.$message({
+                message: '密码修改成功',
+                type: 'success'
+              })
             }
           }).finally(() => {
             this.submitting = false

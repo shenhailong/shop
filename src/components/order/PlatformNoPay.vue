@@ -168,13 +168,16 @@ export default {
     DeliverInfo
   },
   props: {
-    status: [ String, Number ]
+    status: {
+      type: [ String, Number ],
+      default: 4
+    },
   },
   data() {
     return {
       token: '',
       ruleForm: {
-        auditstatus: status,
+        auditstatus: 4,
         orderno: '',
         sstartdate: '',
         senddate: '',
@@ -217,7 +220,7 @@ export default {
     },
     getList() {
       this.loading = true
-      this.$axios.get('order.searchPay', this.ruleForm).then((res) => {
+      this.$axios.get('order.search', this.ruleForm).then((res) => {
         if (res.code === 0) {
           this.list = res.data.list
           this.total = res.data.total

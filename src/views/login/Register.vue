@@ -21,7 +21,7 @@
                 <el-input v-model="ruleForm.passwd" type="password" placeholder="请填写密码" maxlength="20"></el-input>
               </el-col>
               <el-col :span="13">
-              <span class="tip">6 ~ 20位数字或者字母(区分大小写)</span>
+              <span class="tip">6 ~ 20位非空格字符</span>
               </el-col>
             </el-form-item>
             <el-form-item label="确认密码" prop="confirmPassword">
@@ -40,7 +40,7 @@
               <el-input v-model="ruleForm.contact" maxlength="25" placeholder="请填写联系人"></el-input>
             </el-form-item>
             <el-form-item label="联系电话" prop="conphone">
-              <el-input v-model="ruleForm.conphone" maxlength="20" placeholder="请填写联系电话"></el-input>
+              <el-input v-model="ruleForm.conphone" maxlength="11" placeholder="请填写联系电话"></el-input>
             </el-form-item>
             <el-form-item label="电子邮箱" prop="email">
               <el-input v-model="ruleForm.email" maxlength="25" placeholder="请填写电子邮箱"></el-input>
