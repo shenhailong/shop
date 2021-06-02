@@ -115,6 +115,13 @@
         align="center">
       </el-table-column>
       <el-table-column
+      v-if="ruleForm.auditstatus === 3"
+        label="拒绝原因"
+        prop="remark"
+        width="140"
+        align="center">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         label="操作"
         width="350"
