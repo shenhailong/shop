@@ -6,7 +6,7 @@
           <el-form-item label="营业执照" prop="imgPath">
             <el-upload :headers="{'api-action': 'user.upload'}" action="/cnas/v1" name="yyzzFile" list-type="picture" accept="image/png,image/jpg,image/jpeg" :file-list="fileList" :limit="1" :on-exceed="handleExceed" :before-upload="handleBeforeUpload" :on-success="handleSuccess" :on-remove="handleRemove" :disabled="uploading">
               <el-button size="small" type="primary" :loading="uploading">点击上传</el-button>
-              <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">营业执照副本扫描件（加盖公章）只能上传jpg/png文件，且不超过1M</span>
+              <span slot="tip" class="el-upload__tip" style="color: #f56c6c;margin-left: 5px">营业执照副本扫描件（加盖公章）只能上传jpg/png文件</span>
               </el-upload>
           </el-form-item>
           <el-form-item label="申请人身份证" prop="imgPath">

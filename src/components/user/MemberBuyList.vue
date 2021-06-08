@@ -69,6 +69,12 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="拒绝原因"
+        prop="remark"
+        width="140"
+        align="center">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         label="操作"
         width="280"
