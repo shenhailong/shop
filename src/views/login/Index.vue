@@ -106,6 +106,7 @@ export default {
               }, 500)
             } else {
               this.submitting = false
+              this.codeUrl = `${this.imgUrl}?username=${this.form.username}&random=${Math.random()}`
             }
           })
         }
