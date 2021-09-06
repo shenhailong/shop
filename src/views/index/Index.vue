@@ -72,7 +72,7 @@
     </div>
 
     <div class="footer">
-      北京磐安云创科技有限公司<span class="center-text">版权所有</span>京ICP备20003511号-1
+      <!-- 北京磐安云创科技有限公司<span class="center-text">版权所有</span>京ICP备20003511号-1 -->
     </div>
   </div>
 </template>

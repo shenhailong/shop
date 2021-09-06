@@ -2,9 +2,9 @@
   <div class="wrap-header">
     <header class="main-header">
       <div class="container">
-        <div @click="goIndex" class="logo">
+        <!-- <div @click="goIndex" class="logo">
           <img src="../assets/logo.png" />
-        </div>
+        </div> -->
         <ul class="bar">
           <li v-for="(items, index) in list" :key="index" @click="changePage(items)" :class="{active: current === items.value }" class="item">
             {{items.name}}
